@@ -1,46 +1,65 @@
 package com.example.composetrainapp.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.composetrainapp.R
 import com.example.composetrainapp.ui.HomeUiState
 import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
+import com.example.composetrainapp.ui.utils.theme.Purple200
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
-    Column(modifier = Modifier.padding(8.dp)) {
-        CharactersRowSection(state)
-        Spacer(modifier = Modifier.height(12.dp))
-        CharactersColumnSection(state)
+    val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+            .padding(8.dp, 8.dp, 8.dp, 0.dp)
+            .align(Alignment.TopCenter)) {
+            CharactersRowSection(state)
+            Spacer(modifier = Modifier.height(12.dp))
+            CharactersColumnSection(state, listState)
+        }
+        AnimatedVisibility(visible = listState.firstVisibleItemIndex != 0,
+            modifier = Modifier.align(alignment = Alignment.BottomEnd)) {
+            IconButton(onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(color = Purple200, shape = CircleShape)) {
+                Icon(painter = painterResource(id = R.drawable.ic_arrow_upward),
+                    contentDescription = null, tint = Color.White)
+            }
+        }
     }
 }
 
@@ -57,25 +76,22 @@ fun CharactersRowSection(state: HomeUiState) {
                 LazyRow {
                     items(state.data.take(8)) { character ->
                         Card(
-                            elevation = 6.dp,
+                            elevation = 8.dp,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(8.dp))
                                 .padding(10.dp)
                                 .clickable(onClick = {})
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier
-                                    .padding(8.dp)) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalContext.current)
                                         .data(character.image)
                                         .crossfade(true)
                                         .build(),
                                     contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.clip(CircleShape)
+                                    contentScale = ContentScale.Crop
                                 )
-                                Column(Modifier.padding(top = 16.dp)) {
+                                Column(Modifier.padding(vertical = 12.dp)) {
                                     Text(
                                         character.name.substring(0, 10),
                                         style = typography.subtitle1
@@ -133,7 +149,7 @@ fun CharactersRowSection(state: HomeUiState) {
 }
 
 @Composable
-fun CharactersColumnSection(state: HomeUiState) {
+fun CharactersColumnSection(state: HomeUiState, listState: LazyListState) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = "CharactersColumn",
             color = MaterialTheme.colors.onSurface,
@@ -142,13 +158,14 @@ fun CharactersColumnSection(state: HomeUiState) {
         Spacer(modifier = Modifier.height(8.dp))
         when (state) {
             is HomeUiState.Success -> {
-                LazyColumn {
+                LazyColumn(state = listState) {
                     items(state.data) { character ->
                         Card(
                             elevation = 4.dp,
                             modifier = Modifier
-                                .padding(4.dp)
+                                .padding(2.dp)
                                 .fillMaxWidth()
+                                .height(100.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .padding(8.dp)
                                 .clickable(onClick = {})
@@ -160,12 +177,13 @@ fun CharactersColumnSection(state: HomeUiState) {
                                         .crossfade(true)
                                         .build(),
                                     contentDescription = null,
-                                    contentScale = ContentScale.Crop
+                                    contentScale = ContentScale.Fit,
+                                    placeholder = painterResource(id = R.drawable.place_holder)
                                 )
                                 Text(
                                     text = character.name,
                                     fontSize = 14.sp,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = 20.dp)
                                 )
                             }
                         }
@@ -180,6 +198,7 @@ fun CharactersColumnSection(state: HomeUiState) {
                             modifier = Modifier
                                 .padding(4.dp)
                                 .fillMaxWidth()
+                                .height(100.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .placeholder(
                                     visible = true,
@@ -194,7 +213,7 @@ fun CharactersColumnSection(state: HomeUiState) {
                     }
                 }
             }
-            is HomeUiState.Loading -> {
+            is HomeUiState.Loading ->
                 LazyColumn {
                     items(List(20) { 0 }) {
                         Card(
@@ -202,7 +221,7 @@ fun CharactersColumnSection(state: HomeUiState) {
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth()
-                                .height(120.dp)
+                                .height(100.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .placeholder(
                                     visible = true,
@@ -215,7 +234,6 @@ fun CharactersColumnSection(state: HomeUiState) {
                         }
                     }
                 }
-            }
         }
     }
 }
