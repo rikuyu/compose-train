@@ -5,9 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.composetrainapp.R
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -29,4 +31,22 @@ fun <T> StateFlow<T>.collectAsStateWithLifecycle(
             }
         }
     }
+}
+
+fun getGenderRes(genderType: String): Pair<Int, Color> = when (genderType) {
+    "Male" -> Pair(R.drawable.ic_male, Color(0xFF82BDE9))
+    "Female" -> Pair(R.drawable.ic_female, Color(0xFFE982D2))
+    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
+}
+
+fun getCreatureRes(creatureType: String): Pair<Int, Color> = when (creatureType) {
+    "Human" -> Pair(R.drawable.ic_human, Color(0xFFEFC2A1))
+    "Alien" -> Pair(R.drawable.ic_alien, Color(0xFFA1EFA2))
+    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
+}
+
+fun getStatusRes(status: String): Pair<Int, Color> = when (status) {
+    "Alive" -> Pair(R.drawable.ic_status_alive,  Color.LightGray)
+    "Dead" -> Pair(R.drawable.ic_status_dead, Color.Red)
+    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
 }

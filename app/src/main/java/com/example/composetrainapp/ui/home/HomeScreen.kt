@@ -2,9 +2,12 @@ package com.example.composetrainapp.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -16,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,29 +30,135 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.composetrainapp.ui.HomeUiState
+import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
-import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
+import com.example.composetrainapp.ui.utils.*
 import com.example.composetrainapp.ui.utils.theme.Purple200
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.fade
-import com.google.accompanist.placeholder.placeholder
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state: HomeUiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier
             .padding(8.dp, 8.dp, 8.dp, 0.dp)
             .align(Alignment.TopCenter)) {
-            CharactersRowSection(state)
-            Spacer(modifier = Modifier.height(12.dp))
-            CharactersColumnSection(state, listState)
+            state.StateView(
+                loadingView = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                },
+                errorView = {
+                    scope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(message = "error")
+                    }
+                },
+                successView = {
+                    Text(text = "CharactersRow",
+                        color = MaterialTheme.colors.onSurface,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyRow {
+                        items(it.take(8), key = { it.id }) { character ->
+                            Card(
+                                elevation = 8.dp,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .padding(10.dp)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = { /* Called when the gesture starts */ },
+                                            onDoubleTap = { /* Called on Double Tap */ },
+                                            onLongPress = { /* Called on Long Press */ },
+                                            onTap = { /* Called on Tap */ },
+                                        )
+                                    },
+                            ) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(character.image)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    Column(Modifier.padding(vertical = 12.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally) {
+                                        AttributeIcons(character)
+                                        Text(
+                                            character.name.substring(0, 10),
+                                            style = typography.subtitle1
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(text = "CharactersColumn",
+                        color = MaterialTheme.colors.onSurface,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyColumn {
+                        items(it, key = { it.id }) { character ->
+                            Card(
+                                elevation = 4.dp,
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .padding(8.dp)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = { /* Called when the gesture starts */ },
+                                            onDoubleTap = { /* Called on Double Tap */ },
+                                            onLongPress = { /* Called on Long Press */ },
+                                            onTap = { /* Called on Tap */ },
+                                        )
+                                    },
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(character.image)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Fit,
+                                        placeholder = painterResource(id = R.drawable.place_holder)
+                                    )
+                                    Column(modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.Start) {
+                                        AttributeIcons(character)
+                                        Text(
+                                            text = character.name,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            )
         }
         AnimatedVisibility(visible = listState.firstVisibleItemIndex != 0,
             modifier = Modifier.align(alignment = Alignment.BottomEnd)) {
@@ -63,177 +173,60 @@ fun HomeScreen(
     }
 }
 
+
 @Composable
-fun CharactersRowSection(state: HomeUiState) {
-    Column {
-        Text(text = "CharactersRow",
-            color = MaterialTheme.colors.onSurface,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.ExtraBold)
-        Spacer(modifier = Modifier.height(8.dp))
-        when (state) {
-            is HomeUiState.Success -> {
-                LazyRow {
-                    items(state.data.take(8)) { character ->
-                        Card(
-                            elevation = 8.dp,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .padding(10.dp)
-                                .clickable(onClick = {})
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(character.image)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop
-                                )
-                                Column(Modifier.padding(vertical = 12.dp)) {
-                                    Text(
-                                        character.name.substring(0, 10),
-                                        style = typography.subtitle1
-                                    )
-                                    // todo
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            is HomeUiState.Error -> LazyRow {
-                items(List(8) { 0 }) {
-                    Card(
-                        elevation = 4.dp,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(140.dp, 200.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .placeholder(
-                                visible = true,
-                                color = Color.Red.copy(alpha = 0.7f),
-                            )
-                            .padding(8.dp)
-                            .clickable(onClick = {})
-                    ) {
-
-                    }
-                }
-            }
-            is HomeUiState.Loading -> {
-                LazyRow {
-                    items(List(8) { 0 }) {
-                        Card(
-                            elevation = 4.dp,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .size(140.dp, 200.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .placeholder(
-                                    visible = true,
-                                    color = Color.Gray,
-                                    highlight = PlaceholderHighlight.fade(),
-                                )
-                                .padding(8.dp)
-                                .clickable(onClick = {})
-                        ) {
-
-                        }
-                    }
-                }
-            }
-        }
+fun ColumnScope.AttributeIcons(character: Character) {
+    Row(verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly) {
+        Icon(
+            painter = painterResource(id = getCreatureRes(character.species).first),
+            contentDescription = null,
+            tint = getCreatureRes(character.species).second
+        )
+        Icon(
+            painter = painterResource(id = getGenderRes(character.gender).first),
+            contentDescription = null,
+            tint = getGenderRes(character.gender).second
+        )
+        Icon(
+            painter = painterResource(id = getStatusRes(character.status).first),
+            contentDescription = null,
+            tint = getStatusRes(character.status).second
+        )
     }
 }
 
-@Composable
-fun CharactersColumnSection(state: HomeUiState, listState: LazyListState) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "CharactersColumn",
-            color = MaterialTheme.colors.onSurface,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.ExtraBold)
-        Spacer(modifier = Modifier.height(8.dp))
-        when (state) {
-            is HomeUiState.Success -> {
-                LazyColumn(state = listState) {
-                    items(state.data) { character ->
-                        Card(
-                            elevation = 4.dp,
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .padding(8.dp)
-                                .clickable(onClick = {})
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(character.image)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit,
-                                    placeholder = painterResource(id = R.drawable.place_holder)
-                                )
-                                Text(
-                                    text = character.name,
-                                    fontSize = 14.sp,
-                                    modifier = Modifier.padding(horizontal = 20.dp)
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            is HomeUiState.Error -> {
-                LazyColumn {
-                    items(List(20) { 0 }) {
-                        Card(
-                            elevation = 4.dp,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .placeholder(
-                                    visible = true,
-                                    color = Color.Red.copy(alpha = 0.7f),
-                                    highlight = PlaceholderHighlight.fade(),
-                                )
-                                .padding(8.dp)
-                                .clickable(onClick = {})
-                        ) {
+//@Composable
+//fun CharactersRowSection(state: UiState<List<Character>>, scope: CoroutineScope, scaffoldState: ScaffoldState) {
+//    Column {
+//        Text(text = "CharactersRow",
+//            color = MaterialTheme.colors.onSurface,
+//            fontSize = 22.sp,
+//            fontWeight = FontWeight.ExtraBold)
+//        Spacer(modifier = Modifier.height(8.dp))
+//        when (state) {
+//            is HomeUiState.Success -> // @Composable
+//            is HomeUiState.Error -> // @Composable
+//            is HomeUiState.Loading -> // @Composable
+//        }
+//    }
+//}
 
-                        }
-                    }
-                }
-            }
-            is HomeUiState.Loading ->
-                LazyColumn {
-                    items(List(20) { 0 }) {
-                        Card(
-                            elevation = 4.dp,
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .placeholder(
-                                    visible = true,
-                                    color = Color.Gray,
-                                    highlight = PlaceholderHighlight.fade(),
-                                )
-                                .clickable(onClick = {})
-                        ) {
-
-                        }
-                    }
-                }
-        }
-    }
-}
+//@Composable
+//fun CharactersColumnSection(
+//    state: UiState<List<Character>>,
+//    listState: LazyListState
+//) {
+//    Column(modifier = Modifier.fillMaxWidth()) {
+//        Text(text = "CharactersColumn",
+//            color = MaterialTheme.colors.onSurface,
+//            fontSize = 22.sp,
+//            fontWeight = FontWeight.ExtraBold)
+//        Spacer(modifier = Modifier.height(8.dp))
+//        when (state) {
+//            is HomeUiState.Success -> @Composable
+//            is HomeUiState.Error -> @Composable
+//            is HomeUiState.Loading -> @Composable
+//        }
+//    }
+//}
