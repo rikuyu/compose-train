@@ -23,7 +23,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -65,10 +64,9 @@ fun HomeScreen(
                     }
                 },
                 successView = {
-                    Text(text = "CharactersRow",
+                    Text(text = "Row",
                         color = MaterialTheme.colors.onSurface,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.ExtraBold)
+                        fontSize = 22.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     LazyRow {
                         items(it.take(8), key = { it.id }) { character ->
@@ -76,7 +74,7 @@ fun HomeScreen(
                                 elevation = 8.dp,
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(8.dp))
-                                    .padding(10.dp)
+                                    .padding(6.dp)
                                     .pointerInput(Unit) {
                                         detectTapGestures(
                                             onPress = { /* Called when the gesture starts */ },
@@ -93,9 +91,10 @@ fun HomeScreen(
                                             .crossfade(true)
                                             .build(),
                                         contentDescription = null,
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Crop,
+                                        placeholder = painterResource(id = R.drawable.place_holder)
                                     )
-                                    Column(Modifier.padding(vertical = 12.dp),
+                                    Column(Modifier.padding(vertical = 6.dp),
                                         horizontalAlignment = Alignment.CenterHorizontally) {
                                         AttributeIcons(character)
                                         Text(
@@ -108,10 +107,9 @@ fun HomeScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(text = "CharactersColumn",
+                    Text(text = "Column",
                         color = MaterialTheme.colors.onSurface,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.ExtraBold)
+                        fontSize = 22.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     LazyColumn {
                         items(it, key = { it.id }) { character ->
@@ -122,7 +120,7 @@ fun HomeScreen(
                                     .fillMaxWidth()
                                     .height(100.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .padding(8.dp)
+                                    .padding(4.dp)
                                     .pointerInput(Unit) {
                                         detectTapGestures(
                                             onPress = { /* Called when the gesture starts */ },
@@ -175,7 +173,7 @@ fun HomeScreen(
 
 
 @Composable
-fun ColumnScope.AttributeIcons(character: Character) {
+fun AttributeIcons(character: Character) {
     Row(verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly) {
         Icon(

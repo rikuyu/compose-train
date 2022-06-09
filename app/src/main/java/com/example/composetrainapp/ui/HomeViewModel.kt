@@ -31,6 +31,21 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getCharacters()
         }
+
+        val r1 = runCatching {
+            1 + 2
+        }.onFailure {
+
+        }.onSuccess {
+            it.toString()
+        }
+
+        println(r1)
+        val r2 = runCatching { 1 + 2 }.fold(
+            onSuccess = { it.toString() },
+            onFailure = { it }
+        )
+        println(r2)
     }
 
     private suspend fun getCharacters() {

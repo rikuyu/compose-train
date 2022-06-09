@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ComposeTrainApp"
-include ':app'
+include(":app")
