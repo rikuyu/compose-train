@@ -10,6 +10,10 @@ sealed class NavigationRoutes(val route: String) {
 
     object Home : NavigationRoutes("home")
 
+    object ColumnRow: NavigationRoutes("colrow")
+
+    object Grid : NavigationRoutes("grid")
+
     object Profile : NavigationRoutes("profile")
 
     object Todo : NavigationRoutes("todo")
@@ -20,7 +24,7 @@ sealed class NavigationRoutes(val route: String) {
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
-    HOME("Home", Icons.Filled.Home),
+    COLUMN_ROW("ColRow", Icons.Filled.Home),
     TODO("Todo", Icons.Outlined.Add),
     PROFILE("Profile", Icons.Filled.Person)
 }

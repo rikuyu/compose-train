@@ -1,4 +1,4 @@
-package com.example.composetrainapp.ui
+package com.example.composetrainapp.ui.utils
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -16,11 +16,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.composetrainapp.ui.BottomNavigationItem
 import java.util.*
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController) {
-    var selectedItem by remember { mutableStateOf(BottomNavigationItem.HOME) }
+    var selectedItem by remember { mutableStateOf(BottomNavigationItem.COLUMN_ROW) }
     Row(
         modifier = Modifier
             .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
@@ -35,7 +36,7 @@ fun CustomBottomNavigationBar(navController: NavController) {
                 isSelected = selectedItem == item
             ) {
                 selectedItem = item
-                navController.navigate(item.name.toLowerCase(Locale.ROOT))
+                navController.navigate(item.label.lowercase())
             }
         }
     }
@@ -48,7 +49,6 @@ fun CustomBottomNavigationItem(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-
     val backgroundColor =
         if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Transparent
     val contentColor =
