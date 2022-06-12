@@ -8,4 +8,3 @@ sealed interface Result<out T> {
 
     object Loading : Result<Nothing>
 }
-

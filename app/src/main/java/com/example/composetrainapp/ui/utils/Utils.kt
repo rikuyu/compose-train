@@ -26,7 +26,7 @@ fun <T> StateFlow<T>.collectAsStateWithLifecycle(
     ) {
         lifecycle.repeatOnLifecycle(minActiveState) {
             collect {
-                Log.d("FLOW_COLLECT_TEST_TAG", "WithLifecycle: ${value.toString()}")
+                Log.d("FLOW_COLLECT_TEST_TAG", "WithLifecycle: $value")
                 this@produceState.value = it
             }
         }
@@ -46,7 +46,7 @@ fun getCreatureRes(creatureType: String): Pair<Int, Color> = when (creatureType)
 }
 
 fun getStatusRes(status: String): Pair<Int, Color> = when (status) {
-    "Alive" -> Pair(R.drawable.ic_status_alive,  Color.LightGray)
+    "Alive" -> Pair(R.drawable.ic_status_alive, Color.LightGray)
     "Dead" -> Pair(R.drawable.ic_status_dead, Color.Red)
     else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
 }

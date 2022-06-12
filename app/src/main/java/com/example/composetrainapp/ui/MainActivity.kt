@@ -24,7 +24,8 @@ import com.example.composetrainapp.ui.home.GridView
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
 import com.example.composetrainapp.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,8 +43,9 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     topBar = {
-                        TrainTopBar(screen, navController)
+                        TrainTopBar(screen, navController, scaffoldState, scope)
                     },
+                    scaffoldState = scaffoldState,
                     bottomBar = { CustomBottomNavigationBar(navController = navController) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
@@ -68,18 +70,20 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(route = NavigationRoutes.Todo.route) {
                                 screen = NavigationRoutes.Todo
-                                Column(modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Red)) {
-
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Red)
+                                ) {
                                 }
                             }
                             composable(route = NavigationRoutes.Profile.route) {
                                 screen = NavigationRoutes.Profile
-                                Column(modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Green)) {
-
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Green)
+                                ) {
                                 }
                             }
                         }
@@ -94,6 +98,8 @@ class MainActivity : ComponentActivity() {
 fun TrainTopBar(
     screen: NavigationRoutes,
     navController: NavController,
+    scaffoldState: ScaffoldState,
+    scope: CoroutineScope,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -105,22 +111,41 @@ fun TrainTopBar(
             IconButton(onClick = { expanded = true }) {
                 Icon(Icons.Filled.MoreVert, contentDescription = null)
             }
-            DropdownMenu(expanded = expanded,
-                onDismissRequest = { expanded = false }) {
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    if (screen != NavigationRoutes.ColumnRow)
-                        navController.navigate(NavigationRoutes.ColumnRow.route)
-                }) {
-                    Text(text = "Row Column")
-                }
-                Divider()
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
                 DropdownMenuItem(onClick = {
                     expanded = false
                     if (screen != NavigationRoutes.Grid)
                         navController.navigate(NavigationRoutes.Grid.route)
                 }) {
                     Text(text = "Grid")
+                }
+                Divider()
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    if (screen != NavigationRoutes.ColumnRow)
+                        navController.navigate(NavigationRoutes.ColumnRow.route)
+                }) {
+                    Text(text = "Normal")
+                }
+                Divider()
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    scope.launch {
+                        when (
+                            scaffoldState.snackbarHostState.showSnackbar(
+                                message = "Sample SnackBar",
+                                actionLabel = "Do"
+                            )
+                        ) {
+                            SnackbarResult.ActionPerformed -> {}
+                            SnackbarResult.Dismissed -> {}
+                        }
+                    }
+                }) {
+                    Text(text = "SnackBar")
                 }
             }
         }

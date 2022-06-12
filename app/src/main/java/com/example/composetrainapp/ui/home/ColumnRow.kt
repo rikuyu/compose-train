@@ -1,24 +1,18 @@
 package com.example.composetrainapp.ui.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,7 +26,6 @@ import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.utils.*
-import com.example.composetrainapp.ui.utils.theme.Purple200
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -45,9 +38,11 @@ fun BoxScope.ColumnRowView(
 ) {
     val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier
-        .padding(8.dp, 8.dp, 8.dp, 0.dp)
-        .align(Alignment.TopCenter)) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp, 8.dp, 8.dp, 0.dp)
+            .align(Alignment.TopCenter)
+    ) {
         state.StateView(
             loadingView = {
                 Box(
@@ -64,10 +59,6 @@ fun BoxScope.ColumnRowView(
                 }
             },
             successView = {
-                Text(text = "Row",
-                    color = MaterialTheme.colors.onSurface,
-                    fontSize = 22.sp)
-                Spacer(modifier = Modifier.height(8.dp))
                 LazyRow {
                     items(it.take(8), key = { it.id }) { character ->
                         Card(
@@ -94,8 +85,10 @@ fun BoxScope.ColumnRowView(
                                     contentScale = ContentScale.Crop,
                                     placeholder = painterResource(id = R.drawable.place_holder)
                                 )
-                                Column(Modifier.padding(vertical = 6.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally) {
+                                Column(
+                                    Modifier.padding(vertical = 6.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
                                     AttributeIcons(character)
                                     Text(
                                         character.name.substring(0, 10),
@@ -106,10 +99,6 @@ fun BoxScope.ColumnRowView(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(text = "Column",
-                    color = MaterialTheme.colors.onSurface,
-                    fontSize = 22.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn {
                     items(it, key = { it.id }) { character ->
@@ -140,11 +129,13 @@ fun BoxScope.ColumnRowView(
                                     contentScale = ContentScale.Fit,
                                     placeholder = painterResource(id = R.drawable.place_holder)
                                 )
-                                Column(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(12.dp),
                                     verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.Start) {
+                                    horizontalAlignment = Alignment.Start
+                                ) {
                                     AttributeIcons(character)
                                     Text(
                                         text = character.name,
@@ -172,8 +163,10 @@ fun BoxScope.ColumnRowView(
 
 @Composable
 fun AttributeIcons(character: Character) {
-    Row(verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
         Icon(
             painter = painterResource(id = getCreatureRes(character.species).first),
             contentDescription = null,
@@ -192,8 +185,8 @@ fun AttributeIcons(character: Character) {
     }
 }
 
-//@Composable
-//fun CharactersRowSection(state: UiState<List<Character>>, scope: CoroutineScope, scaffoldState: ScaffoldState) {
+// @Composable
+// fun CharactersRowSection(state: UiState<List<Character>>, scope: CoroutineScope, scaffoldState: ScaffoldState) {
 //    Column {
 //        Text(text = "CharactersRow",
 //            color = MaterialTheme.colors.onSurface,
@@ -206,13 +199,13 @@ fun AttributeIcons(character: Character) {
 //            is HomeUiState.Loading -> // @Composable
 //        }
 //    }
-//}
+// }
 
-//@Composable
-//fun CharactersColumnSection(
+// @Composable
+// fun CharactersColumnSection(
 //    state: UiState<List<Character>>,
 //    listState: LazyListState
-//) {
+// ) {
 //    Column(modifier = Modifier.fillMaxWidth()) {
 //        Text(text = "CharactersColumn",
 //            color = MaterialTheme.colors.onSurface,
@@ -225,4 +218,4 @@ fun AttributeIcons(character: Character) {
 //            is HomeUiState.Loading -> @Composable
 //        }
 //    }
-//}
+// }

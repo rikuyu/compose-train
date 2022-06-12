@@ -1,6 +1,5 @@
 package com.example.composetrainapp.data.data_source.remote
 
-
 import com.example.composetrainapp.data.utils.Constants
 import com.example.composetrainapp.domain.data_source.remote.RemoteDataSource
 import com.example.composetrainapp.domain.model.response.Character
@@ -17,6 +16,6 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
 
     override suspend fun getCharacters(): List<Character> {
-     return client.get(Constants.URL_CHARACTER).body<Response>().results
+        return client.get(Constants.URL_CHARACTER).body<Response>().results
     }
 }

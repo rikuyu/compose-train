@@ -15,9 +15,9 @@ data class UiState<T>(
         successView: @Composable (data: T) -> Unit,
     ) {
         if (isLoading && data == null) {
-            if(loadingView != null) loadingView()
+            if (loadingView != null) loadingView()
         } else if (error != null && data == null) {
-            if(errorView != null) errorView(error)
+            if (errorView != null) errorView(error)
         } else if (data != null) {
             successView(data)
         }

@@ -35,7 +35,6 @@ class HomeViewModel @Inject constructor(
         val r1 = runCatching {
             1 + 2
         }.onFailure {
-
         }.onSuccess {
             it.toString()
         }

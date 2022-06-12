@@ -3,9 +3,7 @@ package com.example.composetrainapp.ui.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -53,40 +51,82 @@ fun GridView(
             scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(message = "error")
             }
-        })
-    { characterList ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                end = 16.dp,
-                top = 24.dp,
-                bottom = 24.dp
-            ),
-            modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            itemsIndexed(
-                items = characterList,
-                key = { _, c -> c.id },
-            ) { _, c ->
-                CharacterItemView(character = c)
+        }
+    ) { characterList ->
+        Column(verticalArrangement = Arrangement.Top) {
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(3),
+                modifier = modifier.height(150.dp),
+                contentPadding = PaddingValues(start = 8.dp, end = 4.dp, top = 12.dp, bottom = 0.dp)
+            ) {
+                items(characterList, key = { it.id }) {
+                    HorizontalCharacterItem(character = it)
+                }
+            }
+            Spacer(modifier = modifier.height(10.dp))
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 12.dp,
+                    bottom = 24.dp
+                ),
+                modifier = modifier,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                itemsIndexed(
+                    items = characterList,
+                    key = { _, c -> c.id },
+                ) { _, c ->
+                    VerticalCharacterItem(character = c)
+                }
             }
         }
     }
 }
 
 @Composable
-fun CharacterItemView(
+fun HorizontalCharacterItem(
+    character: Character,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier
+            .size(220.dp, 60.dp)
+            .padding(vertical = 2.dp)
+            .clickable { }
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(character.image)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier.padding(end = 4.dp),
+            contentScale = ContentScale.FillHeight,
+            placeholder = painterResource(id = R.drawable.place_holder)
+        )
+        Text(
+            text = character.name,
+            fontSize = 16.sp
+        )
+    }
+}
+
+@Composable
+fun VerticalCharacterItem(
     character: Character,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .clickable {  },
-        verticalArrangement = Arrangement.Center) {
+            .height(210.dp)
+            .clickable { },
+        verticalArrangement = Arrangement.Center
+    ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(character.image)
