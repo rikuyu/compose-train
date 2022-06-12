@@ -77,6 +77,7 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.1.0")
     implementation("com.google.accompanist:accompanist-placeholder-material:0.23.1")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.23.1")
 
     implementation("com.google.dagger:hilt-android:2.40")
     kapt("com.google.dagger:hilt-android-compiler:2.40")

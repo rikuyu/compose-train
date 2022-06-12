@@ -16,6 +16,8 @@ sealed class NavigationRoutes(val route: String) {
 
     object Profile : NavigationRoutes("profile")
 
+    object CharacterDetail : NavigationRoutes("character_detail")
+
     object Todo : NavigationRoutes("todo")
 
     object EditProfile : NavigationRoutes("edit_profile")

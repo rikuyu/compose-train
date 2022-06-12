@@ -1,6 +1,8 @@
 package com.example.composetrainapp.ui.utils
 
 import android.util.Log
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
@@ -49,4 +51,21 @@ fun getStatusRes(status: String): Pair<Int, Color> = when (status) {
     "Alive" -> Pair(R.drawable.ic_status_alive, Color.LightGray)
     "Dead" -> Pair(R.drawable.ic_status_dead, Color.Red)
     else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
+}
+
+suspend fun handleSnackBar(
+    scaffoldState: ScaffoldState,
+    message: String,
+    actionLabel: String? = null,
+    action: (() -> Unit)? = null,
+) {
+    when (
+        scaffoldState.snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = actionLabel
+        )
+    ) {
+        SnackbarResult.ActionPerformed -> action?.invoke()
+        SnackbarResult.Dismissed -> {}
+    }
 }

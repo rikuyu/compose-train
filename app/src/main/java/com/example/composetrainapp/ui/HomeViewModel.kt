@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.domain.repository.RickMortyRepository
-import com.example.composetrainapp.ui.utils.UiState
-import com.example.composetrainapp.ui.utils.handleData
-import com.example.composetrainapp.ui.utils.handleError
-import com.example.composetrainapp.ui.utils.startLoading
+import com.example.composetrainapp.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,30 +25,20 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<UiState<List<Character>>> get() = _uiState
 
     init {
-        viewModelScope.launch {
-            getCharacters()
-        }
-
-        val r1 = runCatching {
-            1 + 2
-        }.onFailure {
-        }.onSuccess {
-            it.toString()
-        }
-
-        println(r1)
-        val r2 = runCatching { 1 + 2 }.fold(
-            onSuccess = { it.toString() },
-            onFailure = { it }
-        )
-        println(r2)
+        getCharacters()
     }
 
-    private suspend fun getCharacters() {
-        _uiState.startLoading()
-        repository.getCharacters()
-            .catch { _uiState.handleError(it) }
-            .collect { _uiState.handleData(it) }
+    fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
+        _uiState.startLoading(loadingState)
+        viewModelScope.launch {
+            repository.getCharacters()
+                .catch { _uiState.handleError(it) }
+                .collect { _uiState.handleData(it) }
+        }
+    }
+
+    fun refreshCharacters() {
+        getCharacters(LoadingState.REFRESHING)
     }
 
 //    ☆ sealed class 使う例

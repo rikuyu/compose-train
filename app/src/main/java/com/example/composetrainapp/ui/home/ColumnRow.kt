@@ -20,12 +20,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.utils.*
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,6 +38,7 @@ fun BoxScope.ColumnRowView(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     listState: LazyListState,
+    navController: NavHostController,
 ) {
     val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -55,7 +59,7 @@ fun BoxScope.ColumnRowView(
             },
             errorView = {
                 scope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(message = "error")
+                    handleSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
                 }
             },
             successView = {
@@ -100,47 +104,52 @@ fun BoxScope.ColumnRowView(
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                LazyColumn {
-                    items(it, key = { it.id }) { character ->
-                        Card(
-                            elevation = 4.dp,
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .fillMaxWidth()
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .padding(4.dp)
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = { /* Called when the gesture starts */ },
-                                        onDoubleTap = { /* Called on Double Tap */ },
-                                        onLongPress = { /* Called on Long Press */ },
-                                        onTap = { /* Called on Tap */ },
+                SwipeRefresh(
+                    state = rememberSwipeRefreshState(state.isRefreshing),
+                    onRefresh = { viewModel.refreshCharacters() },
+                ) {
+                    LazyColumn {
+                        items(it, key = { it.id }) { character ->
+                            Card(
+                                elevation = 4.dp,
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .padding(4.dp)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onPress = { /* Called when the gesture starts */ },
+                                            onDoubleTap = { /* Called on Double Tap */ },
+                                            onLongPress = { /* Called on Long Press */ },
+                                            onTap = { /* Called on Tap */ },
+                                        )
+                                    },
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(character.image)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Fit,
+                                        placeholder = painterResource(id = R.drawable.place_holder)
                                     )
-                                },
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(character.image)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit,
-                                    placeholder = painterResource(id = R.drawable.place_holder)
-                                )
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(12.dp),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.Start
-                                ) {
-                                    AttributeIcons(character)
-                                    Text(
-                                        text = character.name,
-                                        fontSize = 16.sp
-                                    )
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(12.dp),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.Start
+                                    ) {
+                                        AttributeIcons(character)
+                                        Text(
+                                            text = character.name,
+                                            fontSize = 16.sp
+                                        )
+                                    }
                                 }
                             }
                         }

@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.NavigationRoutes
@@ -17,6 +18,7 @@ import com.example.composetrainapp.ui.utils.*
 @Composable
 fun HomeScreen(
     screen: NavigationRoutes,
+    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
@@ -29,12 +31,14 @@ fun HomeScreen(
             ColumnRowView(
                 scope = scope,
                 scaffoldState = scaffoldState,
-                listState = listState
+                listState = listState,
+                navController = navController
             )
         } else if (screen == NavigationRoutes.Grid) {
             GridView(
                 scope = scope,
                 scaffoldState = scaffoldState,
+                navController = navController
             )
         }
     }

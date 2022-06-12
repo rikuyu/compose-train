@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
@@ -24,6 +25,9 @@ import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
+import com.example.composetrainapp.ui.utils.handleSnackBar
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -34,6 +38,7 @@ fun GridView(
     viewModel: HomeViewModel = hiltViewModel(),
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
+    navController: NavHostController,
 ) {
     val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -49,7 +54,7 @@ fun GridView(
         },
         errorView = {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(message = "error")
+                handleSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
             }
         }
     ) { characterList ->
@@ -64,23 +69,28 @@ fun GridView(
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 12.dp,
-                    bottom = 24.dp
-                ),
-                modifier = modifier,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(state.isRefreshing),
+                onRefresh = { viewModel.refreshCharacters() },
             ) {
-                itemsIndexed(
-                    items = characterList,
-                    key = { _, c -> c.id },
-                ) { _, c ->
-                    VerticalCharacterItem(character = c)
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 12.dp,
+                        bottom = 24.dp
+                    ),
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    itemsIndexed(
+                        items = characterList,
+                        key = { _, c -> c.id },
+                    ) { _, c ->
+                        VerticalCharacterItem(character = c)
+                    }
                 }
             }
         }

@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.composetrainapp.ui.home.ColumnRowView
 import com.example.composetrainapp.ui.home.GridView
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
+import com.example.composetrainapp.ui.utils.handleSnackBar
 import com.example.composetrainapp.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +59,8 @@ class MainActivity : ComponentActivity() {
                                 ColumnRowView(
                                     scope = scope,
                                     scaffoldState = scaffoldState,
-                                    listState = listState
+                                    listState = listState,
+                                    navController = navController
                                 )
                             }
                             composable(route = NavigationRoutes.Grid.route) {
@@ -66,6 +68,7 @@ class MainActivity : ComponentActivity() {
                                 GridView(
                                     scope = scope,
                                     scaffoldState = scaffoldState,
+                                    navController = navController
                                 )
                             }
                             composable(route = NavigationRoutes.Todo.route) {
@@ -134,15 +137,7 @@ fun TrainTopBar(
                 DropdownMenuItem(onClick = {
                     expanded = false
                     scope.launch {
-                        when (
-                            scaffoldState.snackbarHostState.showSnackbar(
-                                message = "Sample SnackBar",
-                                actionLabel = "Do"
-                            )
-                        ) {
-                            SnackbarResult.ActionPerformed -> {}
-                            SnackbarResult.Dismissed -> {}
-                        }
+                        handleSnackBar(scaffoldState, "Sample SnackBar", "Do")
                     }
                 }) {
                     Text(text = "SnackBar")
