@@ -1,4 +1,4 @@
-package com.example.composetrainapp.ui
+package com.example.composetrainapp.ui.utils
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -6,23 +6,23 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class NavigationRoutes(val route: String) {
+sealed class NavigationRoutes(val route: String, val title: String? = null) {
 
     object Home : NavigationRoutes("home")
 
-    object ColumnRow : NavigationRoutes("colrow")
+    object ColumnRow : NavigationRoutes("colrow", "Home")
 
-    object Grid : NavigationRoutes("grid")
+    object Grid : NavigationRoutes("grid", "Home")
 
     object Profile : NavigationRoutes("profile")
 
-    object CharacterDetail : NavigationRoutes("character_detail")
+    object DetailCharacter : NavigationRoutes("character_detail", "Detail") {
+        fun createRoute(id: Int) = "${this.route}/$id"
+    }
 
     object Todo : NavigationRoutes("todo")
 
     object EditProfile : NavigationRoutes("edit_profile")
-
-    object Detail : NavigationRoutes("detail")
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {

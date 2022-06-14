@@ -16,8 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.composetrainapp.ui.BottomNavigationItem
-import java.util.*
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController) {

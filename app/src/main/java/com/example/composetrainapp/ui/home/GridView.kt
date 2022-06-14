@@ -2,6 +2,7 @@ package com.example.composetrainapp.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.CircularProgressIndicator
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,6 +25,7 @@ import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
+import com.example.composetrainapp.ui.utils.NavigationRoutes
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
 import com.example.composetrainapp.ui.utils.handleSnackBar
@@ -89,7 +92,12 @@ fun GridView(
                         items = characterList,
                         key = { _, c -> c.id },
                     ) { _, c ->
-                        VerticalCharacterItem(character = c)
+                        VerticalCharacterItem(
+                            character = c,
+                            onClick = {
+                                navController.navigate(NavigationRoutes.DetailCharacter.createRoute(c.id))
+                            }
+                        )
                     }
                 }
             }
@@ -107,7 +115,14 @@ fun HorizontalCharacterItem(
         modifier = Modifier
             .size(220.dp, 60.dp)
             .padding(vertical = 2.dp)
-            .clickable { }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = { /* Called when the gesture starts */ },
+                    onDoubleTap = { /* Called on Double Tap */ },
+                    onLongPress = { /* Called on Long Press */ },
+                    onTap = { },
+                )
+            }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -129,12 +144,13 @@ fun HorizontalCharacterItem(
 @Composable
 fun VerticalCharacterItem(
     character: Character,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(210.dp)
-            .clickable { },
+            .clickable { onClick() },
         verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(

@@ -1,6 +1,6 @@
 package com.example.composetrainapp.ui.home
 
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -70,12 +69,11 @@ fun BoxScope.ColumnRowView(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(8.dp))
                                 .padding(6.dp)
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = { /* Called when the gesture starts */ },
-                                        onDoubleTap = { /* Called on Double Tap */ },
-                                        onLongPress = { /* Called on Long Press */ },
-                                        onTap = { /* Called on Tap */ },
+                                .clickable {
+                                    navController.navigate(
+                                        NavigationRoutes.DetailCharacter.createRoute(
+                                            character.id
+                                        )
                                     )
                                 },
                         ) {
@@ -118,12 +116,11 @@ fun BoxScope.ColumnRowView(
                                     .height(100.dp)
                                     .clip(RoundedCornerShape(8.dp))
                                     .padding(4.dp)
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(
-                                            onPress = { /* Called when the gesture starts */ },
-                                            onDoubleTap = { /* Called on Double Tap */ },
-                                            onLongPress = { /* Called on Long Press */ },
-                                            onTap = { /* Called on Tap */ },
+                                    .clickable {
+                                        navController.navigate(
+                                            NavigationRoutes.DetailCharacter.createRoute(
+                                                character.id
+                                            )
                                         )
                                     },
                             ) {

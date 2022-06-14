@@ -12,8 +12,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.composetrainapp.domain.model.response.Character
 import com.example.composetrainapp.ui.HomeViewModel
-import com.example.composetrainapp.ui.NavigationRoutes
 import com.example.composetrainapp.ui.utils.*
+import com.example.composetrainapp.ui.utils.NavigationRoutes
 
 @Composable
 fun HomeScreen(

@@ -11,17 +11,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.composetrainapp.ui.detail.Detail
 import com.example.composetrainapp.ui.home.ColumnRowView
 import com.example.composetrainapp.ui.home.GridView
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
+import com.example.composetrainapp.ui.utils.NavigationRoutes
 import com.example.composetrainapp.ui.utils.handleSnackBar
 import com.example.composetrainapp.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,6 +76,18 @@ class MainActivity : ComponentActivity() {
                                     navController = navController
                                 )
                             }
+                            composable(
+                                route = "${NavigationRoutes.DetailCharacter.route}/{id}",
+                                arguments = listOf(
+                                    navArgument("id") {
+                                        type = NavType.IntType
+                                        nullable = false
+                                    }
+                                )
+                            ) { backStackEntry ->
+                                screen = NavigationRoutes.DetailCharacter
+                                Detail(backStackEntry.arguments?.getInt("id") ?: 0)
+                            }
                             composable(route = NavigationRoutes.Todo.route) {
                                 screen = NavigationRoutes.Todo
                                 Column(
@@ -106,41 +123,50 @@ fun TrainTopBar(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    if (screen == NavigationRoutes.ColumnRow || screen == NavigationRoutes.Grid) TopAppBar(
+    if (screen == NavigationRoutes.ColumnRow ||
+        screen == NavigationRoutes.Grid ||
+        screen == NavigationRoutes.DetailCharacter
+    ) TopAppBar(
         title = {
-            Text(text = "Home")
+            Text(text = screen.title ?: "")
         },
-        actions = {
-            IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Filled.MoreVert, contentDescription = null)
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    if (screen != NavigationRoutes.Grid)
-                        navController.navigate(NavigationRoutes.Grid.route)
-                }) {
-                    Text(text = "Grid")
+        navigationIcon = {
+            if (screen == NavigationRoutes.DetailCharacter) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
-                Divider()
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    if (screen != NavigationRoutes.ColumnRow)
-                        navController.navigate(NavigationRoutes.ColumnRow.route)
-                }) {
-                    Text(text = "Normal")
+            } else {
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Filled.MoreVert, contentDescription = null)
                 }
-                Divider()
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    scope.launch {
-                        handleSnackBar(scaffoldState, "Sample SnackBar", "Do")
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        if (screen != NavigationRoutes.Grid)
+                            navController.navigate(NavigationRoutes.Grid.route)
+                    }) {
+                        Text(text = "Grid")
                     }
-                }) {
-                    Text(text = "SnackBar")
+                    Divider()
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        if (screen != NavigationRoutes.ColumnRow)
+                            navController.navigate(NavigationRoutes.ColumnRow.route)
+                    }) {
+                        Text(text = "Normal")
+                    }
+                    Divider()
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        scope.launch {
+                            handleSnackBar(scaffoldState, "Sample SnackBar", "Do")
+                        }
+                    }) {
+                        Text(text = "SnackBar")
+                    }
                 }
             }
         }
