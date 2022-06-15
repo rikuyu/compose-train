@@ -1,9 +1,9 @@
 package com.example.composetrainapp.domain.repository
 
-import com.example.composetrainapp.domain.model.response.Character
+import com.example.composetrainapp.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
-interface RickMortyRepository {
+interface RickAndMortyRepository {
 
     suspend fun getCharacters(): Flow<List<Character>>
 

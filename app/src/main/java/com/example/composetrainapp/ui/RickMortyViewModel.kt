@@ -2,8 +2,8 @@ package com.example.composetrainapp.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.composetrainapp.domain.model.response.Character
-import com.example.composetrainapp.domain.repository.RickMortyRepository
+import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.domain.repository.RickAndMortyRepository
 import com.example.composetrainapp.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val repository: RickMortyRepository,
+class RickMortyViewModel @Inject constructor(
+    private val repository: RickAndMortyRepository,
 ) : ViewModel() {
 
 //    ☆ sealed class 使う例

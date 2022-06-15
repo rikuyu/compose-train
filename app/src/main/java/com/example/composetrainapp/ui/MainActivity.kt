@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -43,7 +42,6 @@ class MainActivity : ComponentActivity() {
             ComposeTrainAppTheme {
                 val navController = rememberNavController()
                 var screen: NavigationRoutes by remember { mutableStateOf(NavigationRoutes.Grid) }
-                val listState = rememberLazyListState()
                 val scope = rememberCoroutineScope()
                 val scaffoldState = rememberScaffoldState()
 
@@ -64,7 +62,6 @@ class MainActivity : ComponentActivity() {
                                 ColumnRowView(
                                     scope = scope,
                                     scaffoldState = scaffoldState,
-                                    listState = listState,
                                     navController = navController
                                 )
                             }

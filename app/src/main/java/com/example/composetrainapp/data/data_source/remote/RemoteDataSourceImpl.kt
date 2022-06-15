@@ -2,8 +2,8 @@ package com.example.composetrainapp.data.data_source.remote
 
 import com.example.composetrainapp.data.utils.Constants
 import com.example.composetrainapp.domain.data_source.remote.RemoteDataSource
-import com.example.composetrainapp.domain.model.response.Character
-import com.example.composetrainapp.domain.model.response.Response
+import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.domain.model.Response
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

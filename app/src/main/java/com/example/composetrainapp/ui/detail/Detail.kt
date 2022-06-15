@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -18,8 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.composetrainapp.domain.model.response.Character
-import com.example.composetrainapp.ui.HomeViewModel
+import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.ui.RickMortyViewModel
 import com.example.composetrainapp.ui.home.AttributeIcons
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
@@ -32,7 +33,7 @@ fun Detail(
     characterId: Int,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val state: UiState<Character> by viewModel.characterState.collectAsStateWithLifecycle()
 
@@ -40,15 +41,17 @@ fun Detail(
         viewModel.getSpecificCharacter(characterId)
     }
 
-    state.StateView(loadingView = {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize()
-        ) {
-            CircularProgressIndicator()
-        }
-    }, errorView = {
+    state.StateView(
+        loadingView = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize()
+            ) {
+                CircularProgressIndicator()
+            }
+        },
+        errorView = {
             scope.launch {
                 showSnackBarWithArg(
                     scaffoldState,
@@ -58,8 +61,12 @@ fun Detail(
                     viewModel::getSpecificCharacter
                 )
             }
-        }) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.drawBehind { }
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(it.image)

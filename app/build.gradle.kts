@@ -79,6 +79,10 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.23.1")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.23.1")
 
+    implementation("androidx.room:room-ktx:2.4.2")
+    implementation("androidx.room:room-runtime:2.4.2")
+    kapt("androidx.room:room-compiler:2.4.2")
+
     implementation("com.google.dagger:hilt-android:2.40")
     kapt("com.google.dagger:hilt-android-compiler:2.40")
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01")

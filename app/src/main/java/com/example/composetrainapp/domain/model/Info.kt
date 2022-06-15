@@ -1,4 +1,4 @@
-package com.example.composetrainapp.domain.model.response
+package com.example.composetrainapp.domain.model
 
 data class Info(
     val count: Int,

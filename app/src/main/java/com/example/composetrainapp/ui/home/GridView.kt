@@ -1,17 +1,21 @@
 package com.example.composetrainapp.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -23,12 +27,13 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.composetrainapp.domain.model.response.Character
-import com.example.composetrainapp.ui.HomeViewModel
+import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.ui.RickMortyViewModel
 import com.example.composetrainapp.ui.utils.NavigationRoutes
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
 import com.example.composetrainapp.ui.utils.showSnackBar
+import com.example.composetrainapp.ui.utils.theme.Purple200
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
@@ -38,68 +43,98 @@ import kotlinx.coroutines.launch
 @Composable
 fun GridView(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
+    viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
+    val listState = rememberLazyGridState()
+    val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
 
-    state.StateView(
-        loadingView = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-            ) {
-                CircularProgressIndicator()
-            }
-        },
-        errorView = {
-            scope.launch {
-                showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
-            }
-        }
-    ) { characterList ->
-        Column(verticalArrangement = Arrangement.Top) {
-            LazyHorizontalGrid(
-                rows = GridCells.Fixed(3),
-                modifier = modifier.height(150.dp),
-                contentPadding = PaddingValues(start = 8.dp, end = 4.dp, top = 12.dp, bottom = 0.dp)
-            ) {
-                items(characterList, key = { it.id }) {
-                    HorizontalCharacterItem(character = it)
+    Box {
+        state.StateView(
+            loadingView = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center),
+                ) {
+                    CircularProgressIndicator()
+                }
+            },
+            errorView = {
+                scope.launch {
+                    showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
                 }
             }
-            Spacer(modifier = modifier.height(10.dp))
-            SwipeRefresh(
-                state = rememberSwipeRefreshState(state.isRefreshing),
-                onRefresh = { viewModel.refreshCharacters() },
-            ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
+        ) { characterList ->
+            Column(verticalArrangement = Arrangement.Top) {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(3),
+                    modifier = modifier.height(150.dp),
                     contentPadding = PaddingValues(
-                        start = 16.dp,
-                        end = 16.dp,
+                        start = 8.dp,
+                        end = 4.dp,
                         top = 12.dp,
-                        bottom = 24.dp
-                    ),
-                    modifier = modifier,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        bottom = 0.dp
+                    )
                 ) {
-                    itemsIndexed(
-                        items = characterList,
-                        key = { _, c -> c.id },
-                    ) { _, c ->
-                        VerticalCharacterItem(
-                            character = c,
-                            onClick = {
-                                navController.navigate(NavigationRoutes.DetailCharacter.createRoute(c.id))
-                            }
-                        )
+                    items(characterList, key = { it.id }) {
+                        HorizontalCharacterItem(character = it)
                     }
                 }
+                Spacer(modifier = modifier.height(10.dp))
+                SwipeRefresh(
+                    state = rememberSwipeRefreshState(state.isRefreshing),
+                    onRefresh = { viewModel.refreshCharacters() },
+                ) {
+                    LazyVerticalGrid(
+                        state = listState,
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 12.dp,
+                            bottom = 24.dp
+                        ),
+                        modifier = modifier,
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        itemsIndexed(
+                            items = characterList,
+                            key = { _, c -> c.id },
+                        ) { _, c ->
+                            VerticalCharacterItem(
+                                character = c,
+                                onClick = {
+                                    navController.navigate(
+                                        NavigationRoutes.DetailCharacter.createRoute(
+                                            c.id
+                                        )
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = isShowButton,
+            modifier = Modifier.align(alignment = Alignment.BottomEnd)
+        ) {
+            IconButton(
+                onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .background(color = Purple200, shape = CircleShape)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_upward),
+                    contentDescription = null, tint = Color.White
+                )
             }
         }
     }

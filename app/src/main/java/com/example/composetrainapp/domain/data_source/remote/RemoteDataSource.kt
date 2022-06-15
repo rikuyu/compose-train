@@ -1,6 +1,6 @@
 package com.example.composetrainapp.domain.data_source.remote
 
-import com.example.composetrainapp.domain.model.response.Character
+import com.example.composetrainapp.domain.model.Character
 
 interface RemoteDataSource {
 
