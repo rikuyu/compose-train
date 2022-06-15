@@ -53,7 +53,7 @@ fun getStatusRes(status: String): Pair<Int, Color> = when (status) {
     else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
 }
 
-suspend fun handleSnackBar(
+suspend fun showSnackBar(
     scaffoldState: ScaffoldState,
     message: String,
     actionLabel: String? = null,
@@ -66,6 +66,24 @@ suspend fun handleSnackBar(
         )
     ) {
         SnackbarResult.ActionPerformed -> action?.invoke()
+        SnackbarResult.Dismissed -> {}
+    }
+}
+
+suspend fun showSnackBarWithArg(
+    scaffoldState: ScaffoldState,
+    message: String,
+    actionLabel: String?,
+    arg: Int,
+    action: ((Int) -> Unit),
+) {
+    when (
+        scaffoldState.snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = actionLabel
+        )
+    ) {
+        SnackbarResult.ActionPerformed -> action.invoke(arg)
         SnackbarResult.Dismissed -> {}
     }
 }

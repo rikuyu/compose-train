@@ -28,7 +28,7 @@ import com.example.composetrainapp.ui.HomeViewModel
 import com.example.composetrainapp.ui.utils.NavigationRoutes
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
-import com.example.composetrainapp.ui.utils.handleSnackBar
+import com.example.composetrainapp.ui.utils.showSnackBar
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +43,7 @@ fun GridView(
     scaffoldState: ScaffoldState,
     navController: NavHostController,
 ) {
-    val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
+    val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
 
     state.StateView(
         loadingView = {
@@ -57,7 +57,7 @@ fun GridView(
         },
         errorView = {
             scope.launch {
-                handleSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+                showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
             }
         }
     ) { characterList ->

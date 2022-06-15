@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface RickMortyRepository {
 
     suspend fun getCharacters(): Flow<List<Character>>
+
+    suspend fun getSpecificCharacter(id: Int): Flow<Character>
 }

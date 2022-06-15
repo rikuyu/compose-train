@@ -21,24 +21,36 @@ class HomeViewModel @Inject constructor(
 //    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
 //    val uiState: StateFlow<HomeUiState> get() = _uiState
 
-    private val _uiState = MutableStateFlow(UiState<List<Character>>())
-    val uiState: StateFlow<UiState<List<Character>>> get() = _uiState
+    private val _characterListState = MutableStateFlow(UiState<List<Character>>())
+    val characterListState: StateFlow<UiState<List<Character>>> get() = _characterListState
+
+    private val _characterState = MutableStateFlow(UiState<Character>())
+    val characterState: StateFlow<UiState<Character>> get() = _characterState
 
     init {
         getCharacters()
     }
 
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
-        _uiState.startLoading(loadingState)
+        _characterListState.startLoading(loadingState)
         viewModelScope.launch {
             repository.getCharacters()
-                .catch { _uiState.handleError(it) }
-                .collect { _uiState.handleData(it) }
+                .catch { _characterListState.handleError(it) }
+                .collect { _characterListState.handleData(it) }
         }
     }
 
     fun refreshCharacters() {
         getCharacters(LoadingState.REFRESHING)
+    }
+
+    fun getSpecificCharacter(id: Int) {
+        _characterState.startLoading(LoadingState.LOADING)
+        viewModelScope.launch {
+            repository.getSpecificCharacter(id)
+                .catch { _characterState.handleError(it) }
+                .collect { _characterState.handleData(it) }
+        }
     }
 
 //    ☆ sealed class 使う例

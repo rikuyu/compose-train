@@ -27,7 +27,7 @@ import com.example.composetrainapp.ui.home.ColumnRowView
 import com.example.composetrainapp.ui.home.GridView
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
 import com.example.composetrainapp.ui.utils.NavigationRoutes
-import com.example.composetrainapp.ui.utils.handleSnackBar
+import com.example.composetrainapp.ui.utils.showSnackBar
 import com.example.composetrainapp.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -86,7 +86,11 @@ class MainActivity : ComponentActivity() {
                                 )
                             ) { backStackEntry ->
                                 screen = NavigationRoutes.DetailCharacter
-                                Detail(backStackEntry.arguments?.getInt("id") ?: 0)
+                                Detail(
+                                    backStackEntry.arguments?.getInt("id") ?: 0,
+                                    scaffoldState,
+                                    scope
+                                )
                             }
                             composable(route = NavigationRoutes.Todo.route) {
                                 screen = NavigationRoutes.Todo
@@ -162,7 +166,7 @@ fun TrainTopBar(
                     DropdownMenuItem(onClick = {
                         expanded = false
                         scope.launch {
-                            handleSnackBar(scaffoldState, "Sample SnackBar", "Do")
+                            showSnackBar(scaffoldState, "Sample SnackBar", "Do")
                         }
                     }) {
                         Text(text = "SnackBar")

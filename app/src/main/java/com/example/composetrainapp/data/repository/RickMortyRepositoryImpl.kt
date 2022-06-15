@@ -16,4 +16,8 @@ class RickMortyRepositoryImpl @Inject constructor(
     override suspend fun getCharacters(): Flow<List<Character>> = flow {
         emit(remoteDataSource.getCharacters())
     }.flowOn(Dispatchers.IO)
+
+    override suspend fun getSpecificCharacter(id: Int): Flow<Character> = flow {
+        emit(remoteDataSource.getSpecificCharacter(id))
+    }.flowOn(Dispatchers.IO)
 }

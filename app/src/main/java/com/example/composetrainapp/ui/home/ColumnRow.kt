@@ -39,7 +39,7 @@ fun BoxScope.ColumnRowView(
     listState: LazyListState,
     navController: NavHostController,
 ) {
-    val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
+    val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -58,7 +58,7 @@ fun BoxScope.ColumnRowView(
             },
             errorView = {
                 scope.launch {
-                    handleSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+                    showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
                 }
             },
             successView = {

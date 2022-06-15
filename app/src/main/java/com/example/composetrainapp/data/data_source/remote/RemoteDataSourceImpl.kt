@@ -21,4 +21,12 @@ class RemoteDataSourceImpl @Inject constructor(
         }
         return client.get(Constants.URL_CHARACTER).body<Response>().results
     }
+
+    override suspend fun getSpecificCharacter(id: Int): Character {
+        if ((1..3).random() == 1) {
+            delay(1000L)
+            throw Exception()
+        }
+        return client.get("${Constants.URL_CHARACTER}/$id").body()
+    }
 }

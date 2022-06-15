@@ -21,7 +21,7 @@ fun HomeScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state: UiState<List<Character>> by viewModel.uiState.collectAsStateWithLifecycle()
+    val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
