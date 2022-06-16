@@ -1,13 +1,9 @@
-package com.example.composetrainapp.domain.repository
+package com.example.composetrainapp.domain.data_source.local
 
 import com.example.composetrainapp.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
-interface RickAndMortyRepository {
-
-    suspend fun getCharacterList(): Flow<List<Character>>
-
-    suspend fun getSpecificCharacter(id: Int): Flow<Character>
+interface LocalDataSource {
 
     suspend fun getFavoriteCharacterList(): Flow<List<Character>>
 

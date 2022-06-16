@@ -33,7 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun ColumnRowView(
+fun ColumnRowScreen(
     viewModel: RickMortyViewModel = hiltViewModel(),
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,

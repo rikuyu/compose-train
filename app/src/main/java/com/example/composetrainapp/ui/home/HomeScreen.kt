@@ -26,13 +26,13 @@ fun HomeScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (screen == NavigationRoutes.ColumnRow) {
-            ColumnRowView(
+            ColumnRowScreen(
                 scope = scope,
                 scaffoldState = scaffoldState,
                 navController = navController
             )
         } else if (screen == NavigationRoutes.Grid) {
-            GridView(
+            GridScreen(
                 scope = scope,
                 scaffoldState = scaffoldState,
                 navController = navController

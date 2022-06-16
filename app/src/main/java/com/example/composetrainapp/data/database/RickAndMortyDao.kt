@@ -16,5 +16,5 @@ interface RickAndMortyDao {
     fun delete(character: Character)
 
     @Query("SELECT * FROM characters")
-    fun getAll(): List<Character>
+    fun getCharacterList(): List<Character>
 }

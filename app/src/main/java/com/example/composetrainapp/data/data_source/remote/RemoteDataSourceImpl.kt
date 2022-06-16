@@ -23,7 +23,7 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getSpecificCharacter(id: Int): Character {
-        if ((1..3).random() == 1) {
+        if ((1..6).random() == 1) {
             delay(1000L)
             throw Exception()
         }

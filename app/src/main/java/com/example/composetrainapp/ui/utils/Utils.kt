@@ -73,7 +73,7 @@ suspend fun showSnackBar(
 suspend fun showSnackBarWithArg(
     scaffoldState: ScaffoldState,
     message: String,
-    actionLabel: String?,
+    actionLabel: String,
     arg: Int,
     action: ((Int) -> Unit),
 ) {
@@ -86,4 +86,10 @@ suspend fun showSnackBarWithArg(
         SnackbarResult.ActionPerformed -> action.invoke(arg)
         SnackbarResult.Dismissed -> {}
     }
+}
+
+fun getBackgroundColor(genderType: String?) = when (genderType) {
+    "Male" -> Color(0xFF82BDE9)
+    "Female" -> Color(0xFFE982D2)
+    else -> Color.LightGray
 }

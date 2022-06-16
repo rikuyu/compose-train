@@ -89,6 +89,8 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+
     ktlint("com.pinterest:ktlint:0.45.2") {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))

@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GridView(
+fun GridScreen(
     modifier: Modifier = Modifier,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,

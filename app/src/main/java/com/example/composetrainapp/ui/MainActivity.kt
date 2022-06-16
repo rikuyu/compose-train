@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +21,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.composetrainapp.ui.detail.Detail
-import com.example.composetrainapp.ui.home.ColumnRowView
-import com.example.composetrainapp.ui.home.GridView
+import com.example.composetrainapp.ui.detail.DetailScreen
+import com.example.composetrainapp.ui.home.ColumnRowScreen
+import com.example.composetrainapp.ui.home.GridScreen
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
 import com.example.composetrainapp.ui.utils.NavigationRoutes
 import com.example.composetrainapp.ui.utils.showSnackBar
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             composable(route = NavigationRoutes.ColumnRow.route) {
                                 screen = NavigationRoutes.ColumnRow
-                                ColumnRowView(
+                                ColumnRowScreen(
                                     scope = scope,
                                     scaffoldState = scaffoldState,
                                     navController = navController
@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(route = NavigationRoutes.Grid.route) {
                                 screen = NavigationRoutes.Grid
-                                GridView(
+                                GridScreen(
                                     scope = scope,
                                     scaffoldState = scaffoldState,
                                     navController = navController
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             ) { backStackEntry ->
                                 screen = NavigationRoutes.DetailCharacter
-                                Detail(
+                                DetailScreen(
                                     backStackEntry.arguments?.getInt("id") ?: 0,
                                     scaffoldState,
                                     scope
@@ -138,7 +138,7 @@ fun TrainTopBar(
                 }
             } else {
                 IconButton(onClick = { expanded = true }) {
-                    Icon(Icons.Filled.MoreVert, contentDescription = null)
+                    Icon(Icons.Filled.Menu, contentDescription = null)
                 }
                 DropdownMenu(
                     expanded = expanded,

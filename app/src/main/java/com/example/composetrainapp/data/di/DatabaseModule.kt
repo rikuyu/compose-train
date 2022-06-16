@@ -24,5 +24,9 @@ object DatabaseModule {
         ).allowMainThreadQueries().build()
     }
 
+    @Provides
+    @Singleton
+    fun provideRickAndMortyDao(db: RickAndMortyDatabase) = db.rickAndMortyDao()
+
     private const val DATABASE_NAME = "characters_database"
 }

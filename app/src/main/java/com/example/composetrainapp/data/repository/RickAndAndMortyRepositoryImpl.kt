@@ -1,5 +1,6 @@
 package com.example.composetrainapp.data.repository
 
+import com.example.composetrainapp.domain.data_source.local.LocalDataSource
 import com.example.composetrainapp.domain.data_source.remote.RemoteDataSource
 import com.example.composetrainapp.domain.model.Character
 import com.example.composetrainapp.domain.repository.RickAndMortyRepository
@@ -11,13 +12,25 @@ import javax.inject.Inject
 
 class RickAndAndMortyRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
 ) : RickAndMortyRepository {
 
-    override suspend fun getCharacters(): Flow<List<Character>> = flow {
+    override suspend fun getCharacterList(): Flow<List<Character>> = flow {
         emit(remoteDataSource.getCharacters())
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getSpecificCharacter(id: Int): Flow<Character> = flow {
         emit(remoteDataSource.getSpecificCharacter(id))
     }.flowOn(Dispatchers.IO)
+
+    override suspend fun getFavoriteCharacterList(): Flow<List<Character>> =
+        localDataSource.getFavoriteCharacterList()
+
+    override suspend fun insertCharacter(character: Character) {
+        localDataSource.insertCharacter(character)
+    }
+
+    override suspend fun deleteCharacter(character: Character) {
+        localDataSource.deleteCharacter(character)
+    }
 }

@@ -1,5 +1,9 @@
 package com.example.composetrainapp.ui
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composetrainapp.domain.model.Character
@@ -27,6 +31,9 @@ class RickMortyViewModel @Inject constructor(
     private val _characterState = MutableStateFlow(UiState<Character>())
     val characterState: StateFlow<UiState<Character>> get() = _characterState
 
+    private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
+    val backgroundColor: State<Color> get() = _backgroundColor
+
     init {
         getCharacters()
     }
@@ -34,7 +41,7 @@ class RickMortyViewModel @Inject constructor(
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
         _characterListState.startLoading(loadingState)
         viewModelScope.launch {
-            repository.getCharacters()
+            repository.getCharacterList()
                 .catch { _characterListState.handleError(it) }
                 .collect { _characterListState.handleData(it) }
         }
@@ -49,8 +56,29 @@ class RickMortyViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getSpecificCharacter(id)
                 .catch { _characterState.handleError(it) }
-                .collect { _characterState.handleData(it) }
+                .collect {
+                    _characterState.handleData(it)
+                    _backgroundColor.value = getBackgroundColor(it.gender)
+                }
         }
+    }
+
+    fun onClickEvent(isClicked: Boolean, character: Character) {
+        viewModelScope.launch {
+            if (isClicked) {
+                addFavoriteCharacter(character)
+            } else {
+                deleteFavoriteCharacter(character)
+            }
+        }
+    }
+
+    private suspend fun addFavoriteCharacter(character: Character) {
+        repository.insertCharacter(character)
+    }
+
+    private suspend fun deleteFavoriteCharacter(character: Character) {
+        repository.deleteCharacter(character)
     }
 
 //    ☆ sealed class 使う例
