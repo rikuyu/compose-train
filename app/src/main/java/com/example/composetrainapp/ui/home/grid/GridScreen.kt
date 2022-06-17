@@ -23,13 +23,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.Character
 import com.example.composetrainapp.ui.RickMortyViewModel
-import com.example.composetrainapp.ui.utils.NavigationRoutes
+import com.example.composetrainapp.ui.utils.Routes
 import com.example.composetrainapp.ui.utils.UiState
 import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
 import com.example.composetrainapp.ui.utils.showSnackBar
@@ -38,6 +40,22 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
+fun NavGraphBuilder.addGrid(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    navController: NavHostController,
+    changeScreen: () -> Unit,
+) {
+    composable(route = Routes.Grid.route) {
+        changeScreen()
+        GridScreen(
+            scope = scope,
+            scaffoldState = scaffoldState,
+            navController = navController
+        )
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -110,7 +128,7 @@ fun GridScreen(
                                 character = c,
                                 onClick = {
                                     navController.navigate(
-                                        NavigationRoutes.DetailCharacter.createRoute(
+                                        Routes.DetailCharacter.createRoute(
                                             c.id
                                         )
                                     )

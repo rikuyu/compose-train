@@ -12,11 +12,11 @@ import androidx.navigation.NavHostController
 import com.example.composetrainapp.domain.model.Character
 import com.example.composetrainapp.ui.RickMortyViewModel
 import com.example.composetrainapp.ui.utils.*
-import com.example.composetrainapp.ui.utils.NavigationRoutes
+import com.example.composetrainapp.ui.utils.Routes
 
 @Composable
 fun HomeScreen(
-    screen: NavigationRoutes,
+    screen: Routes,
     navController: NavHostController,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
@@ -25,13 +25,13 @@ fun HomeScreen(
     val scaffoldState = rememberScaffoldState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if (screen == NavigationRoutes.ColumnRow) {
+        if (screen == Routes.ColumnRow) {
             ColumnRowScreen(
                 scope = scope,
                 scaffoldState = scaffoldState,
                 navController = navController
             )
-        } else if (screen == NavigationRoutes.Grid) {
+        } else if (screen == Routes.Grid) {
             GridScreen(
                 scope = scope,
                 scaffoldState = scaffoldState,

@@ -1,8 +1,10 @@
 package com.example.composetrainapp.domain.model
 
+import androidx.compose.runtime.Stable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Stable
 @Entity(tableName = "characters")
 data class Character(
     @PrimaryKey val id: Int,

@@ -6,23 +6,25 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class NavigationRoutes(val route: String, val title: String? = null) {
+sealed class Routes(val route: String, val title: String? = null) {
 
-    object Home : NavigationRoutes("home")
+    object Home : Routes("home")
 
-    object ColumnRow : NavigationRoutes("colrow", "Home")
+    object ColumnRow : Routes("colrow", "Home")
 
-    object Grid : NavigationRoutes("grid", "Home")
+    object Grid : Routes("grid", "Home")
 
-    object Profile : NavigationRoutes("profile")
+    object Favorite : Routes("favorite", "Favorite")
 
-    object DetailCharacter : NavigationRoutes("character_detail", "Detail") {
+    object Profile : Routes("profile")
+
+    object DetailCharacter : Routes("character_detail", "Detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
     }
 
-    object Todo : NavigationRoutes("todo")
+    object Todo : Routes("todo")
 
-    object EditProfile : NavigationRoutes("edit_profile")
+    object EditProfile : Routes("edit_profile")
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {

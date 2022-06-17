@@ -34,6 +34,9 @@ class RickMortyViewModel @Inject constructor(
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
     val backgroundColor: State<Color> get() = _backgroundColor
 
+    private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
+    val favoriteCharacterState: StateFlow<UiState<List<Character>>> get() = _favoriteCharacterState
+
     init {
         getCharacters()
     }
@@ -79,6 +82,15 @@ class RickMortyViewModel @Inject constructor(
 
     private suspend fun deleteFavoriteCharacter(character: Character) {
         repository.deleteCharacter(character)
+    }
+
+    suspend fun getFavoriteCharacters() {
+        _favoriteCharacterState.startLoading(LoadingState.LOADING)
+        viewModelScope.launch {
+            repository.getFavoriteCharacterList()
+                .catch { _favoriteCharacterState.handleError(it) }
+                .collect { _favoriteCharacterState.handleData(it) }
+        }
     }
 
 //    ☆ sealed class 使う例

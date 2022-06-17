@@ -21,17 +21,41 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.Character
 import com.example.composetrainapp.ui.RickMortyViewModel
-import com.example.composetrainapp.ui.utils.ToggleButton
-import com.example.composetrainapp.ui.utils.UiState
-import com.example.composetrainapp.ui.utils.collectAsStateWithLifecycle
-import com.example.composetrainapp.ui.utils.showSnackBarWithArg
+import com.example.composetrainapp.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
+fun NavGraphBuilder.addDetail(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    changeScreen: () -> Unit,
+) {
+    composable(
+        route = "${Routes.DetailCharacter.route}/{id}",
+        arguments = listOf(
+            navArgument("id") {
+                type = NavType.IntType
+                nullable = false
+            }
+        )
+    ) { backStackEntry ->
+        changeScreen()
+        DetailScreen(
+            backStackEntry.arguments?.getInt("id") ?: 0,
+            scaffoldState,
+            scope
+        )
+    }
+}
 
 @Composable
 fun DetailScreen(
@@ -44,9 +68,7 @@ fun DetailScreen(
     val color by viewModel.backgroundColor
     var isClicked by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        viewModel.getSpecificCharacter(characterId)
-    }
+    LaunchedEffect(Unit) { viewModel.getSpecificCharacter(characterId) }
 
     state.StateView(
         loadingView = {

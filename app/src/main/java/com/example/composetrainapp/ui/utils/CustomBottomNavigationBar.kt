@@ -50,7 +50,10 @@ fun CustomBottomNavigationItem(
     val backgroundColor =
         if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Transparent
     val contentColor =
-        if (isSelected) MaterialTheme.colors.background else MaterialTheme.colors.primary.copy(alpha = 0.8f)
+        if (isSelected)
+            MaterialTheme.colors.background
+        else
+            MaterialTheme.colors.primary.copy(alpha = 0.8f)
 
     Box(
         modifier = Modifier

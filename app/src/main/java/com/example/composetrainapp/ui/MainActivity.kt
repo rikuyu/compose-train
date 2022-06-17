@@ -16,16 +16,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.composetrainapp.ui.detail.DetailScreen
-import com.example.composetrainapp.ui.home.ColumnRowScreen
-import com.example.composetrainapp.ui.home.GridScreen
+import com.example.composetrainapp.ui.detail.addDetail
+import com.example.composetrainapp.ui.home.addColumnRow
+import com.example.composetrainapp.ui.home.addFavorite
+import com.example.composetrainapp.ui.home.addGrid
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
-import com.example.composetrainapp.ui.utils.NavigationRoutes
+import com.example.composetrainapp.ui.utils.Routes
 import com.example.composetrainapp.ui.utils.showSnackBar
 import com.example.composetrainapp.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeTrainAppTheme {
                 val navController = rememberNavController()
-                var screen: NavigationRoutes by remember { mutableStateOf(NavigationRoutes.Grid) }
+                var screen: Routes by remember { mutableStateOf(Routes.Grid) }
                 val scope = rememberCoroutineScope()
                 val scaffoldState = rememberScaffoldState()
 
@@ -55,42 +54,18 @@ class MainActivity : ComponentActivity() {
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
                             navController = navController,
-                            startDestination = NavigationRoutes.Grid.route
+                            startDestination = Routes.Grid.route
                         ) {
-                            composable(route = NavigationRoutes.ColumnRow.route) {
-                                screen = NavigationRoutes.ColumnRow
-                                ColumnRowScreen(
-                                    scope = scope,
-                                    scaffoldState = scaffoldState,
-                                    navController = navController
-                                )
+                            addColumnRow(scope, scaffoldState, navController) {
+                                screen = Routes.ColumnRow
                             }
-                            composable(route = NavigationRoutes.Grid.route) {
-                                screen = NavigationRoutes.Grid
-                                GridScreen(
-                                    scope = scope,
-                                    scaffoldState = scaffoldState,
-                                    navController = navController
-                                )
+                            addGrid(scope, scaffoldState, navController) { screen = Routes.Grid }
+                            addFavorite(scope, scaffoldState, navController) {
+                                screen = Routes.Favorite
                             }
-                            composable(
-                                route = "${NavigationRoutes.DetailCharacter.route}/{id}",
-                                arguments = listOf(
-                                    navArgument("id") {
-                                        type = NavType.IntType
-                                        nullable = false
-                                    }
-                                )
-                            ) { backStackEntry ->
-                                screen = NavigationRoutes.DetailCharacter
-                                DetailScreen(
-                                    backStackEntry.arguments?.getInt("id") ?: 0,
-                                    scaffoldState,
-                                    scope
-                                )
-                            }
-                            composable(route = NavigationRoutes.Todo.route) {
-                                screen = NavigationRoutes.Todo
+                            addDetail(scope, scaffoldState) { screen = Routes.DetailCharacter }
+                            composable(route = Routes.Todo.route) {
+                                screen = Routes.Todo
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -98,8 +73,8 @@ class MainActivity : ComponentActivity() {
                                 ) {
                                 }
                             }
-                            composable(route = NavigationRoutes.Profile.route) {
-                                screen = NavigationRoutes.Profile
+                            composable(route = Routes.Profile.route) {
+                                screen = Routes.Profile
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -117,22 +92,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TrainTopBar(
-    screen: NavigationRoutes,
+    screen: Routes,
     navController: NavController,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    if (screen == NavigationRoutes.ColumnRow ||
-        screen == NavigationRoutes.Grid ||
-        screen == NavigationRoutes.DetailCharacter
+    if (screen == Routes.ColumnRow ||
+        screen == Routes.Grid ||
+        screen == Routes.DetailCharacter
     ) TopAppBar(
         title = {
             Text(text = screen.title ?: "")
         },
         navigationIcon = {
-            if (screen == NavigationRoutes.DetailCharacter) {
+            if (screen == Routes.DetailCharacter) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
@@ -146,18 +121,26 @@ fun TrainTopBar(
                 ) {
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        if (screen != NavigationRoutes.Grid)
-                            navController.navigate(NavigationRoutes.Grid.route)
+                        if (screen != Routes.Grid)
+                            navController.navigate(Routes.Grid.route)
                     }) {
                         Text(text = "Grid")
                     }
                     Divider()
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        if (screen != NavigationRoutes.ColumnRow)
-                            navController.navigate(NavigationRoutes.ColumnRow.route)
+                        if (screen != Routes.ColumnRow)
+                            navController.navigate(Routes.ColumnRow.route)
                     }) {
                         Text(text = "Normal")
+                    }
+                    Divider()
+                    DropdownMenuItem(onClick = {
+                        expanded = false
+                        if (screen != Routes.Favorite)
+                            navController.navigate(Routes.Favorite.route)
+                    }) {
+                        Text(text = "Favorite")
                     }
                     Divider()
                     DropdownMenuItem(onClick = {

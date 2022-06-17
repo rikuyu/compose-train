@@ -1,8 +1,10 @@
 package com.example.composetrainapp.ui.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
 
+@Stable
 data class UiState<T>(
     val isLoading: LoadingState = LoadingState.NOT_LOADING,
     val data: T? = null,

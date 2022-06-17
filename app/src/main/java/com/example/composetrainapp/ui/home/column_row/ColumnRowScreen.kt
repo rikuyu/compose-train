@@ -19,7 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
@@ -31,6 +33,22 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
+fun NavGraphBuilder.addColumnRow(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    navController: NavHostController,
+    changeScreen: () -> Unit,
+) {
+    composable(route = Routes.ColumnRow.route) {
+        changeScreen()
+        ColumnRowScreen(
+            scope = scope,
+            scaffoldState = scaffoldState,
+            navController = navController
+        )
+    }
+}
 
 @Composable
 fun ColumnRowScreen(
@@ -74,7 +92,7 @@ fun ColumnRowScreen(
                                     .padding(6.dp)
                                     .clickable {
                                         navController.navigate(
-                                            NavigationRoutes.DetailCharacter.createRoute(
+                                            Routes.DetailCharacter.createRoute(
                                                 character.id
                                             )
                                         )
@@ -121,7 +139,7 @@ fun ColumnRowScreen(
                                         .padding(4.dp)
                                         .clickable {
                                             navController.navigate(
-                                                NavigationRoutes.DetailCharacter.createRoute(
+                                                Routes.DetailCharacter.createRoute(
                                                     character.id
                                                 )
                                             )
