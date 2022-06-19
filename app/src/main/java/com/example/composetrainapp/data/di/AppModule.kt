@@ -2,7 +2,7 @@ package com.example.composetrainapp.data.di
 
 import com.example.composetrainapp.data.data_source.local.LocalDataSourceImpl
 import com.example.composetrainapp.data.data_source.remote.RemoteDataSourceImpl
-import com.example.composetrainapp.data.repository.RickAndAndMortyRepositoryImpl
+import com.example.composetrainapp.data.repository.RickAndMortyRepositoryImpl
 import com.example.composetrainapp.domain.data_source.local.LocalDataSource
 import com.example.composetrainapp.domain.data_source.remote.RemoteDataSource
 import com.example.composetrainapp.domain.repository.RickAndMortyRepository
@@ -26,5 +26,5 @@ abstract class AppModule {
 
     @Binds
     @Singleton
-    abstract fun bindRickMortyRepository(rickAndMortyRepositoryImpl: RickAndAndMortyRepositoryImpl): RickAndMortyRepository
+    abstract fun bindRickMortyRepository(rickAndMortyRepositoryImpl: RickAndMortyRepositoryImpl): RickAndMortyRepository
 }

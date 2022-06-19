@@ -13,7 +13,7 @@ data class UiState<T>(
     @Composable
     fun StateView(
         loadingView: (@Composable () -> Unit)?,
-        errorView: ((error: Throwable) -> Unit)?,
+        errorView: (@Composable (error: Throwable) -> Unit)?,
         successView: @Composable (data: T) -> Unit,
     ) {
         if (isLoading == LoadingState.LOADING) {

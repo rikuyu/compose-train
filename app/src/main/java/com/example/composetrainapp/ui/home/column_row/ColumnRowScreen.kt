@@ -1,10 +1,13 @@
-package com.example.composetrainapp.ui.home
+package com.example.composetrainapp.ui.home.column_row
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -61,6 +63,18 @@ fun ColumnRowScreen(
     val listState = rememberLazyListState()
     val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
 
+    LaunchedEffect(Unit) {
+        scope.launch { viewModel.getCharacters() }
+    }
+
+    if (state.error != null) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+            }
+        }
+    }
+
     Box {
         Column(
             modifier = Modifier
@@ -78,8 +92,16 @@ fun ColumnRowScreen(
                     }
                 },
                 errorView = {
-                    scope.launch {
-                        showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                    ) {
+                        TextButton(onClick = {
+                            scope.launch { viewModel.getCharacters() }
+                        }) {
+                            Text(text = "Retry")
+                        }
                     }
                 },
                 successView = {
@@ -165,7 +187,7 @@ fun ColumnRowScreen(
                                             AttributeIcons(character)
                                             Text(
                                                 text = character.name,
-                                                fontSize = 16.sp
+                                                style = MaterialTheme.typography.subtitle1
                                             )
                                         }
                                     }

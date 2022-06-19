@@ -1,6 +1,8 @@
 package com.example.composetrainapp.ui.utils
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.Composable
@@ -92,4 +94,9 @@ fun getBackgroundColor(genderType: String?) = when (genderType) {
     "Male" -> Color(0xFF82BDE9)
     "Female" -> Color(0xFFE982D2)
     else -> Color.LightGray
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        .show()
 }

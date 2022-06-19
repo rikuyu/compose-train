@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ComposeTrainApp</string>
+
+    <string name="no_favorite_items">いいねがありません</string>
+    <string name="num_favorite_items">いいね %d</string>
+    <string name="save_favorite_character">いいねしました</string>
+    <string name="delete_favorite_character">いいねから削除しました</string>
 </resources>

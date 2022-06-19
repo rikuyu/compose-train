@@ -24,4 +24,6 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun deleteCharacter(character: Character) {
         dao.delete(character)
     }
+
+    override suspend fun checkIsExistInFavorite(id: Int): Boolean = dao.checkIsExistInFavorite(id)
 }

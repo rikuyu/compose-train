@@ -20,9 +20,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composetrainapp.ui.detail.addDetail
-import com.example.composetrainapp.ui.home.addColumnRow
-import com.example.composetrainapp.ui.home.addFavorite
-import com.example.composetrainapp.ui.home.addGrid
+import com.example.composetrainapp.ui.home.column_row.addColumnRow
+import com.example.composetrainapp.ui.home.favorite.addFavorite
+import com.example.composetrainapp.ui.home.grid.addGrid
 import com.example.composetrainapp.ui.utils.CustomBottomNavigationBar
 import com.example.composetrainapp.ui.utils.Routes
 import com.example.composetrainapp.ui.utils.showSnackBar
@@ -101,7 +101,8 @@ fun TrainTopBar(
 
     if (screen == Routes.ColumnRow ||
         screen == Routes.Grid ||
-        screen == Routes.DetailCharacter
+        screen == Routes.DetailCharacter ||
+        screen == Routes.Favorite
     ) TopAppBar(
         title = {
             Text(text = screen.title ?: "")

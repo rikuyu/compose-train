@@ -14,4 +14,6 @@ interface RickAndMortyRepository {
     suspend fun insertCharacter(character: Character)
 
     suspend fun deleteCharacter(character: Character)
+
+    suspend fun checkIsExistInFavorite(id: Int): Boolean
 }

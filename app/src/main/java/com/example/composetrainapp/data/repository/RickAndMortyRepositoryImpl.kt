@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class RickAndAndMortyRepositoryImpl @Inject constructor(
+class RickAndMortyRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
 ) : RickAndMortyRepository {
@@ -33,4 +33,6 @@ class RickAndAndMortyRepositoryImpl @Inject constructor(
     override suspend fun deleteCharacter(character: Character) {
         localDataSource.deleteCharacter(character)
     }
+
+    override suspend fun checkIsExistInFavorite(id: Int): Boolean = localDataSource.checkIsExistInFavorite(id)
 }

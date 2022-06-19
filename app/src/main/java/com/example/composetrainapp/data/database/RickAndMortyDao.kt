@@ -1,15 +1,12 @@
 package com.example.composetrainapp.data.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.composetrainapp.domain.model.Character
 
 @Dao
 interface RickAndMortyDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(character: Character)
 
     @Delete
@@ -17,4 +14,7 @@ interface RickAndMortyDao {
 
     @Query("SELECT * FROM characters")
     fun getCharacterList(): List<Character>
+
+    @Query("SELECT EXISTS(SELECT * FROM characters WHERE id = :id)")
+    fun checkIsExistInFavorite(id: Int): Boolean
 }

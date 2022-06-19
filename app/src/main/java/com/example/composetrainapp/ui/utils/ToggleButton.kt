@@ -68,7 +68,7 @@ private fun Modifier.toggleButton(
         this
             .toggleable(
                 value = clicked,
-                onValueChange = onClickedChange,
+                onValueChange = { onClickedChange(!clicked) },
                 enabled = enabled,
                 role = Role.Checkbox,
                 interactionSource = interactionSource,

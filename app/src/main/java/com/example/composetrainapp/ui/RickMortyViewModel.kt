@@ -37,9 +37,12 @@ class RickMortyViewModel @Inject constructor(
     private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
     val favoriteCharacterState: StateFlow<UiState<List<Character>>> get() = _favoriteCharacterState
 
-    init {
-        getCharacters()
-    }
+//    val characterDetailState: StateFlow<UiState<DetailCharacter>> = combine(
+//        repository.getSpecificCharacter(id),
+//        repository.checkIsExistInFavorite(id)
+//    ){
+//
+//    }
 
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
         _characterListState.startLoading(loadingState)

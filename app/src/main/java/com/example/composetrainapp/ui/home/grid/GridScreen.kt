@@ -1,4 +1,4 @@
-package com.example.composetrainapp.ui.home
+package com.example.composetrainapp.ui.home.grid
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +18,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -70,6 +66,18 @@ fun GridScreen(
     val listState = rememberLazyGridState()
     val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
 
+    LaunchedEffect(Unit) {
+        scope.launch { viewModel.getCharacters() }
+    }
+
+    if (state.error != null) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+            }
+        }
+    }
+
     Box {
         state.StateView(
             loadingView = {
@@ -82,8 +90,16 @@ fun GridScreen(
                 }
             },
             errorView = {
-                scope.launch {
-                    showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center),
+                ) {
+                    TextButton(onClick = {
+                        scope.launch { viewModel.getCharacters() }
+                    }) {
+                        Text(text = "Retry")
+                    }
                 }
             }
         ) { characterList ->
@@ -189,7 +205,7 @@ fun HorizontalCharacterItem(
         )
         Text(
             text = character.name,
-            fontSize = 16.sp
+            style = MaterialTheme.typography.subtitle1
         )
     }
 }
@@ -218,7 +234,7 @@ fun VerticalCharacterItem(
         )
         Text(
             text = character.name,
-            fontSize = 16.sp
+            style = MaterialTheme.typography.subtitle1
         )
     }
 }

@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -67,8 +66,23 @@ fun DetailScreen(
     val state: UiState<Character> by viewModel.characterState.collectAsStateWithLifecycle()
     val color by viewModel.backgroundColor
     var isClicked by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.getSpecificCharacter(characterId) }
+
+    if (state.error != null) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                showSnackBarWithArg(
+                    scaffoldState,
+                    "Error",
+                    "retry",
+                    characterId,
+                    viewModel::getSpecificCharacter
+                )
+            }
+        }
+    }
 
     state.StateView(
         loadingView = {
@@ -81,14 +95,16 @@ fun DetailScreen(
             }
         },
         errorView = {
-            scope.launch {
-                showSnackBarWithArg(
-                    scaffoldState,
-                    "Error",
-                    "retry",
-                    characterId,
-                    viewModel::getSpecificCharacter
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+            ) {
+                TextButton(onClick = {
+                    scope.launch { viewModel.getCharacters() }
+                }) {
+                    Text(text = "Retry")
+                }
             }
         }
     ) { character ->
@@ -141,22 +157,27 @@ fun DetailScreen(
                             .align(Alignment.BottomEnd)
                             .padding(start = 12.dp)
                     ) {
-                        isClicked = !isClicked
-                        viewModel.onClickEvent(!isClicked, character)
+                        isClicked = it
+                        viewModel.onClickEvent(it, character)
+                        if (it) {
+                            context.showToast(context.getString(R.string.save_favorite_character))
+                        } else {
+                            context.showToast(context.getString(R.string.delete_favorite_character))
+                        }
                     }
                 }
-                ProfileSection("Name", character.name)
+                CharacterProfileSection("Name", character.name)
                 Spacer(modifier = Modifier.height(12.dp))
-                ProfileSection("Gender", character.gender)
+                CharacterProfileSection("Gender", character.gender)
                 Spacer(modifier = Modifier.height(12.dp))
-                ProfileSection("Speices", character.species)
+                CharacterProfileSection("Speices", character.species)
             }
         }
     }
 }
 
 @Composable
-fun ProfileSection(
+fun CharacterProfileSection(
     title: String,
     content: String,
 ) {
@@ -170,9 +191,9 @@ fun ProfileSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start
         ) {
-            Text(text = title, fontSize = 18.sp)
+            Text(text = title, style = MaterialTheme.typography.subtitle1)
         }
         Divider(modifier = Modifier.padding(horizontal = 12.dp))
-        Text(text = content, fontSize = 16.sp)
+        Text(text = content, style = MaterialTheme.typography.body2)
     }
 }

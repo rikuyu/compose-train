@@ -11,6 +11,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.composetrainapp.domain.model.Character
 import com.example.composetrainapp.ui.RickMortyViewModel
+import com.example.composetrainapp.ui.home.column_row.ColumnRowScreen
+import com.example.composetrainapp.ui.home.grid.GridScreen
 import com.example.composetrainapp.ui.utils.*
 import com.example.composetrainapp.ui.utils.Routes
 
