@@ -27,7 +27,8 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.domain.model.DetailCharacter
+import com.example.composetrainapp.ui.DetailUiState
 import com.example.composetrainapp.ui.RickMortyViewModel
 import com.example.composetrainapp.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
@@ -63,29 +64,27 @@ fun DetailScreen(
     scope: CoroutineScope,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
-    val state: UiState<Character> by viewModel.characterState.collectAsStateWithLifecycle()
+    val state: DetailUiState<DetailCharacter> by viewModel.characterDetailState.collectAsStateWithLifecycle()
     val color by viewModel.backgroundColor
-    var isClicked by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) { viewModel.getSpecificCharacter(characterId) }
+    LaunchedEffect(Unit) { viewModel.getDetail(characterId) }
 
-    if (state.error != null) {
-        LaunchedEffect(Unit) {
-            scope.launch {
-                showSnackBarWithArg(
-                    scaffoldState,
-                    "Error",
-                    "retry",
-                    characterId,
-                    viewModel::getSpecificCharacter
-                )
+    when (state) {
+        is DetailUiState.Error -> {
+            LaunchedEffect(Unit) {
+                scope.launch {
+                    showSnackBarWithArg(
+                        scaffoldState,
+                        (state as DetailUiState.Error<DetailCharacter>).exception.message ?: "error",
+                        "retry",
+                        characterId,
+                        viewModel::getDetail
+                    )
+                }
             }
         }
-    }
-
-    state.StateView(
-        loadingView = {
+        is DetailUiState.Loading -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -93,84 +92,72 @@ fun DetailScreen(
             ) {
                 CircularProgressIndicator()
             }
-        },
-        errorView = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-            ) {
-                TextButton(onClick = {
-                    scope.launch { viewModel.getCharacters() }
-                }) {
-                    Text(text = "Retry")
-                }
-            }
         }
-    ) { character ->
-        val scrollState = rememberScrollState(0)
-        Box(modifier = Modifier.fillMaxSize()) {
-            Spacer(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                color,
-                                MaterialTheme.colors.background
+        is DetailUiState.Success -> {
+            val scrollState = rememberScrollState(0)
+            val data = (state as DetailUiState.Success<DetailCharacter>).data
+            Box(modifier = Modifier.fillMaxSize()) {
+                Spacer(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    color,
+                                    MaterialTheme.colors.background
+                                )
                             )
                         )
-                    )
-            )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState)
-            ) {
-                Box(
+                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 30.dp, start = 80.dp, end = 80.dp, bottom = 12.dp)
+                        .verticalScroll(scrollState)
                 ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(character.image)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = null,
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop,
-                        placeholder = painterResource(id = R.drawable.place_holder)
-                    )
-                    ToggleButton(
-                        isClicked = isClicked,
-                        backgroundColor = Color.LightGray.copy(alpha = 0.3f),
-                        iconColor = Color(0xFFE13760),
-                        clickedIconVector = Icons.Default.Favorite,
-                        notClickedIconVector = Icons.Default.FavoriteBorder,
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(start = 12.dp)
+                            .padding(top = 30.dp, start = 80.dp, end = 80.dp, bottom = 12.dp)
                     ) {
-                        isClicked = it
-                        viewModel.onClickEvent(it, character)
-                        if (it) {
-                            context.showToast(context.getString(R.string.save_favorite_character))
-                        } else {
-                            context.showToast(context.getString(R.string.delete_favorite_character))
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(data.image)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop,
+                            placeholder = painterResource(id = R.drawable.place_holder)
+                        )
+                        ToggleButton(
+                            isClicked = data.isFavorite,
+                            backgroundColor = Color.LightGray.copy(alpha = 0.3f),
+                            iconColor = Color(0xFFE13760),
+                            clickedIconVector = Icons.Default.Favorite,
+                            notClickedIconVector = Icons.Default.FavoriteBorder,
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(start = 12.dp)
+                        ) {
+                            viewModel.onClickEvent(it, DetailCharacter.convertToCharacter(data))
+                            if (it) {
+                                context.showToast(context.getString(R.string.save_favorite_character))
+                            } else {
+                                context.showToast(context.getString(R.string.delete_favorite_character))
+                            }
                         }
                     }
+                    CharacterProfileSection("Name", data.name)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    CharacterProfileSection("Gender", data.gender)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    CharacterProfileSection("Spices", data.species)
                 }
-                CharacterProfileSection("Name", character.name)
-                Spacer(modifier = Modifier.height(12.dp))
-                CharacterProfileSection("Gender", character.gender)
-                Spacer(modifier = Modifier.height(12.dp))
-                CharacterProfileSection("Speices", character.species)
             }
         }
     }

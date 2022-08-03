@@ -104,9 +104,7 @@ fun TrainTopBar(
         screen == Routes.DetailCharacter ||
         screen == Routes.Favorite
     ) TopAppBar(
-        title = {
-            Text(text = screen.title ?: "")
-        },
+        title = { Text(text = screen.title ?: "") },
         navigationIcon = {
             if (screen == Routes.DetailCharacter) {
                 IconButton(onClick = { navController.popBackStack() }) {

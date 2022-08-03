@@ -61,7 +61,7 @@ fun FavoriteScreen(
     val state: UiState<List<Character>> by viewModel.favoriteCharacterState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
-    LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacters() } }
+    LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacterList() } }
 
     if (state.error != null) {
         LaunchedEffect(Unit) {
@@ -84,7 +84,7 @@ fun FavoriteScreen(
                     .wrapContentSize()
             ) {
                 TextButton(onClick = {
-                    scope.launch { viewModel.getFavoriteCharacters() }
+                    viewModel.getFavoriteCharacterList()
                 }) {
                     Text(text = "Retry")
                 }

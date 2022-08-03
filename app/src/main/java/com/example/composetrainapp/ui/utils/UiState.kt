@@ -2,6 +2,7 @@ package com.example.composetrainapp.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import com.example.composetrainapp.ui.DetailUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Stable
@@ -51,4 +52,13 @@ enum class LoadingState {
     LOADING,
     NOT_LOADING,
     REFRESHING,
+}
+
+fun <T> UiState<T>.convertState(): DetailUiState<T> {
+    return when {
+        isLoading == LoadingState.LOADING -> DetailUiState.Loading()
+        error != null -> DetailUiState.Error(error)
+        data != null -> DetailUiState.Success(data)
+        else -> DetailUiState.Error(Exception("unknown error"))
+    }
 }

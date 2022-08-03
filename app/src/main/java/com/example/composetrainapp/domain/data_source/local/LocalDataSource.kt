@@ -11,5 +11,5 @@ interface LocalDataSource {
 
     suspend fun deleteCharacter(character: Character)
 
-    suspend fun checkIsExistInFavorite(id: Int): Boolean
+    suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean>
 }

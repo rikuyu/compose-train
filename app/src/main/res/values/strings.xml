@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ComposeTrainApp</string>
+    <string name="app_name">TrainApp</string>
 
     <string name="no_favorite_items">いいねがありません</string>
     <string name="num_favorite_items">いいね %d</string>

@@ -16,7 +16,7 @@ data class Character(
     val species: String,
     val status: String,
     val type: String,
-    val url: String
+    val url: String,
 )
 
 data class DetailCharacter(
@@ -30,5 +30,34 @@ data class DetailCharacter(
     val status: String,
     val type: String,
     val url: String,
-    val isFavorite: Boolean
-)
+    val isFavorite: Boolean,
+) {
+    companion object {
+        fun convertToDetail(character: Character, isFavorite: Boolean): DetailCharacter = DetailCharacter(
+            id = character.id,
+            created = character.created,
+            episode = character.episode,
+            gender = character.gender,
+            image = character.image,
+            name = character.name,
+            species = character.species,
+            status = character.status,
+            type = character.type,
+            url = character.url,
+            isFavorite = isFavorite
+        )
+
+        fun convertToCharacter(character: DetailCharacter): Character = Character(
+            id = character.id,
+            created = character.created,
+            episode = character.episode,
+            gender = character.gender,
+            image = character.image,
+            name = character.name,
+            species = character.species,
+            status = character.status,
+            type = character.type,
+            url = character.url
+        )
+    }
+}

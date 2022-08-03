@@ -7,12 +7,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composetrainapp.domain.model.Character
+import com.example.composetrainapp.domain.model.DetailCharacter
 import com.example.composetrainapp.domain.repository.RickAndMortyRepository
 import com.example.composetrainapp.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,15 +20,8 @@ class RickMortyViewModel @Inject constructor(
     private val repository: RickAndMortyRepository,
 ) : ViewModel() {
 
-//    ☆ sealed class 使う例
-//    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
-//    val uiState: StateFlow<HomeUiState> get() = _uiState
-
     private val _characterListState = MutableStateFlow(UiState<List<Character>>())
     val characterListState: StateFlow<UiState<List<Character>>> get() = _characterListState
-
-    private val _characterState = MutableStateFlow(UiState<Character>())
-    val characterState: StateFlow<UiState<Character>> get() = _characterState
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
     val backgroundColor: State<Color> get() = _backgroundColor
@@ -37,12 +29,27 @@ class RickMortyViewModel @Inject constructor(
     private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
     val favoriteCharacterState: StateFlow<UiState<List<Character>>> get() = _favoriteCharacterState
 
-//    val characterDetailState: StateFlow<UiState<DetailCharacter>> = combine(
-//        repository.getSpecificCharacter(id),
-//        repository.checkIsExistInFavorite(id)
-//    ){
-//
-//    }
+    private val _characterState = MutableStateFlow(UiState<Character>())
+    private val _isExistInFavorite = MutableStateFlow(false)
+
+    val characterDetailState: StateFlow<DetailUiState<DetailCharacter>> = combine(
+        _characterState,
+        _isExistInFavorite
+    ) { remoteCharacterData, isExistInFavorite ->
+        return@combine when (val state = remoteCharacterData.convertState()) {
+            is DetailUiState.Loading -> DetailUiState.Loading()
+            is DetailUiState.Error -> DetailUiState.Error(state.exception)
+            is DetailUiState.Success -> {
+                DetailUiState.Success(
+                    DetailCharacter.convertToDetail(state.data, isExistInFavorite)
+                )
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = DetailUiState.Loading()
+    )
 
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
         _characterListState.startLoading(loadingState)
@@ -57,7 +64,7 @@ class RickMortyViewModel @Inject constructor(
         getCharacters(LoadingState.REFRESHING)
     }
 
-    fun getSpecificCharacter(id: Int) {
+    private fun getSpecificCharacter(id: Int) {
         _characterState.startLoading(LoadingState.LOADING)
         viewModelScope.launch {
             repository.getSpecificCharacter(id)
@@ -67,6 +74,19 @@ class RickMortyViewModel @Inject constructor(
                     _backgroundColor.value = getBackgroundColor(it.gender)
                 }
         }
+    }
+
+    private fun checkIsExistInFavorite(id: Int) {
+        viewModelScope.launch {
+            repository.checkIsExistInFavorite(id)
+                .catch { _isExistInFavorite.value = false }
+                .collect { _isExistInFavorite.value = it }
+        }
+    }
+
+    fun getDetail(id: Int) {
+        getSpecificCharacter(id)
+        checkIsExistInFavorite(id)
     }
 
     fun onClickEvent(isClicked: Boolean, character: Character) {
@@ -87,7 +107,7 @@ class RickMortyViewModel @Inject constructor(
         repository.deleteCharacter(character)
     }
 
-    suspend fun getFavoriteCharacters() {
+    fun getFavoriteCharacterList() {
         _favoriteCharacterState.startLoading(LoadingState.LOADING)
         viewModelScope.launch {
             repository.getFavoriteCharacterList()
@@ -95,28 +115,10 @@ class RickMortyViewModel @Inject constructor(
                 .collect { _favoriteCharacterState.handleData(it) }
         }
     }
-
-//    ☆ sealed class 使う例
-//    private suspend fun getCharacters() {
-//        repository.getCharacters().map<List<Character>, Result<List<Character>>> {
-//            Result.Success(it)
-//        }.onStart {
-//            Result.Loading
-//        }.catch {
-//            Result.Error(it)
-//        }.collect { result ->
-//            _uiState.value = when (result) {
-//                is Result.Loading -> HomeUiState.Loading
-//                is Result.Success -> HomeUiState.Success(result.data)
-//                is Result.Error -> HomeUiState.Error(result.exception)
-//            }
-//        }
-//    }
 }
 
-//    ☆ sealed class 使う例
-//    sealed interface HomeUiState {
-//        data class Success(val data: List<Character>) : HomeUiState
-//        data class Error(val exception: Throwable? = null) : HomeUiState
-//        object Loading : HomeUiState
-//    }
+sealed class DetailUiState<T> {
+    data class Success<T>(val data: T) : DetailUiState<T>()
+    data class Error<T>(val exception: Throwable) : DetailUiState<T>()
+    class Loading<T> : DetailUiState<T>()
+}

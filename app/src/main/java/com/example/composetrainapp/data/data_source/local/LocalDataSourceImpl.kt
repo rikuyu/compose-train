@@ -25,5 +25,5 @@ class LocalDataSourceImpl @Inject constructor(
         dao.delete(character)
     }
 
-    override suspend fun checkIsExistInFavorite(id: Int): Boolean = dao.checkIsExistInFavorite(id)
+    override suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean> = dao.checkIsExistInFavorite(id)
 }

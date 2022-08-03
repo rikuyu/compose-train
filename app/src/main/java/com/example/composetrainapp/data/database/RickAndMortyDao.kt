@@ -2,6 +2,7 @@ package com.example.composetrainapp.data.database
 
 import androidx.room.*
 import com.example.composetrainapp.domain.model.Character
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RickAndMortyDao {
@@ -16,5 +17,5 @@ interface RickAndMortyDao {
     fun getCharacterList(): List<Character>
 
     @Query("SELECT EXISTS(SELECT * FROM characters WHERE id = :id)")
-    fun checkIsExistInFavorite(id: Int): Boolean
+    fun checkIsExistInFavorite(id: Int): Flow<Boolean>
 }

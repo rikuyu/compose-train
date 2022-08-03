@@ -34,5 +34,5 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         localDataSource.deleteCharacter(character)
     }
 
-    override suspend fun checkIsExistInFavorite(id: Int): Boolean = localDataSource.checkIsExistInFavorite(id)
+    override suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean> = localDataSource.checkIsExistInFavorite(id)
 }
