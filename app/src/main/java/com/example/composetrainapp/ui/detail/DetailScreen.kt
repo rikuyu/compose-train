@@ -9,7 +9,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,7 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.composetrainapp.domain.model.DetailCharacter
-import com.example.composetrainapp.ui.DetailUiState
+import com.example.composetrainapp.ui.DetailState
 import com.example.composetrainapp.ui.RickMortyViewModel
 import com.example.composetrainapp.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
@@ -64,19 +66,19 @@ fun DetailScreen(
     scope: CoroutineScope,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
-    val state: DetailUiState<DetailCharacter> by viewModel.characterDetailState.collectAsStateWithLifecycle()
+    val state: DetailState<DetailCharacter> by viewModel.characterDetailState.collectAsStateWithLifecycle()
     val color by viewModel.backgroundColor
     val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.getDetail(characterId) }
 
     when (state) {
-        is DetailUiState.Error -> {
+        is DetailState.Error -> {
             LaunchedEffect(Unit) {
                 scope.launch {
                     showSnackBarWithArg(
                         scaffoldState,
-                        (state as DetailUiState.Error<DetailCharacter>).exception.message ?: "error",
+                        (state as DetailState.Error<DetailCharacter>).exception.message ?: "error",
                         "retry",
                         characterId,
                         viewModel::getDetail
@@ -84,7 +86,7 @@ fun DetailScreen(
                 }
             }
         }
-        is DetailUiState.Loading -> {
+        is DetailState.Loading -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -93,9 +95,9 @@ fun DetailScreen(
                 CircularProgressIndicator()
             }
         }
-        is DetailUiState.Success -> {
+        is DetailState.Success -> {
             val scrollState = rememberScrollState(0)
-            val data = (state as DetailUiState.Success<DetailCharacter>).data
+            val data = (state as DetailState.Success<DetailCharacter>).data
             Box(modifier = Modifier.fillMaxSize()) {
                 Spacer(
                     modifier = Modifier

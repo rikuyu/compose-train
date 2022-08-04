@@ -29,26 +29,29 @@ class RickMortyViewModel @Inject constructor(
     private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
     val favoriteCharacterState: StateFlow<UiState<List<Character>>> get() = _favoriteCharacterState
 
-    private val _characterState = MutableStateFlow(UiState<Character>())
-    private val _isExistInFavorite = MutableStateFlow(false)
+    private val _characterState: MutableStateFlow<DetailState<Character>> = MutableStateFlow(DetailState.Loading())
+    private val _isExistInFavorite: MutableStateFlow<DetailState<Boolean>> = MutableStateFlow(DetailState.Loading())
 
-    val characterDetailState: StateFlow<DetailUiState<DetailCharacter>> = combine(
+    val characterDetailState: StateFlow<DetailState<DetailCharacter>> = combine(
         _characterState,
         _isExistInFavorite
     ) { remoteCharacterData, isExistInFavorite ->
-        return@combine when (val state = remoteCharacterData.convertState()) {
-            is DetailUiState.Loading -> DetailUiState.Loading()
-            is DetailUiState.Error -> DetailUiState.Error(state.exception)
-            is DetailUiState.Success -> {
-                DetailUiState.Success(
-                    DetailCharacter.convertToDetail(state.data, isExistInFavorite)
-                )
-            }
+        val data = if (remoteCharacterData is DetailState.Loading || isExistInFavorite is DetailState.Loading) {
+            DetailState.Loading()
+        } else if (remoteCharacterData is DetailState.Error) {
+            DetailState.Error(remoteCharacterData.exception)
+        } else if (isExistInFavorite is DetailState.Error) {
+            DetailState.Error(isExistInFavorite.exception)
+        } else if (remoteCharacterData is DetailState.Success && isExistInFavorite is DetailState.Success) {
+            DetailState.Success(DetailCharacter.convertToDetail(remoteCharacterData.data, isExistInFavorite.data))
+        } else {
+            DetailState.Error(Exception("unknown error"))
         }
+        return@combine data
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = DetailUiState.Loading()
+        initialValue = DetailState.Loading()
     )
 
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
@@ -65,12 +68,11 @@ class RickMortyViewModel @Inject constructor(
     }
 
     private fun getSpecificCharacter(id: Int) {
-        _characterState.startLoading(LoadingState.LOADING)
         viewModelScope.launch {
             repository.getSpecificCharacter(id)
-                .catch { _characterState.handleError(it) }
+                .catch { _characterState.value = DetailState.Error(it) }
                 .collect {
-                    _characterState.handleData(it)
+                    _characterState.value = DetailState.Success(it)
                     _backgroundColor.value = getBackgroundColor(it.gender)
                 }
         }
@@ -79,8 +81,8 @@ class RickMortyViewModel @Inject constructor(
     private fun checkIsExistInFavorite(id: Int) {
         viewModelScope.launch {
             repository.checkIsExistInFavorite(id)
-                .catch { _isExistInFavorite.value = false }
-                .collect { _isExistInFavorite.value = it }
+                .catch { _isExistInFavorite.value = DetailState.Error(it) }
+                .collect { _isExistInFavorite.value = DetailState.Success(it) }
         }
     }
 
@@ -117,8 +119,8 @@ class RickMortyViewModel @Inject constructor(
     }
 }
 
-sealed class DetailUiState<T> {
-    data class Success<T>(val data: T) : DetailUiState<T>()
-    data class Error<T>(val exception: Throwable) : DetailUiState<T>()
-    class Loading<T> : DetailUiState<T>()
+sealed class DetailState<T> {
+    data class Success<T>(val data: T) : DetailState<T>()
+    data class Error<T>(val exception: Throwable) : DetailState<T>()
+    class Loading<T> : DetailState<T>()
 }
