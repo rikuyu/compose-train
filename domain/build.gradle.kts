@@ -19,8 +19,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -34,24 +36,14 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.compose.ui:ui:1.2.0-beta03")
-    implementation("androidx.compose.material:material:1.2.0-beta03")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-beta03")
-    implementation("com.google.android.material:material:1.6.1")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation(Deps.Kotlin.Coroutines.android)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation(Deps.AndroidX.Room.ktx)
+    implementation(Deps.AndroidX.Room.runtime)
+    kapt(Deps.AndroidX.Room.compiler)
 
-    implementation("androidx.room:room-ktx:2.4.2")
-    implementation("androidx.room:room-runtime:2.4.2")
-    kapt("androidx.room:room-compiler:2.4.2")
-
-    implementation("com.google.dagger:hilt-android:2.40")
-    kapt("com.google.dagger:hilt-android-compiler:2.40")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    implementation(Deps.Hilt.android)
+    kapt(Deps.Hilt.compiler)
+    implementation(Deps.AndroidX.Hilt.navigationCompose)
+    kapt(Deps.AndroidX.Hilt.compiler)
 }

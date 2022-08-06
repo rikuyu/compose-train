@@ -84,8 +84,8 @@ dependencies {
 
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)
-    kapt(Deps.AndroidX.Hilt.compiler)
     implementation(Deps.AndroidX.Hilt.navigationCompose)
+    kapt(Deps.AndroidX.Hilt.compiler)
 
     ktlint("com.pinterest:ktlint:0.45.2") {
         attributes {
