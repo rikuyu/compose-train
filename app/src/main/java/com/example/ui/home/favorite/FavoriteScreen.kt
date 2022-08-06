@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,10 +30,7 @@ import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.domain.model.Character
 import com.example.ui.RickMortyViewModel
-import com.example.ui.utils.Routes
-import com.example.ui.utils.UiState
-import com.example.ui.utils.collectAsStateWithLifecycle
-import com.example.ui.utils.showSnackBar
+import com.example.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -60,6 +59,7 @@ fun FavoriteScreen(
 ) {
     val state: UiState<List<Character>> by viewModel.favoriteCharacterState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacterList() } }
 
@@ -151,6 +151,17 @@ fun FavoriteScreen(
                                 overflow = TextOverflow.Ellipsis,
                             )
                             Spacer(modifier = Modifier.width(16.dp))
+                            ToggleButton(
+                                isClicked = true,
+                                backgroundColor = Color.LightGray.copy(alpha = 0.3f),
+                                iconColor = Color(0xFFFE4E98),
+                                clickedIconVector = Icons.Default.Favorite,
+                                notClickedIconVector = Icons.Default.FavoriteBorder,
+                            ) {
+                                viewModel.onClickHeartIconEvent(it, character, true)
+                                context.showToast(context.getString(R.string.delete_favorite_character))
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
                             Icon(Icons.Filled.ArrowForward, contentDescription = null, tint = Color.Gray)
                             Spacer(modifier = Modifier.width(8.dp))
                         }

@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ui.detail.addDetail
+import com.example.ui.home.detail.addDetail
 import com.example.ui.home.column_row.addColumnRow
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid

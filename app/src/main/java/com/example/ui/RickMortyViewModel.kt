@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.DetailCharacter
 import com.example.domain.model.Character
+import com.example.domain.model.DetailCharacter
 import com.example.domain.repository.RickAndMortyRepository
 import com.example.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,12 +91,13 @@ class RickMortyViewModel @Inject constructor(
         checkIsExistInFavorite(id)
     }
 
-    fun onClickEvent(isClicked: Boolean, character: Character) {
+    fun onClickHeartIconEvent(isClicked: Boolean, character: Character, isFavoriteScreen: Boolean = false) {
         viewModelScope.launch {
             if (isClicked) {
                 addFavoriteCharacter(character)
             } else {
                 deleteFavoriteCharacter(character)
+                if (isFavoriteScreen) getFavoriteCharacterList()
             }
         }
     }
