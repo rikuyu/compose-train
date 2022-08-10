@@ -70,6 +70,8 @@ dependencies {
 
     implementation(Deps.Kotlin.Coroutines.android)
 
+    implementation(Deps.Material.composeMaterial3)
+
     implementation(Deps.Accompanist.placeholder)
     implementation(Deps.Accompanist.swipeRefresh)
 

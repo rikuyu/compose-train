@@ -50,6 +50,7 @@ object Deps {
     object Material {
         const val core = "com.google.android.material:material:1.6.1"
         // const val composeThemeAdapter = "com.google.android.material:compose-theme-adapter:1.1.14"
+        const val composeMaterial3 = "androidx.compose.material3:material3:1.0.0-alpha14"
     }
 
     object Hilt {

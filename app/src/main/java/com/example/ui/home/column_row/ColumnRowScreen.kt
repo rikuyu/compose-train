@@ -28,7 +28,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.domain.model.Character
-import com.example.ui.RickMortyViewModel
+import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.*
 import com.example.ui.utils.theme.Purple200
 import com.google.accompanist.swiperefresh.SwipeRefresh

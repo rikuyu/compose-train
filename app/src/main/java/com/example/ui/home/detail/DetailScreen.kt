@@ -30,8 +30,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.domain.model.DetailCharacter
-import com.example.ui.DetailState
-import com.example.ui.RickMortyViewModel
+import com.example.ui.home.DetailState
+import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

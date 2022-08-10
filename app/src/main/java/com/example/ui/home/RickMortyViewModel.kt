@@ -1,4 +1,4 @@
-package com.example.ui
+package com.example.ui.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State

@@ -19,10 +19,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ui.home.detail.addDetail
 import com.example.ui.home.column_row.addColumnRow
+import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
+import com.example.ui.todo.addTodo
 import com.example.ui.utils.CustomBottomNavigationBar
 import com.example.ui.utils.Routes
 import com.example.ui.utils.showSnackBar
@@ -64,15 +65,7 @@ class MainActivity : ComponentActivity() {
                                 screen = Routes.Favorite
                             }
                             addDetail(scope, scaffoldState) { screen = Routes.DetailCharacter }
-                            composable(route = Routes.Todo.route) {
-                                screen = Routes.Todo
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Red)
-                                ) {
-                                }
-                            }
+                            addTodo { screen = Routes.Todo }
                             composable(route = Routes.Profile.route) {
                                 screen = Routes.Profile
                                 Column(
@@ -102,7 +95,8 @@ fun TrainTopBar(
     if (screen == Routes.ColumnRow ||
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
-        screen == Routes.Favorite
+        screen == Routes.Favorite ||
+        screen == Routes.Todo
     ) TopAppBar(
         title = { Text(text = screen.title ?: "") },
         navigationIcon = {
