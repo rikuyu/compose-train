@@ -8,8 +8,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Routes(val route: String, val title: String? = null) {
 
-    object Home : Routes("home")
-
     object ColumnRow : Routes("colrow", "Home")
 
     object Grid : Routes("grid", "Home")
@@ -23,8 +21,6 @@ sealed class Routes(val route: String, val title: String? = null) {
     }
 
     object Todo : Routes("todo")
-
-    object EditProfile : Routes("edit_profile")
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {

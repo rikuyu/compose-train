@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +21,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ui.detail.addDetail
 import com.example.ui.home.column_row.addColumnRow
+import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
+import com.example.ui.todo.addTodo
 import com.example.ui.utils.CustomBottomNavigationBar
 import com.example.ui.utils.Routes
 import com.example.ui.utils.showSnackBar
@@ -45,11 +48,10 @@ class MainActivity : ComponentActivity() {
                 val scaffoldState = rememberScaffoldState()
 
                 Scaffold(
-                    topBar = {
-                        TrainTopBar(screen, navController, scaffoldState, scope)
-                    },
+                    topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
                     scaffoldState = scaffoldState,
-                    bottomBar = { CustomBottomNavigationBar(navController = navController) }
+                    bottomBar = { CustomBottomNavigationBar(navController = navController) },
+                    floatingActionButton = { TrainFloatingActionButton(screen) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
@@ -64,15 +66,7 @@ class MainActivity : ComponentActivity() {
                                 screen = Routes.Favorite
                             }
                             addDetail(scope, scaffoldState) { screen = Routes.DetailCharacter }
-                            composable(route = Routes.Todo.route) {
-                                screen = Routes.Todo
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Red)
-                                ) {
-                                }
-                            }
+                            addTodo { screen = Routes.Todo }
                             composable(route = Routes.Profile.route) {
                                 screen = Routes.Profile
                                 Column(
@@ -154,4 +148,16 @@ fun TrainTopBar(
             }
         }
     )
+}
+
+@Composable
+fun TrainFloatingActionButton(screen: Routes) {
+
+    if (screen == Routes.Todo
+    ) FloatingActionButton(
+        onClick = { /* Todo */ },
+        backgroundColor = MaterialTheme.colorScheme.primaryContainer
+    ) {
+        Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
+    }
 }

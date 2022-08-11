@@ -50,11 +50,13 @@ object Deps {
     object Material {
         const val core = "com.google.android.material:material:1.6.1"
         // const val composeThemeAdapter = "com.google.android.material:compose-theme-adapter:1.1.14"
+        const val composeMaterial3 = "androidx.compose.material3:material3:1.0.0-alpha14"
     }
 
     object Hilt {
         const val android = "com.google.dagger:hilt-android:2.40"
         const val compiler = "com.google.dagger:hilt-android-compiler:2.40"
+        const val hiltAndroidGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:2.39.1"
     }
 
     object Coil {
@@ -69,7 +71,7 @@ object Deps {
     }
 
     object Kotlin {
-        const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10"
+        const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
 
         object Coroutines {
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
@@ -94,5 +96,14 @@ object Deps {
         const val truth = "com.google.truth:truth:1.1.3"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
         const val mockk = "io.mockk:mockk:1.12.5"
+    }
+
+    object Firebase {
+        const val googleServices = "com.google.gms:google-services:4.3.13"
+        const val bom = "com.google.firebase:firebase-bom:30.3.2"
+    }
+
+    object Gradle {
+        const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
     }
 }

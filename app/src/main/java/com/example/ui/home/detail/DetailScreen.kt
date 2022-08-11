@@ -1,4 +1,4 @@
-package com.example.ui.detail
+package com.example.ui.home.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -30,10 +30,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.domain.model.DetailCharacter
-import com.example.ui.DetailState
-import com.example.ui.RickMortyViewModel
+import com.example.ui.home.DetailState
+import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.*
-import com.example.domain.model.Character
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -140,14 +139,14 @@ fun DetailScreen(
                         ToggleButton(
                             isClicked = data.isFavorite,
                             backgroundColor = Color.LightGray.copy(alpha = 0.3f),
-                            iconColor = Color(0xFFE13760),
+                            iconColor = Color(0xFFFE4E98),
                             clickedIconVector = Icons.Default.Favorite,
                             notClickedIconVector = Icons.Default.FavoriteBorder,
                             modifier = Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(start = 12.dp)
                         ) {
-                            viewModel.onClickEvent(it, DetailCharacter.convertToCharacter(data))
+                            viewModel.onClickHeartIconEvent(it, DetailCharacter.convertToCharacter(data))
                             if (it) {
                                 context.showToast(context.getString(R.string.save_favorite_character))
                             } else {
@@ -181,9 +180,9 @@ fun CharacterProfileSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start
         ) {
-            Text(text = title, style = MaterialTheme.typography.subtitle1)
+            Text(text = title, style = MaterialTheme.typography.h6)
         }
-        Divider(modifier = Modifier.padding(horizontal = 12.dp))
-        Text(text = content, style = MaterialTheme.typography.body2)
+        Divider()
+        Text(text = content, style = MaterialTheme.typography.body1)
     }
 }

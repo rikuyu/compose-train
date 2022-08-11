@@ -15,6 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.composetrainapp.R
 import kotlinx.coroutines.flow.StateFlow
+import java.util.regex.Pattern
 
 @Composable
 fun <T> StateFlow<T>.collectAsStateWithLifecycle(
@@ -100,3 +101,7 @@ fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT)
         .show()
 }
+
+private const val EMAIL_VALIDATION_REGEX = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+$"
+
+fun checkIsEmailValid(email: String) = Pattern.matches(EMAIL_VALIDATION_REGEX, email)

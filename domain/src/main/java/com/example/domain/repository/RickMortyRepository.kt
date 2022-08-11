@@ -3,7 +3,7 @@ package com.example.domain.repository
 import com.example.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
-interface RickAndMortyRepository {
+interface RickMortyRepository {
 
     suspend fun getCharacterList(): Flow<List<Character>>
 

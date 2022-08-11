@@ -25,13 +25,13 @@ import androidx.navigation.compose.composable
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.ui.RickMortyViewModel
+import com.example.domain.model.Character
+import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
 import com.example.ui.utils.UiState
 import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.showSnackBar
 import com.example.ui.utils.theme.Purple200
-import com.example.domain.model.Character
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +65,7 @@ fun GridScreen(
     val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
     val listState = rememberLazyGridState()
     val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
+    var gridNum by remember { mutableStateOf(2) }
 
     LaunchedEffect(Unit) {
         scope.launch { viewModel.getCharacters() }
@@ -105,7 +106,7 @@ fun GridScreen(
         ) { characterList ->
             Column(verticalArrangement = Arrangement.Top) {
                 LazyHorizontalGrid(
-                    rows = GridCells.Fixed(3),
+                    rows = GridCells.Fixed(gridNum),
                     modifier = modifier.height(150.dp),
                     contentPadding = PaddingValues(
                         start = 8.dp,
@@ -125,7 +126,7 @@ fun GridScreen(
                 ) {
                     LazyVerticalGrid(
                         state = listState,
-                        columns = GridCells.Fixed(2),
+                        columns = GridCells.Fixed(gridNum),
                         contentPadding = PaddingValues(
                             start = 16.dp,
                             end = 16.dp,
@@ -134,7 +135,7 @@ fun GridScreen(
                         ),
                         modifier = modifier,
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         itemsIndexed(
                             items = characterList,
@@ -155,18 +156,35 @@ fun GridScreen(
                 }
             }
         }
-        AnimatedVisibility(
-            visible = isShowButton,
-            modifier = Modifier.align(alignment = Alignment.BottomEnd)
-        ) {
+        Column(modifier = Modifier.align(alignment = Alignment.BottomEnd).padding(12.dp)) {
+            AnimatedVisibility(visible = isShowButton) {
+                IconButton(
+                    onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .background(color = Purple200, shape = CircleShape)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_upward),
+                        contentDescription = null, tint = Color.White
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             IconButton(
-                onClick = { scope.launch { listState.animateScrollToItem(0) } },
+                onClick = {
+                    gridNum = if (gridNum == 2) {
+                        3
+                    } else {
+                        2
+                    }
+                },
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(10.dp)
                     .background(color = Purple200, shape = CircleShape)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_upward),
+                    painter = painterResource(id = R.drawable.ic_refresh),
                     contentDescription = null, tint = Color.White
                 )
             }

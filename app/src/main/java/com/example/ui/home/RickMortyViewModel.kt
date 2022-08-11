@@ -1,4 +1,4 @@
-package com.example.ui
+package com.example.ui.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.DetailCharacter
 import com.example.domain.model.Character
-import com.example.domain.repository.RickAndMortyRepository
+import com.example.domain.model.DetailCharacter
+import com.example.domain.repository.RickMortyRepository
 import com.example.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RickMortyViewModel @Inject constructor(
-    private val repository: RickAndMortyRepository,
+    private val repository: RickMortyRepository,
 ) : ViewModel() {
 
     private val _characterListState = MutableStateFlow(UiState<List<Character>>())
@@ -91,12 +91,13 @@ class RickMortyViewModel @Inject constructor(
         checkIsExistInFavorite(id)
     }
 
-    fun onClickEvent(isClicked: Boolean, character: Character) {
+    fun onClickHeartIconEvent(isClicked: Boolean, character: Character, isFavoriteScreen: Boolean = false) {
         viewModelScope.launch {
             if (isClicked) {
                 addFavoriteCharacter(character)
             } else {
                 deleteFavoriteCharacter(character)
+                if (isFavoriteScreen) getFavoriteCharacterList()
             }
         }
     }
