@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.Character
 import com.example.domain.model.DetailCharacter
-import com.example.domain.repository.RickAndMortyRepository
+import com.example.domain.repository.RickMortyRepository
 import com.example.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RickMortyViewModel @Inject constructor(
-    private val repository: RickAndMortyRepository,
+    private val repository: RickMortyRepository,
 ) : ViewModel() {
 
     private val _characterListState = MutableStateFlow(UiState<List<Character>>())

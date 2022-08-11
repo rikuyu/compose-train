@@ -2,14 +2,17 @@ package com.example.ui.todo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -18,21 +21,19 @@ import com.example.domain.model.Todo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoListItem(
-    modifier: Modifier = Modifier,
-    todo: Todo,
-) {
+fun TodoListItem(todo: Todo) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        modifier = Modifier.clickable { /*TODO*/ }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Image(
-                    modifier = modifier
+                    modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape),
                     painter = painterResource(id = R.drawable.ic_refresh),
@@ -61,9 +62,22 @@ fun TodoListItem(
                         .background(MaterialTheme.colorScheme.surface)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Star",
-                        tint = MaterialTheme.colorScheme.outline
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = null,
+                        tint = Color(0xFF23DC73)
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        tint = Color(0xFFFF8095)
                     )
                 }
             }

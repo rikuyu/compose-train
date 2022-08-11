@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,11 +48,10 @@ class MainActivity : ComponentActivity() {
                 val scaffoldState = rememberScaffoldState()
 
                 Scaffold(
-                    topBar = {
-                        TrainTopBar(screen, navController, scaffoldState, scope)
-                    },
+                    topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
                     scaffoldState = scaffoldState,
-                    bottomBar = { CustomBottomNavigationBar(navController = navController) }
+                    bottomBar = { CustomBottomNavigationBar(navController = navController) },
+                    floatingActionButton = { TrainFloatingActionButton(screen) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
@@ -95,8 +96,7 @@ fun TrainTopBar(
     if (screen == Routes.ColumnRow ||
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
-        screen == Routes.Favorite ||
-        screen == Routes.Todo
+        screen == Routes.Favorite
     ) TopAppBar(
         title = { Text(text = screen.title ?: "") },
         navigationIcon = {
@@ -148,4 +148,16 @@ fun TrainTopBar(
             }
         }
     )
+}
+
+@Composable
+fun TrainFloatingActionButton(screen: Routes) {
+
+    if (screen == Routes.Todo
+    ) FloatingActionButton(
+        onClick = { /* Todo */ },
+        backgroundColor = MaterialTheme.colorScheme.primaryContainer
+    ) {
+        Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
+    }
 }

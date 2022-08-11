@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -88,6 +89,8 @@ dependencies {
     kapt(Deps.Hilt.compiler)
     kapt(Deps.AndroidX.Hilt.compiler)
     implementation(Deps.AndroidX.Hilt.navigationCompose)
+
+    implementation(Deps.Firebase.bom)
 
     ktlint("com.pinterest:ktlint:0.45.2") {
         attributes {

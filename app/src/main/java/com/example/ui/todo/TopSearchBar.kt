@@ -3,27 +3,27 @@ package com.example.ui.todo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.ui.utils.checkIsEmailValid
 
 @Composable
-fun TopSearchBar(modifier: Modifier = Modifier) {
-
-    var text by remember { mutableStateOf("") }
+fun TopSearchBar(
+    modifier: Modifier = Modifier,
+    query: String,
+    changeQuery: (String) -> Unit,
+) {
     var isEmailValid by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = text,
+        value = query,
         onValueChange = {
-            text = it
-            isEmailValid = !checkIsEmailValid(text)
+            isEmailValid = !checkIsEmailValid(it)
+            changeQuery(it)
         },
         label = {
             Text(
@@ -33,21 +33,9 @@ fun TopSearchBar(modifier: Modifier = Modifier) {
         },
         singleLine = true,
         modifier = modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.h5,
+        textStyle = MaterialTheme.typography.body1,
         isError = isEmailValid,
     )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.h5
-        )
-    }
     if (isEmailValid) {
         Row(
             modifier = Modifier.fillMaxWidth(),

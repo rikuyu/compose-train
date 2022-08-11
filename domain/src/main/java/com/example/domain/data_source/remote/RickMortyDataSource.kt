@@ -2,7 +2,7 @@ package com.example.domain.data_source.remote
 
 import com.example.domain.model.Character
 
-interface RemoteDataSource {
+interface RickMortyDataSource {
 
     suspend fun getCharacters(): List<Character>
 

@@ -1,26 +1,26 @@
 package com.example.data.repository
 
 import com.example.domain.data_source.local.LocalDataSource
-import com.example.domain.data_source.remote.RemoteDataSource
+import com.example.domain.data_source.remote.RickMortyDataSource
 import com.example.domain.model.Character
-import com.example.domain.repository.RickAndMortyRepository
+import com.example.domain.repository.RickMortyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class RickAndMortyRepositoryImpl @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
+class RickMortyRepositoryImpl @Inject constructor(
+    private val rickMortyDataSource: RickMortyDataSource,
     private val localDataSource: LocalDataSource,
-) : RickAndMortyRepository {
+) : RickMortyRepository {
 
     override suspend fun getCharacterList(): Flow<List<Character>> = flow {
-        emit(remoteDataSource.getCharacters())
+        emit(rickMortyDataSource.getCharacters())
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getSpecificCharacter(id: Int): Flow<Character> = flow {
-        emit(remoteDataSource.getSpecificCharacter(id))
+        emit(rickMortyDataSource.getSpecificCharacter(id))
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getFavoriteCharacterList(): Flow<List<Character>> =
