@@ -105,4 +105,6 @@ object Deps {
     object Gradle {
         const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
     }
+
+    const val ktlint = "com.pinterest:ktlint:0.45.2"
 }

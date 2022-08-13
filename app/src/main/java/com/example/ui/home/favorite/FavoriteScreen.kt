@@ -78,18 +78,18 @@ fun FavoriteScreen(
             CircularProgressIndicator()
         }
     }, errorView = {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize()
-        ) {
-            TextButton(onClick = {
-                viewModel.getFavoriteCharacterList()
-            }) {
-                Text(text = "Retry")
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize()
+            ) {
+                TextButton(onClick = {
+                    viewModel.getFavoriteCharacterList()
+                }) {
+                    Text(text = "Retry")
+                }
             }
-        }
-    }) { list ->
+        }) { list ->
         if (list.isEmpty()) {
             Box(
                 modifier = Modifier

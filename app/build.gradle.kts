@@ -1,3 +1,5 @@
+import dependencies.*
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -68,27 +70,17 @@ dependencies {
 
     implementation(Deps.Material.composeMaterial3)
 
-    implementation(Deps.Accompanist.placeholder)
-    implementation(Deps.Accompanist.swipeRefresh)
+    accompanist()
 
-    implementation(Deps.Ktor.core)
-    implementation(Deps.Ktor.cio)
-    implementation(Deps.Ktor.contentNegotiation)
-    implementation(Deps.Ktor.serializationGson)
+    ktor()
 
-    implementation(Deps.AndroidX.Room.ktx)
-    implementation(Deps.AndroidX.Room.runtime)
-    kapt(Deps.AndroidX.Room.compiler)
+    room()
 
-    implementation(Deps.Hilt.android)
-    kapt(Deps.Hilt.compiler)
-    implementation(Deps.AndroidX.Hilt.navigationCompose)
-    kapt(Deps.AndroidX.Hilt.compiler)
+    daggarHilt()
 
-    implementation(platform(Deps.Firebase.bom))
-    implementation(Deps.Firebase.fireStore)
+    firebase()
 
-    ktlint("com.pinterest:ktlint:0.45.2") {
+    ktlint(Deps.ktlint) {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
         }
@@ -99,27 +91,9 @@ val outputDir = "${project.buildDir}/reports/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
 val ktlintCheck by tasks.creating(JavaExec::class) {
-    inputs.files(inputFiles)
-    outputs.dir(outputDir)
-
-    description = "Check Kotlin code style."
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("--android",
-            "--color",
-            "--reporter=plain",
-            "--reporter=checkstyle,output=${buildDir}/reports/ktlint-result.xml",
-            "src/**/*.kt")
-    isIgnoreExitValue = true
+    ktlintArgs(inputFiles, outputDir, ktlint, buildDir)
 }
 
 val ktlintFormat by tasks.creating(JavaExec::class) {
-    inputs.files(inputFiles)
-    outputs.dir(outputDir)
-
-    description = "Fix Kotlin code style deviations."
-    classpath = ktlint
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("-F", "src/**/*.kt")
-    isIgnoreExitValue = true
+    ktFormatArgs(inputFiles, outputDir, ktlint)
 }
