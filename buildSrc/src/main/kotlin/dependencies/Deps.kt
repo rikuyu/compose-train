@@ -37,9 +37,10 @@ object Deps {
         }
 
         object Compose {
-            const val ui = "androidx.compose.ui:ui:1.2.0"
-            const val uiTooling = "androidx.compose.ui:ui-tooling:1.2.0"
-            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:1.2.0"
+            const val composeVersion = "1.2.0-rc02"
+            const val ui = "androidx.compose.ui:ui:$composeVersion"
+            const val uiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
+            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
 
             // const val foundation = "androidx.compose.foundation:foundation:1.2.0"
             const val material = "androidx.compose.material:material:1.2.0"
@@ -71,14 +72,11 @@ object Deps {
     }
 
     object Kotlin {
-        const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
 
         object Coroutines {
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-            const val reactive = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.6.4"
-
             // const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
         }
     }
@@ -101,6 +99,7 @@ object Deps {
     object Firebase {
         const val googleServices = "com.google.gms:google-services:4.3.13"
         const val bom = "com.google.firebase:firebase-bom:30.3.2"
+        const val fireStore = "com.google.firebase:firebase-firestore-ktx"
     }
 
     object Gradle {

@@ -19,14 +19,18 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
     @Binds
+    @Singleton
     abstract fun bindRemoteDataSource(rickMortyDataSourceImpl: RickMortyDataSourceImpl): RickMortyDataSource
 
     @Binds
+    @Singleton
     abstract fun bindLocalDataSource(localDataSourceImpl: LocalDataSourceImpl): LocalDataSource
 
     @Binds
+    @Singleton
     abstract fun bindRickMortyRepository(rickAndMortyRepositoryImpl: RickMortyRepositoryImpl): RickMortyRepository
 
     @Binds
+    @Singleton
     abstract fun bindFirebaseRepository(firebaseRepositoryImpl: FirebaseRepositoryImpl): FirebaseRepository
 }

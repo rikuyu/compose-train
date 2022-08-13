@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath(Deps.Gradle.androidGradlePlugin)
-        classpath(Deps.Kotlin.gradlePlugin)
+        classpath(Deps.Kotlin.kotlin)
         classpath(Deps.Hilt.hiltAndroidGradlePlugin)
         classpath(Deps.Firebase.googleServices)
     }

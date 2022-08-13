@@ -1,18 +1,18 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
 }
 
 android {
     compileSdk = Versions.compileSdkVersion
 
     defaultConfig {
-        applicationId = Versions.applicationId
         minSdk = Versions.minSdkVersion
         targetSdk = Versions.targetSdkVersion
+        applicationId = Versions.applicationId
         versionCode = Versions.versionCode
         versionName = Versions.versionName
 
@@ -32,19 +32,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.composeVersion
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-beta03"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
@@ -90,7 +85,8 @@ dependencies {
     implementation(Deps.AndroidX.Hilt.navigationCompose)
     kapt(Deps.AndroidX.Hilt.compiler)
 
-    implementation(Deps.Firebase.bom)
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.fireStore)
 
     ktlint("com.pinterest:ktlint:0.45.2") {
         attributes {
