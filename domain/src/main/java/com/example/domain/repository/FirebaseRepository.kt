@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.model.Todo
+import com.example.data.utils.Result
 
 interface FirebaseRepository {
 
@@ -8,9 +9,9 @@ interface FirebaseRepository {
 
     suspend fun getTodo(id: Long): Result<Todo>
 
-    suspend fun addTodo(todo: Todo): Result<Nothing>
+    suspend fun addTodo(todo: Todo): Result<String>
 
-    suspend fun updateTodo(id: Long, title: String, body: String): Result<Nothing>
+    suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String>
 
-    suspend fun deleteTodo(id: Long): Result<Nothing>
+    suspend fun deleteTodo(id: Long): Result<String>
 }

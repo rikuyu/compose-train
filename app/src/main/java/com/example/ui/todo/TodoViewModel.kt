@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.Author
 import com.example.domain.model.Todo
+import com.example.domain.model.Todo.Companion.toMap
 import com.example.domain.repository.FirebaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoViewModel @Inject constructor(
-    private val repository: FirebaseRepository
+    private val repository: FirebaseRepository,
 ) : ViewModel() {
 
     private val _todos: MutableStateFlow<List<Todo>> = MutableStateFlow(emptyList())
@@ -23,6 +24,7 @@ class TodoViewModel @Inject constructor(
         list.forEach {
             Log.d("AAAAAAAAA", "id ${it.id} title ${it.title}")
         }
+        list.first().toMap()
     }
 
     fun getFilteredList(query: String) {
@@ -39,6 +41,7 @@ private val list = listOf(
         body = "部屋をきれいにする",
         author = Author(1, "Takashi", "1 image"),
         createdAt = "2022/11/11",
+        updateAt = "2022/11/11",
         isImportant = false,
     ),
     Todo(
@@ -47,6 +50,7 @@ private val list = listOf(
         body = "がんばって○○を学ぶ",
         author = Author(2, "Ken", "2 image"),
         createdAt = "2022/10/08",
+        updateAt = "2022/10/08",
         isImportant = true,
     ),
     Todo(
@@ -55,6 +59,7 @@ private val list = listOf(
         body = "スーパーに野菜と肉を買いに行く",
         author = Author(3, "Sakura", "3 image"),
         createdAt = "2022/04/23",
+        updateAt = "2022/04/23",
         isImportant = false,
     ),
     Todo(
@@ -63,6 +68,7 @@ private val list = listOf(
         body = "夜食の作り置きを用意する",
         author = Author(4, "Nao", "4 image"),
         createdAt = "2022/12/01",
+        updateAt = "2022/12/01",
         isImportant = true,
     ),
     Todo(
@@ -71,6 +77,7 @@ private val list = listOf(
         body = "天気が良いのでまとめて選択する",
         author = Author(5, "Ami", "5 image"),
         createdAt = "2022/05/15",
+        updateAt = "2022/05/15",
         isImportant = false,
     ),
     Todo(
@@ -79,6 +86,7 @@ private val list = listOf(
         body = "技術書をたくさん読む",
         author = Author(2, "Ken", "2 image"),
         createdAt = "2022/05/15",
+        updateAt = "2022/05/15",
         isImportant = false,
     ),
     Todo(
@@ -87,6 +95,7 @@ private val list = listOf(
         body = "水垢をとる",
         author = Author(5, "Ami", "5 image"),
         createdAt = "2022/05/16",
+        updateAt = "2022/05/16",
         isImportant = false,
     ),
     Todo(
@@ -95,6 +104,7 @@ private val list = listOf(
         body = "水垢をとる",
         author = Author(5, "Ami", "5 image"),
         createdAt = "2022/05/16",
+        updateAt = "2022/05/16",
         isImportant = false,
     ),
     Todo(
@@ -103,6 +113,7 @@ private val list = listOf(
         body = "お気に入りの靴をきれいにする",
         author = Author(2, "Ken", "2 image"),
         createdAt = "2022/05/16",
+        updateAt = "2022/05/16",
         isImportant = false,
     ),
 )

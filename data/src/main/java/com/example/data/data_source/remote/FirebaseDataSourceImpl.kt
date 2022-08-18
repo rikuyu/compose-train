@@ -43,15 +43,14 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         return result
     }
 
-    override suspend fun updateTodo(id: Long, title: String, body: String): Result<String> {
-//        var result: Result<String> = Result.Loading
-//        firestore.collection(TODO_COLLECTION)
-//            .document(id.toString())
-//            .update()
-//            .addOnSuccessListener { result = Result.Success(MESSAGE_SUCCESS) }
-//            .addOnFailureListener { result = Result.Error(it) }
-//        return result
-        return Result.Loading
+    override suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String> {
+        var result: Result<String> = Result.Loading
+        firestore.collection(TODO_COLLECTION)
+            .document(id.toString())
+            .update(todo)
+            .addOnSuccessListener { result = Result.Success(MESSAGE_SUCCESS) }
+            .addOnFailureListener { result = Result.Error(it) }
+        return result
     }
 
     override suspend fun deleteTodo(id: Long): Result<String> {

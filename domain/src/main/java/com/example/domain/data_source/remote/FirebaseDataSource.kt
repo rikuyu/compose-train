@@ -11,7 +11,7 @@ interface FirebaseDataSource {
 
     suspend fun addTodo(todo: Todo): Result<String>
 
-    suspend fun updateTodo(id: Long, title: String, body: String): Result<String>
+    suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String>
 
     suspend fun deleteTodo(id: Long): Result<String>
 }
