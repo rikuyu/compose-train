@@ -10,7 +10,12 @@ val ktlint by configurations.creating
 
 dependencies {
 
+    implementation(project(path = ":data"))
+
     implementation(Deps.Kotlin.Coroutines.android)
+
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.fireStore)
 
     room()
 

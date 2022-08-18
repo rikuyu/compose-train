@@ -1,5 +1,6 @@
 package com.example.ui.todo
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.Author
 import com.example.domain.model.Todo
@@ -19,6 +20,9 @@ class TodoViewModel @Inject constructor(
 
     init {
         _todos.value = list
+        list.forEach {
+            Log.d("AAAAAAAAA", "id ${it.id} title ${it.title}")
+        }
     }
 
     fun getFilteredList(query: String) {

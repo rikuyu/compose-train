@@ -14,6 +14,9 @@ dependencies {
 
     implementation(Deps.Kotlin.Coroutines.android)
 
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.fireStore)
+
     ktor()
 
     room()

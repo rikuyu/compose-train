@@ -19,11 +19,6 @@ fun DependencyHandler.room() {
     kapt(Deps.AndroidX.Room.compiler)
 }
 
-fun DependencyHandler.firebase() {
-    implementation(platform(Deps.Firebase.bom))
-    implementation(Deps.Firebase.fireStore)
-}
-
 fun DependencyHandler.ktor() {
     implementation(Deps.Ktor.core)
     implementation(Deps.Ktor.cio)
