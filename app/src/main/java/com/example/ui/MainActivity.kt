@@ -25,6 +25,7 @@ import com.example.ui.home.column_row.addColumnRow
 import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
+import com.example.ui.todo.addAddTodo
 import com.example.ui.todo.addTodo
 import com.example.ui.utils.CustomBottomNavigationBar
 import com.example.ui.utils.Routes
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
                     scaffoldState = scaffoldState,
                     bottomBar = { CustomBottomNavigationBar(navController = navController) },
-                    floatingActionButton = { TrainFloatingActionButton(screen) }
+                    floatingActionButton = { TrainFloatingActionButton(screen, navController) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
@@ -66,7 +67,8 @@ class MainActivity : ComponentActivity() {
                                 screen = Routes.Favorite
                             }
                             addDetail(scope, scaffoldState) { screen = Routes.DetailCharacter }
-                            addTodo { screen = Routes.Todo }
+                            addTodo(navController) { screen = Routes.Todo }
+                            addAddTodo { screen = Routes.AddTodo }
                             composable(route = Routes.Profile.route) {
                                 screen = Routes.Profile
                                 Column(
@@ -96,11 +98,12 @@ fun TrainTopBar(
     if (screen == Routes.ColumnRow ||
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
-        screen == Routes.Favorite
+        screen == Routes.Favorite ||
+        screen == Routes.AddTodo
     ) TopAppBar(
         title = { Text(text = screen.title ?: "") },
         navigationIcon = {
-            if (screen == Routes.DetailCharacter) {
+            if (screen == Routes.DetailCharacter || screen == Routes.AddTodo) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
@@ -151,13 +154,12 @@ fun TrainTopBar(
 }
 
 @Composable
-fun TrainFloatingActionButton(screen: Routes) {
-
-    if (screen == Routes.Todo
-    ) FloatingActionButton(
-        onClick = { /* Todo */ },
-        backgroundColor = MaterialTheme.colorScheme.primaryContainer
-    ) {
-        Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
-    }
+fun TrainFloatingActionButton(screen: Routes, navController: NavController) {
+    if (screen == Routes.Todo)
+        FloatingActionButton(
+            onClick = { navController.navigate(Routes.AddTodo.route) },
+            backgroundColor = MaterialTheme.colorScheme.primary
+        ) {
+            Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
+        }
 }

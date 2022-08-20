@@ -1,15 +1,13 @@
 package com.example.model
 
-import com.google.firebase.firestore.DocumentId
-
 data class Todo(
-    @DocumentId val id: Long,
-    val title: String,
-    val body: String,
-    val author: Author,
-    val createdAt: String,
-    val updateAt: String,
-    val isImportant: Boolean = false,
+    var id: Long = -1,
+    var title: String = "",
+    var body: String = "",
+    var author: Author? = null,
+    var createdAt: String = "",
+    var updateAt: String = "",
+    var isImportant: Boolean = false,
 ) {
     companion object {
         fun Todo.toMap(

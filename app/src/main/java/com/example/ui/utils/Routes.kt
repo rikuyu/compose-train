@@ -21,6 +21,8 @@ sealed class Routes(val route: String, val title: String? = null) {
     }
 
     object Todo : Routes("todo")
+
+    object AddTodo : Routes("add_todo", "AddTodo")
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {

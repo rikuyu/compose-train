@@ -46,7 +46,7 @@ fun TodoListItem(todo: Todo) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = todo.author.name,
+                        text = todo.author?.name ?: "unknown",
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
