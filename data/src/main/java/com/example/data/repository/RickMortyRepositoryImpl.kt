@@ -1,9 +1,8 @@
 package com.example.data.repository
 
-import com.example.domain.data_source.local.LocalDataSource
-import com.example.domain.data_source.remote.RickMortyDataSource
-import com.example.domain.model.Character
-import com.example.domain.repository.RickMortyRepository
+import com.example.data.data_source.local.LocalDataSource
+import com.example.data.data_source.remote.RickMortyDataSource
+import com.example.model.Character
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

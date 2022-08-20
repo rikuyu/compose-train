@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.model.Character
-import com.example.domain.model.DetailCharacter
-import com.example.domain.repository.RickMortyRepository
+import com.example.data.repository.RickMortyRepository
+import com.example.model.Character
+import com.example.model.DetailCharacter
 import com.example.ui.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -21,13 +21,13 @@ class RickMortyViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _characterListState = MutableStateFlow(UiState<List<Character>>())
-    val characterListState: StateFlow<UiState<List<Character>>> get() = _characterListState
+    val characterListState = _characterListState.asStateFlow()
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
     val backgroundColor: State<Color> get() = _backgroundColor
 
     private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
-    val favoriteCharacterState: StateFlow<UiState<List<Character>>> get() = _favoriteCharacterState
+    val favoriteCharacterState = _favoriteCharacterState.asStateFlow()
 
     private val _characterState: MutableStateFlow<DetailState<Character>> = MutableStateFlow(DetailState.Loading())
     private val _isExistInFavorite: MutableStateFlow<DetailState<Boolean>> = MutableStateFlow(DetailState.Loading())

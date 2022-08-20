@@ -1,8 +1,7 @@
 package com.example.data.data_source.local
 
 import com.example.data.database.RickAndMortyDao
-import com.example.domain.data_source.local.LocalDataSource
-import com.example.domain.model.Character
+import com.example.model.Character
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

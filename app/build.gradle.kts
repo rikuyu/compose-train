@@ -49,7 +49,7 @@ val ktlint by configurations.creating
 
 dependencies {
 
-    implementation(project(path = ":domain"))
+    implementation(project(path = ":model"))
     implementation(project(path = ":data"))
 
     implementation(Deps.AndroidX.Core.ktx)

@@ -1,8 +1,7 @@
 package com.example.data.data_source.remote
 
-import com.example.domain.data_source.remote.FirebaseDataSource
-import com.example.domain.model.Todo
 import com.example.data.utils.Result
+import com.example.model.Todo
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -13,7 +12,19 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     private val firestore = Firebase.firestore
 
     override suspend fun getAllTodo(): Result<List<Todo>> {
-        TODO("Not yet implemented")
+        var result: Result<List<Todo>> = Result.Loading
+        firestore.collection(TODO_COLLECTION)
+            .get()
+            .addOnSuccessListener {
+                val todos = mutableListOf<Todo>()
+                it.forEach {
+                    val todo = it.toObject<Todo>()
+                    todos.add(todo)
+                }
+                result = Result.Success(todos.toList())
+            }
+            .addOnFailureListener { result = Result.Error(it) }
+        return result
     }
 
     override suspend fun getTodo(id: Long): Result<Todo> {

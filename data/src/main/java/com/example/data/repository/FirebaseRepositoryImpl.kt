@@ -1,9 +1,8 @@
 package com.example.data.repository
 
+import com.example.data.data_source.remote.FirebaseDataSource
 import com.example.data.utils.Result
-import com.example.domain.data_source.remote.FirebaseDataSource
-import com.example.domain.model.Todo
-import com.example.domain.repository.FirebaseRepository
+import com.example.model.Todo
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(

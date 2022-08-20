@@ -11,6 +11,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.data.utils.Result
 
 fun NavGraphBuilder.addTodo(
     changeScreen: () -> Unit,
@@ -33,16 +34,26 @@ fun TodoScreen(
         viewModel.getFilteredList(query)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(12.dp)
-    ) {
-        TopSearchBar(query = query) { query = it }
-        Spacer(modifier = Modifier.height(10.dp))
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            items(todos, key = { it.id }) {
-                TodoListItem(todo = it)
+    when (todos) {
+        is Result.Loading -> {
+
+        }
+        is Result.Error -> {
+
+        }
+        is Result.Success -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+            ) {
+                TopSearchBar(query = query) { query = it }
+                Spacer(modifier = Modifier.height(10.dp))
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    items((todos as Result.Success).data, key = { it.id }) {
+                        TodoListItem(todo = it)
+                    }
+                }
             }
         }
     }

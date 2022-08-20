@@ -1,9 +1,8 @@
 package com.example.data.data_source.remote
 
 import com.example.data.utils.Constants
-import com.example.domain.data_source.remote.RickMortyDataSource
-import com.example.domain.model.Character
-import com.example.domain.model.Response
+import com.example.model.Character
+import com.example.model.Response
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
