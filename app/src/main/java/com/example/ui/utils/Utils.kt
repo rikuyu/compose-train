@@ -105,3 +105,7 @@ fun Context.showToast(message: String) {
 private const val EMAIL_VALIDATION_REGEX = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+$"
 
 fun checkIsEmailValid(email: String) = Pattern.matches(EMAIL_VALIDATION_REGEX, email)
+
+fun checkIsTodoTitleValid(title: String) = title.length in 2..10
+
+fun checkIsTodoBodyValid(body: String) = body.length in 5..50

@@ -64,7 +64,7 @@ fun ColumnRowScreen(
     val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
 
     LaunchedEffect(Unit) {
-        scope.launch { viewModel.getCharacters() }
+        viewModel.getCharacters()
     }
 
     if (state.error != null) {

@@ -18,8 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun CustomBottomNavigationBar(navController: NavController) {
-    var selectedItem by remember { mutableStateOf(BottomNavigationItem.COLUMN_ROW) }
+fun CustomBottomNavigationBar(navController: NavController, screen: Routes) {
+    val item = when (screen) {
+        Routes.ColumnRow, Routes.Grid -> BottomNavigationItem.COLUMN_ROW
+        Routes.Todo -> BottomNavigationItem.TODO
+        else -> BottomNavigationItem.PROFILE
+    }
+    var selectedItem by remember { mutableStateOf(item) }
     Row(
         modifier = Modifier
             .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))

@@ -20,7 +20,7 @@ sealed class Routes(val route: String, val title: String? = null) {
         fun createRoute(id: Int) = "${this.route}/$id"
     }
 
-    object Todo : Routes("todo")
+    object Todo : Routes("todo", "Todo")
 
     object AddTodo : Routes("add_todo", "AddTodo")
 }

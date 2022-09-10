@@ -11,12 +11,12 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTodo(): Result<List<Todo>> = firebaseDataSource.getAllTodo()
 
-    override suspend fun getTodo(id: Long): Result<Todo> = firebaseDataSource.getTodo(id)
+    override suspend fun getTodo(id: String): Result<Todo> = firebaseDataSource.getTodo(id)
 
     override suspend fun addTodo(todo: Todo): Result<String> = firebaseDataSource.addTodo(todo)
 
-    override suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String> =
+    override suspend fun updateTodo(id: String, todo: Map<String, Any>): Result<String> =
         firebaseDataSource.updateTodo(id, todo)
 
-    override suspend fun deleteTodo(id: Long): Result<String> = firebaseDataSource.deleteTodo(id)
+    override suspend fun deleteTodo(id: String): Result<String> = firebaseDataSource.deleteTodo(id)
 }

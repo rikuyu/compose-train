@@ -3,6 +3,7 @@ package com.example.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,20 +39,22 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    private val screenViewModel: ScreenViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             ComposeTrainAppTheme {
                 val navController = rememberNavController()
-                var screen: Routes by remember { mutableStateOf(Routes.Grid) }
+                val screen: Routes by screenViewModel.screen
                 val scope = rememberCoroutineScope()
                 val scaffoldState = rememberScaffoldState()
 
                 Scaffold(
                     topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
                     scaffoldState = scaffoldState,
-                    bottomBar = { CustomBottomNavigationBar(navController = navController) },
+                    bottomBar = { if (screen != Routes.AddTodo) CustomBottomNavigationBar(navController, screen) },
                     floatingActionButton = { TrainFloatingActionButton(screen, navController) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
@@ -60,17 +63,17 @@ class MainActivity : ComponentActivity() {
                             startDestination = Routes.Grid.route
                         ) {
                             addColumnRow(scope, scaffoldState, navController) {
-                                screen = Routes.ColumnRow
+                                screenViewModel.setScreen(Routes.ColumnRow)
                             }
-                            addGrid(scope, scaffoldState, navController) { screen = Routes.Grid }
+                            addGrid(scope, scaffoldState, navController) { screenViewModel.setScreen(Routes.Grid) }
                             addFavorite(scope, scaffoldState, navController) {
-                                screen = Routes.Favorite
+                                screenViewModel.setScreen(Routes.Favorite)
                             }
-                            addDetail(scope, scaffoldState) { screen = Routes.DetailCharacter }
-                            addTodo(navController) { screen = Routes.Todo }
-                            addAddTodo { screen = Routes.AddTodo }
+                            addDetail(scope, scaffoldState) { screenViewModel.setScreen(Routes.DetailCharacter) }
+                            addTodo(navController) { screenViewModel.setScreen(Routes.Todo) }
+                            addAddTodo(navController) { screenViewModel.setScreen(Routes.AddTodo) }
                             composable(route = Routes.Profile.route) {
-                                screen = Routes.Profile
+                                screenViewModel.setScreen(Routes.Profile)
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -99,6 +102,7 @@ fun TrainTopBar(
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
         screen == Routes.Favorite ||
+        screen == Routes.Todo ||
         screen == Routes.AddTodo
     ) TopAppBar(
         title = { Text(text = screen.title ?: "") },

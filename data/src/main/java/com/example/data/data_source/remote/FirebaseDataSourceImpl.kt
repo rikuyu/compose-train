@@ -13,7 +13,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     private val firestore = Firebase.firestore
 
     override suspend fun getAllTodo(): Result<List<Todo>> {
-        var result: Result<List<Todo>> = Result.Loading
+        var result: Result<List<Todo>> = Result.LoadingState.Loading
         runCatching { firestore.collection(TODO_COLLECTION).get().await() }
             .onSuccess {
                 val todos = mutableListOf<Todo>()
@@ -29,8 +29,8 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         return result
     }
 
-    override suspend fun getTodo(id: Long): Result<Todo> {
-        var result: Result<Todo> = Result.Loading
+    override suspend fun getTodo(id: String): Result<Todo> {
+        var result: Result<Todo> = Result.LoadingState.Loading
         runCatching {
             firestore.collection(TODO_COLLECTION)
                 .document(id.toString())
@@ -52,10 +52,10 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     }
 
     override suspend fun addTodo(todo: Todo): Result<String> {
-        var result: Result<String> = Result.Loading
+        var result: Result<String> = Result.LoadingState.Loading
         runCatching {
             firestore.collection(TODO_COLLECTION)
-                .document(todo.id.toString())
+                .document(todo.id)
                 .set(todo)
                 .await()
         }
@@ -64,11 +64,11 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         return result
     }
 
-    override suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String> {
-        var result: Result<String> = Result.Loading
+    override suspend fun updateTodo(id: String, todo: Map<String, Any>): Result<String> {
+        var result: Result<String> = Result.LoadingState.Loading
         runCatching {
             firestore.collection(TODO_COLLECTION)
-                .document(id.toString())
+                .document(id)
                 .update(todo)
                 .await()
         }
@@ -77,11 +77,11 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         return result
     }
 
-    override suspend fun deleteTodo(id: Long): Result<String> {
-        var result: Result<String> = Result.Loading
+    override suspend fun deleteTodo(id: String): Result<String> {
+        var result: Result<String> = Result.LoadingState.Loading
         runCatching {
             firestore.collection(TODO_COLLECTION)
-                .document(id.toString())
+                .document(id)
                 .delete()
                 .await()
         }

@@ -4,7 +4,7 @@ object Versions {
 
     const val targetSdkVersion: Int = 32
     const val compileSdkVersion: Int = targetSdkVersion
-    const val minSdkVersion: Int = 24
+    const val minSdkVersion: Int = 26
 
     const val applicationId: String = "com.example.composetrainapp"
 }

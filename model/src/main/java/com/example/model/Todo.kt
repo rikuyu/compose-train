@@ -1,7 +1,11 @@
 package com.example.model
 
+import androidx.compose.runtime.Stable
+import java.util.*
+
+@Stable
 data class Todo(
-    var id: Long = -1,
+    var id: String = UUID.randomUUID().toString(),
     var title: String = "",
     var body: String = "",
     var author: Author? = null,
@@ -11,7 +15,7 @@ data class Todo(
 ) {
     companion object {
         fun Todo.toMap(
-            id: Long,
+            id: String,
             title: String?,
             body: String?,
             authorId: Long,
@@ -19,7 +23,7 @@ data class Todo(
             updateAt: String?,
             isImportant: Boolean?,
         ) = hashMapOf<String, Any>(
-            "id" to id.toString(),
+            "id" to id,
             "title" to (title ?: this.title),
             "body" to (body ?: this.body),
             "authorId" to authorId.toString(),

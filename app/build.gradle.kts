@@ -59,6 +59,7 @@ dependencies {
     implementation(Deps.AndroidX.Compose.uiToolingPreview)
     implementation(Deps.AndroidX.Lifecycle.runtimeKtx)
     implementation(Deps.AndroidX.Lifecycle.viewModelCompose)
+    implementation(Deps.AndroidX.Activity.ktx)
     implementation(Deps.AndroidX.Activity.compose)
     implementation(Deps.AndroidX.Navigation.navigationRuntimeKtx)
 

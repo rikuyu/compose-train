@@ -16,12 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.composetrainapp.R
 import com.example.model.Todo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoListItem(todo: Todo) {
+fun TodoListItem(
+    todo: Todo,
+    navController: NavController,
+    delete: (String) -> Unit
+) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         modifier = Modifier.clickable { /*TODO*/ }
@@ -69,7 +74,7 @@ fun TodoListItem(todo: Todo) {
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { delete(todo.id) },
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surface)

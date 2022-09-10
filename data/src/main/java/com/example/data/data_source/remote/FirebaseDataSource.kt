@@ -7,11 +7,11 @@ interface FirebaseDataSource {
 
     suspend fun getAllTodo(): Result<List<Todo>>
 
-    suspend fun getTodo(id: Long): Result<Todo>
+    suspend fun getTodo(id: String): Result<Todo>
 
     suspend fun addTodo(todo: Todo): Result<String>
 
-    suspend fun updateTodo(id: Long, todo: Map<String, Any>): Result<String>
+    suspend fun updateTodo(id: String, todo: Map<String, Any>): Result<String>
 
-    suspend fun deleteTodo(id: Long): Result<String>
+    suspend fun deleteTodo(id: String): Result<String>
 }
