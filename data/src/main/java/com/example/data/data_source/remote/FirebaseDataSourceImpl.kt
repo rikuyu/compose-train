@@ -1,5 +1,6 @@
 package com.example.data.data_source.remote
 
+import android.util.Log
 import com.example.data.utils.Result
 import com.example.model.Todo
 import com.google.firebase.firestore.ktx.firestore
@@ -33,7 +34,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         var result: Result<Todo> = Result.LoadingState.Loading
         runCatching {
             firestore.collection(TODO_COLLECTION)
-                .document(id.toString())
+                .document(id)
                 .get()
                 .await()
         }

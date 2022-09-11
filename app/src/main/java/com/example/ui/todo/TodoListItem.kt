@@ -8,8 +8,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -19,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.composetrainapp.R
 import com.example.model.Todo
+import com.example.ui.utils.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,15 +32,14 @@ fun TodoListItem(
     delete: (String) -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        modifier = Modifier.clickable { /*TODO*/ }
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     modifier = Modifier
                         .size(40.dp)
@@ -51,7 +54,7 @@ fun TodoListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = todo.author?.name ?: "unknown",
+                        text = "unknown",
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
@@ -60,8 +63,16 @@ fun TodoListItem(
                         color = MaterialTheme.colorScheme.outline
                     )
                 }
+                if (todo.isImportant)
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = Color(0xFFFFD494)
+                    )
+                Spacer(modifier = Modifier.width(10.dp))
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Routes.UpdateTodo.createRoute(todo.id)) },
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surface)

@@ -1,5 +1,6 @@
 package com.example.ui.todo
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -62,33 +63,41 @@ fun TodoContent(
         filter(query)
     }
 
-    if (todos.isEmpty()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    append("Todoがありません\n")
-                    append("追加してください")
-                }
-            )
-            OutlinedButton(
-                onClick = { navController.navigate(Routes.AddTodo.route) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        TopSearchBar(query = query) { query = it }
+        Spacer(modifier = Modifier.height(10.dp))
+        if (todos.isEmpty()) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Add")
+                Text(
+                    text = buildAnnotatedString {
+                        append("Todoがありません\n")
+                        append("追加してください")
+                    }
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                OutlinedButton(
+                    border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+                    onClick = { navController.navigate(Routes.AddTodo.route) }
+                ) {
+                    Text(text = "Add")
+                }
             }
-        }
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            TopSearchBar(query = query) { query = it }
-            Spacer(modifier = Modifier.height(10.dp))
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp)
+            ) {
                 items(todos, key = { it.id }) {
                     TodoListItem(todo = it, navController) { id ->
                         delete(id)

@@ -108,4 +108,4 @@ fun checkIsEmailValid(email: String) = Pattern.matches(EMAIL_VALIDATION_REGEX, e
 
 fun checkIsTodoTitleValid(title: String) = title.length in 2..10
 
-fun checkIsTodoBodyValid(body: String) = body.length in 5..50
+fun checkIsTodoBodyValid(body: String) = body.length in 3..50

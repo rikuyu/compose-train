@@ -28,9 +28,8 @@ import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
 import com.example.ui.todo.addAddTodo
 import com.example.ui.todo.addTodo
-import com.example.ui.utils.CustomBottomNavigationBar
-import com.example.ui.utils.Routes
-import com.example.ui.utils.showSnackBar
+import com.example.ui.todo.addUpdateTodo
+import com.example.ui.utils.*
 import com.example.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -54,7 +53,12 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
                     scaffoldState = scaffoldState,
-                    bottomBar = { if (screen != Routes.AddTodo) CustomBottomNavigationBar(navController, screen) },
+                    bottomBar = {
+                        if (screen != Routes.AddTodo || screen != Routes.UpdateTodo) CustomBottomNavigationBar(
+                            navController,
+                            screen
+                        )
+                    },
                     floatingActionButton = { TrainFloatingActionButton(screen, navController) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
@@ -72,6 +76,7 @@ class MainActivity : ComponentActivity() {
                             addDetail(scope, scaffoldState) { screenViewModel.setScreen(Routes.DetailCharacter) }
                             addTodo(navController) { screenViewModel.setScreen(Routes.Todo) }
                             addAddTodo(navController) { screenViewModel.setScreen(Routes.AddTodo) }
+                            addUpdateTodo(navController) { screenViewModel.setScreen(Routes.UpdateTodo) }
                             composable(route = Routes.Profile.route) {
                                 screenViewModel.setScreen(Routes.Profile)
                                 Column(
@@ -87,83 +92,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun TrainTopBar(
-    screen: Routes,
-    navController: NavController,
-    scaffoldState: ScaffoldState,
-    scope: CoroutineScope,
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    if (screen == Routes.ColumnRow ||
-        screen == Routes.Grid ||
-        screen == Routes.DetailCharacter ||
-        screen == Routes.Favorite ||
-        screen == Routes.Todo ||
-        screen == Routes.AddTodo
-    ) TopAppBar(
-        title = { Text(text = screen.title ?: "") },
-        navigationIcon = {
-            if (screen == Routes.DetailCharacter || screen == Routes.AddTodo) {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                }
-            } else {
-                IconButton(onClick = { expanded = true }) {
-                    Icon(Icons.Filled.Menu, contentDescription = null)
-                }
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        if (screen != Routes.Grid)
-                            navController.navigate(Routes.Grid.route)
-                    }) {
-                        Text(text = "Grid")
-                    }
-                    Divider()
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        if (screen != Routes.ColumnRow)
-                            navController.navigate(Routes.ColumnRow.route)
-                    }) {
-                        Text(text = "Normal")
-                    }
-                    Divider()
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        if (screen != Routes.Favorite)
-                            navController.navigate(Routes.Favorite.route)
-                    }) {
-                        Text(text = "Favorite")
-                    }
-                    Divider()
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        scope.launch {
-                            showSnackBar(scaffoldState, "Sample SnackBar", "Do")
-                        }
-                    }) {
-                        Text(text = "SnackBar")
-                    }
-                }
-            }
-        }
-    )
-}
-
-@Composable
-fun TrainFloatingActionButton(screen: Routes, navController: NavController) {
-    if (screen == Routes.Todo)
-        FloatingActionButton(
-            onClick = { navController.navigate(Routes.AddTodo.route) },
-            backgroundColor = MaterialTheme.colorScheme.primary
-        ) {
-            Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
-        }
 }

@@ -23,6 +23,10 @@ sealed class Routes(val route: String, val title: String? = null) {
     object Todo : Routes("todo", "Todo")
 
     object AddTodo : Routes("add_todo", "AddTodo")
+
+    object UpdateTodo : Routes("update_todo", "UpdateTodo") {
+        fun createRoute(id: String) = "${this.route}/$id"
+    }
 }
 
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
