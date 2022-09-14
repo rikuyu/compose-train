@@ -101,6 +101,7 @@ object Deps {
         const val googleServices = "com.google.gms:google-services:4.3.13"
         const val bom = "com.google.firebase:firebase-bom:30.3.2"
         const val fireStore = "com.google.firebase:firebase-firestore-ktx"
+        const val auth = "com.google.firebase:firebase-auth-ktx"
     }
 
     object Gradle {

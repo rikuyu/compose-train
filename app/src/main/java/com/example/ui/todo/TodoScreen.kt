@@ -34,6 +34,10 @@ fun TodoScreen(
     navController: NavController,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getAllTodo()
+    }
+
     val todos by viewModel.todos.collectAsState()
 
     todos.StateView(
@@ -94,7 +98,8 @@ fun TodoContent(
             }
         } else {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(4.dp)
             ) {

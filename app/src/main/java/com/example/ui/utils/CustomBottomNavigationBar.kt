@@ -1,7 +1,6 @@
 package com.example.ui.utils
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,9 +15,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun CustomBottomNavigationBar(navController: NavController, screen: Routes) {
+fun CustomBottomNavigationBar(navController: NavController, screen: Routes, currentUser: FirebaseUser?) {
     val item = when (screen) {
         Routes.ColumnRow, Routes.Grid -> BottomNavigationItem.COLUMN_ROW
         Routes.Todo -> BottomNavigationItem.TODO
@@ -39,13 +39,16 @@ fun CustomBottomNavigationBar(navController: NavController, screen: Routes) {
                 isSelected = selectedItem == item
             ) {
                 selectedItem = item
-                navController.navigate(item.label.lowercase())
+                if (item == BottomNavigationItem.TODO && currentUser == null) {
+                    navController.navigate(Routes.LogIn.route)
+                } else {
+                    navController.navigate(item.label.lowercase())
+                }
             }
         }
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CustomBottomNavigationItem(
     bottomNavigationItem: BottomNavigationItem,

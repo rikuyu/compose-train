@@ -71,9 +71,9 @@ dependencies {
 
     implementation(Deps.Material.composeMaterial3)
 
-    implementation(platform(Deps.Firebase.bom))
-
     accompanist()
+
+    firebase()
 
     ktor()
 

@@ -6,7 +6,9 @@ import com.example.data.repository.FirebaseRepository
 import com.example.data.utils.Result
 import com.example.model.Todo
 import com.example.model.Todo.Companion.toFirebaseObject
+import com.example.model.User
 import com.example.ui.utils.*
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,10 +28,20 @@ class TodoViewModel @Inject constructor(
     private val _todo: MutableStateFlow<UiState<Todo>> = MutableStateFlow(UiState())
     val todo = _todo.asStateFlow()
 
+    private val _firebaseUser: MutableStateFlow<FirebaseUser?> = MutableStateFlow(null)
+    val firebaseUser = _firebaseUser.asStateFlow()
+
+    private val _user: MutableStateFlow<UiState<User?>> = MutableStateFlow(UiState())
+    val user = _user.asStateFlow()
+
     private var job: Job? = null
 
     init {
-        getAllTodo()
+        getIsLogin()
+    }
+
+    private fun getIsLogin() {
+        _firebaseUser.value = repository.getCurrentUser()
     }
 
     fun getFilteredList(query: String) {
@@ -41,7 +53,7 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    private fun getAllTodo() {
+    fun getAllTodo() {
         if (job != null) job?.cancel()
         _todos.startLoading(LoadingState.LOADING)
         job = viewModelScope.launch {
@@ -95,6 +107,22 @@ class TodoViewModel @Inject constructor(
         viewModelScope.launch {
             repository.deleteTodo(id)
             getAllTodo()
+        }
+    }
+
+    fun registerUser(userName: String, email: String, password: String) {
+        viewModelScope.launch {
+        }
+    }
+
+    fun logIn(email: String, password: String) {
+        _user.startLoading(LoadingState.LOADING)
+        viewModelScope.launch {
+            when (val result = repository.logIn(email, password)) {
+                is Result.Success -> _user.handleData(data = result.data)
+                is Result.Error -> _user.handleError(error = result.exception)
+                is Result.LoadingState -> {}
+            }
         }
     }
 }

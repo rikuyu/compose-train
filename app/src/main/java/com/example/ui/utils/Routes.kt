@@ -20,6 +20,10 @@ sealed class Routes(val route: String, val title: String? = null) {
         fun createRoute(id: Int) = "${this.route}/$id"
     }
 
+    object LogIn : Routes("login")
+
+    object SignUp : Routes("signup")
+
     object Todo : Routes("todo", "Todo")
 
     object AddTodo : Routes("add_todo", "AddTodo")

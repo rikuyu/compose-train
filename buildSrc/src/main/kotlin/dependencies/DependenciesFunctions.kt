@@ -38,6 +38,12 @@ fun DependencyHandler.accompanist() {
     implementation(Deps.Accompanist.swipeRefresh)
 }
 
+fun DependencyHandler.firebase() {
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.fireStore)
+    implementation(Deps.Firebase.auth)
+}
+
 fun JavaExec.ktlintArgs(
     inputFiles: ConfigurableFileTree,
     outputPath: String,

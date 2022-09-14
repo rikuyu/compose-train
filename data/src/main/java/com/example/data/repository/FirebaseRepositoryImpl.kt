@@ -3,6 +3,8 @@ package com.example.data.repository
 import com.example.data.data_source.remote.FirebaseDataSource
 import com.example.data.utils.Result
 import com.example.model.Todo
+import com.example.model.User
+import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
@@ -19,4 +21,12 @@ class FirebaseRepositoryImpl @Inject constructor(
         firebaseDataSource.updateTodo(id, todo)
 
     override suspend fun deleteTodo(id: String): Result<String> = firebaseDataSource.deleteTodo(id)
+
+    override fun getCurrentUser(): FirebaseUser? = firebaseDataSource.getCurrentUser()
+
+    override suspend fun registerUser(userName: String, email: String, password: String): Result<String> =
+        firebaseDataSource.registerUser(userName, email, password)
+
+    override suspend fun logIn(email: String, password: String): Result<User?> =
+        firebaseDataSource.logIn(email, password)
 }

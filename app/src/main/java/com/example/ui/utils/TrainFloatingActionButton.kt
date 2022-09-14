@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
-
 @Composable
 fun TrainFloatingActionButton(screen: Routes, navController: NavController) {
     if (screen == Routes.Todo)

@@ -21,10 +21,7 @@ fun TrainTopBar(
     if (screen == Routes.ColumnRow ||
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
-        screen == Routes.Favorite ||
-        screen == Routes.Todo ||
-        screen == Routes.AddTodo ||
-        screen == Routes.UpdateTodo
+        screen == Routes.Favorite
     ) TopAppBar(
         title = { Text(text = screen.title ?: "") },
         navigationIcon = {

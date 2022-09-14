@@ -2,14 +2,12 @@ package com.example.ui.todo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -66,9 +64,9 @@ fun TodoListItem(
                 if (todo.isImportant)
                     Icon(
                         modifier = Modifier.size(30.dp),
-                        imageVector = Icons.Default.Info,
+                        imageVector = Icons.Default.Check,
                         contentDescription = null,
-                        tint = Color(0xFFFFD494)
+                        tint = Color.Red
                     )
                 Spacer(modifier = Modifier.width(10.dp))
                 IconButton(
@@ -97,7 +95,6 @@ fun TodoListItem(
                     )
                 }
             }
-
             Text(
                 text = todo.title,
                 style = MaterialTheme.typography.bodyLarge,

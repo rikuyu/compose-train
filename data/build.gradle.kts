@@ -15,8 +15,7 @@ dependencies {
     implementation(Deps.Kotlin.Coroutines.android)
     implementation(Deps.Kotlin.Coroutines.playServices)
 
-    implementation(platform(Deps.Firebase.bom))
-    implementation(Deps.Firebase.fireStore)
+    firebase()
 
     ktor()
 
