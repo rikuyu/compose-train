@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.composetrainapp.R
+import com.example.ui.todo.InputState
 import kotlinx.coroutines.flow.StateFlow
 import java.util.regex.Pattern
 
@@ -104,7 +105,15 @@ fun Context.showToast(message: String) {
 
 private const val EMAIL_VALIDATION_REGEX = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+$"
 
+private const val PASSWORD_VALIDATION_REGEX = "[a-z0-9]{3,6}"
+
 fun checkIsEmailValid(email: String) = Pattern.matches(EMAIL_VALIDATION_REGEX, email)
+
+fun checkIsPasswordValid(password: String) = Pattern.matches(PASSWORD_VALIDATION_REGEX, password)
+
+fun getInputState(isValid: Boolean) = if (isValid) InputState.Valid else InputState.NotValid
+
+fun checkIsNameValid(name: String) = name.length in 2..5
 
 fun checkIsTodoTitleValid(title: String) = title.length in 2..10
 

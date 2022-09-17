@@ -1,5 +1,7 @@
 package com.example.ui.todo
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.FirebaseRepository
@@ -31,10 +33,16 @@ class TodoViewModel @Inject constructor(
     private val _firebaseUser: MutableStateFlow<FirebaseUser?> = MutableStateFlow(null)
     val firebaseUser = _firebaseUser.asStateFlow()
 
-    private val _user: MutableStateFlow<UiState<User?>> = MutableStateFlow(UiState())
+    private val _user: MutableStateFlow<Result<User?>> = MutableStateFlow(Result.LoadingState.NotLoading)
     val user = _user.asStateFlow()
 
     private var job: Job? = null
+
+    var logInValueState: MutableState<LogInValueState> = mutableStateOf(LogInValueState())
+        private set
+
+    var signUpValueState: MutableState<SignUpValueState> = mutableStateOf(SignUpValueState())
+        private set
 
     init {
         getIsLogin()
@@ -110,19 +118,107 @@ class TodoViewModel @Inject constructor(
         }
     }
 
-    fun registerUser(userName: String, email: String, password: String) {
+    fun logIn() {
+        _user.value = Result.LoadingState.Loading
+        viewModelScope.launch {
+            val state = logInValueState.value
+            _user.value = repository.logIn(state.email, state.password)
+        }
+    }
+
+    fun toggleLoginPasswordVisibility() {
+        logInValueState.value = logInValueState.value.copy(
+            passwordVisibility = !logInValueState.value.passwordVisibility
+        )
+    }
+
+    fun updateLoginEmail(email: String) {
+        val state = logInValueState.value
+        logInValueState.value = state.copy(
+            email = email,
+            emailValid = getInputState(checkIsEmailValid(email)),
+            canRequestLogIn =
+            getInputState(checkIsEmailValid(email)) == InputState.Valid &&
+                state.passwordValid == InputState.Valid
+        )
+    }
+
+    fun updateLoginPassword(password: String) {
+        val state = logInValueState.value
+        logInValueState.value = state.copy(
+            password = password,
+            passwordValid = getInputState(checkIsPasswordValid(password)),
+            canRequestLogIn =
+            state.emailValid == InputState.Valid && getInputState(checkIsPasswordValid(password)) == InputState.Valid
+        )
+    }
+
+    fun signUp(userName: String, email: String, password: String) {
         viewModelScope.launch {
         }
     }
 
-    fun logIn(email: String, password: String) {
-        _user.startLoading(LoadingState.LOADING)
-        viewModelScope.launch {
-            when (val result = repository.logIn(email, password)) {
-                is Result.Success -> _user.handleData(data = result.data)
-                is Result.Error -> _user.handleError(error = result.exception)
-                is Result.LoadingState -> {}
-            }
-        }
+    fun toggleSignUpPasswordVisibility() {
+        signUpValueState.value = signUpValueState.value.copy(
+            passwordVisibility = !signUpValueState.value.passwordVisibility
+        )
+    }
+
+    fun toggleSignUpConfirmationPasswordVisibility() {
+        signUpValueState.value = signUpValueState.value.copy(
+            confirmationPasswordVisibility = !signUpValueState.value.confirmationPasswordVisibility,
+        )
+    }
+
+    fun updateSignUpName(name: String) {
+        val state = signUpValueState.value
+        signUpValueState.value = state.copy(
+            name = name,
+            nameValid = getInputState(checkIsNameValid(name)),
+            canRequestSignUp =
+            getInputState(checkIsNameValid(name)) == InputState.Valid &&
+                state.emailValid == InputState.Valid &&
+                state.passwordValid == InputState.Valid &&
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+        )
+    }
+
+    fun updateSignUpEmail(email: String) {
+        val state = signUpValueState.value
+        signUpValueState.value = state.copy(
+            email = email,
+            emailValid = getInputState(checkIsEmailValid(email)),
+            canRequestSignUp =
+            getInputState(checkIsEmailValid(email)) == InputState.Valid &&
+                state.passwordValid == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+        )
+    }
+
+    fun updateSignUpPassword(password: String) {
+        val state = signUpValueState.value
+        signUpValueState.value = state.copy(
+            password = password,
+            passwordValid = getInputState(checkIsPasswordValid(password)),
+            canRequestSignUp =
+            state.emailValid == InputState.Valid &&
+                getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                getInputState(password == state.confirmationPassword) == InputState.Valid
+        )
+    }
+
+    fun updateSignUpConfirmationPassword(confirmationPassword: String) {
+        val state = signUpValueState.value
+        signUpValueState.value = state.copy(
+            confirmationPassword = confirmationPassword,
+            confirmationPasswordValid = getInputState(state.password == confirmationPassword),
+            canRequestSignUp =
+            state.emailValid == InputState.Valid &&
+                getInputState(state.password == confirmationPassword) == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                state.passwordValid == InputState.Valid
+        )
     }
 }

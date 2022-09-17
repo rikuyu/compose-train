@@ -1,19 +1,23 @@
 package com.example.ui.todo
 
-import android.view.KeyEvent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -41,12 +45,8 @@ fun TodoSignUpScreen(
     navController: NavController,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-
-    val focusRequester = remember { FocusRequester() }
+    val signUpValueState by viewModel.signUpValueState
+    val focusManager = LocalFocusManager.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,13 +71,13 @@ fun TodoSignUpScreen(
                     fontWeight = FontWeight.Bold,
                     // letterSpacing = TextUnit.Companion.Sp(2)
                 ),
-                fontSize = 24.sp
+                fontSize = 26.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
+                    value = signUpValueState.name,
+                    onValueChange = { viewModel.updateSignUpName(it) },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_account),
@@ -88,17 +88,33 @@ fun TodoSignUpScreen(
                     label = { Text(text = "UserName") },
                     placeholder = { Text(text = "UserName") },
                     singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .onKeyEvent {
-                            if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                            }
-                            true
-                        },
+                    isError = signUpValueState.nameValid == InputState.NotValid,
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    ),
                 )
+                AnimatedVisibility(visible = signUpValueState.nameValid == InputState.NotValid) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.8F),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = "名前は2～5文字",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colors.error
+                        )
+                    }
+                }
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = signUpValueState.email,
+                    onValueChange = { viewModel.updateSignUpEmail(it) },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_mail),
@@ -109,17 +125,33 @@ fun TodoSignUpScreen(
                     label = { Text(text = "Email") },
                     placeholder = { Text(text = "Email") },
                     singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .onKeyEvent {
-                            if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                            }
-                            true
-                        },
+                    isError = signUpValueState.emailValid == InputState.NotValid,
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    ),
                 )
+                AnimatedVisibility(visible = signUpValueState.emailValid == InputState.NotValid) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.8F),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = "正しいメールアドレスではありません",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colors.error
+                        )
+                    }
+                }
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = signUpValueState.password,
+                    onValueChange = { viewModel.updateSignUpPassword(it) },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_key),
@@ -129,16 +161,16 @@ fun TodoSignUpScreen(
                     },
                     trailingIcon = {
                         IconButton(onClick = {
-                            passwordVisibility = !passwordVisibility
+                            viewModel.toggleSignUpPasswordVisibility()
                         }) {
                             Icon(
                                 painter =
-                                if (passwordVisibility)
+                                if (signUpValueState.passwordVisibility)
                                     painterResource(id = R.drawable.ic_eye_visibility_on)
                                 else painterResource(
                                     id = R.drawable.ic_eye_visibility_off
                                 ),
-                                tint = if (passwordVisibility) MaterialTheme.colors.primary.copy(alpha = 0.5F) else Color.Gray,
+                                tint = if (signUpValueState.passwordVisibility) MaterialTheme.colors.primary.copy(alpha = 0.5F) else Color.Gray,
                                 contentDescription = null
                             )
                         }
@@ -146,14 +178,92 @@ fun TodoSignUpScreen(
                     label = { Text("Password") },
                     placeholder = { Text(text = "Password") },
                     singleLine = true,
-                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    visualTransformation = if (signUpValueState.passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                    // .focusRequester(focusRequester = focusRequester),
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    isError = signUpValueState.passwordValid == InputState.NotValid,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    ),
                 )
+                AnimatedVisibility(visible = signUpValueState.passwordValid == InputState.NotValid) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.8F),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = "パスワードは半角数字英小文字で3～6文字",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colors.error
+                        )
+                    }
+                }
+                OutlinedTextField(
+                    value = signUpValueState.confirmationPassword,
+                    onValueChange = { viewModel.updateSignUpConfirmationPassword(it) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_key),
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.primary.copy(alpha = 0.5F)
+                        )
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            viewModel.toggleSignUpConfirmationPasswordVisibility()
+                        }) {
+                            Icon(
+                                painter =
+                                if (signUpValueState.confirmationPasswordVisibility)
+                                    painterResource(id = R.drawable.ic_eye_visibility_on)
+                                else painterResource(
+                                    id = R.drawable.ic_eye_visibility_off
+                                ),
+                                tint = if (signUpValueState.confirmationPasswordVisibility) MaterialTheme.colors.primary.copy(
+                                    alpha = 0.5F
+                                ) else Color.Gray,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    label = { Text("Confirmation Password") },
+                    placeholder = { Text(text = "Confirmation Password") },
+                    singleLine = true,
+                    visualTransformation = if (signUpValueState.confirmationPasswordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    isError = signUpValueState.confirmationPasswordValid == InputState.NotValid,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
+                )
+                AnimatedVisibility(visible = signUpValueState.confirmationPasswordValid == InputState.NotValid) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.8F),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = "パスワードが等しくありません",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colors.error
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
+                    enabled = signUpValueState.canRequestSignUp,
                     onClick = {
                     },
                     shape = RoundedCornerShape(50),
