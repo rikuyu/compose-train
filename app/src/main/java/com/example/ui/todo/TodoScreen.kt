@@ -24,17 +24,18 @@ fun NavGraphBuilder.addTodo(
     changeScreen: () -> Unit,
 ) {
     composable(route = Routes.Todo.route) {
-        changeScreen()
-        TodoScreen(navController)
+        TodoScreen(navController, changeScreen)
     }
 }
 
 @Composable
 fun TodoScreen(
     navController: NavController,
+    changeScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
+        changeScreen()
         viewModel.getAllTodo()
     }
 

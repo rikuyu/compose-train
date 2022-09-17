@@ -24,7 +24,7 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun getCurrentUser(): FirebaseUser? = firebaseDataSource.getCurrentUser()
 
-    override suspend fun registerUser(userName: String, email: String, password: String): Result<String> =
+    override suspend fun registerUser(userName: String, email: String, password: String): Result<User> =
         firebaseDataSource.registerUser(userName, email, password)
 
     override suspend fun logIn(email: String, password: String): Result<User?> =

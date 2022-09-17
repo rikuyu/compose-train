@@ -19,7 +19,7 @@ interface FirebaseDataSource {
 
     fun getCurrentUser(): FirebaseUser?
 
-    suspend fun registerUser(userName: String, email: String, password: String): Result<String>
+    suspend fun registerUser(userName: String, email: String, password: String): Result<User>
 
     suspend fun logIn(email: String, password: String): Result<User?>
 }

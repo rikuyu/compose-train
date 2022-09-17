@@ -1,5 +1,8 @@
 package com.example.ui.todo
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class LogInValueState(
     val email: String = "",
     val emailValid: InputState = InputState.Initial,
@@ -9,6 +12,7 @@ data class LogInValueState(
     val canRequestLogIn: Boolean = false
 )
 
+@Stable
 data class SignUpValueState(
     val name: String = "",
     val nameValid: InputState = InputState.Initial,

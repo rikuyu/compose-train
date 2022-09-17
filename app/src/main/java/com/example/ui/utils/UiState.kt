@@ -48,7 +48,5 @@ fun <T> MutableStateFlow<UiState<T>>.handleError(error: Throwable) {
 }
 
 enum class LoadingState {
-    LOADING,
-    NOT_LOADING,
-    REFRESHING,
+    LOADING, NOT_LOADING, REFRESHING,
 }

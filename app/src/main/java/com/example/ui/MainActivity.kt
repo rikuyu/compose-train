@@ -68,8 +68,15 @@ class MainActivity : ComponentActivity() {
                                 screenViewModel.setScreen(Routes.Favorite)
                             }
                             addDetail(scope, scaffoldState) { screenViewModel.setScreen(Routes.DetailCharacter) }
-                            addLogIn(navController) { screenViewModel.setScreen(Routes.LogIn) }
-                            addSignUp(navController) { screenViewModel.setScreen(Routes.SignUp) }
+                            addLogIn(
+                                navController,
+                                { screenViewModel.setScreen(Routes.Todo) },
+                                { screenViewModel.setScreen(Routes.SignUp) }
+                            ) { screenViewModel.setScreen(Routes.LogIn) }
+                            addSignUp(
+                                navController,
+                                { screenViewModel.setScreen(Routes.Todo) }
+                            ) { screenViewModel.setScreen(Routes.SignUp) }
                             addTodo(navController) { screenViewModel.setScreen(Routes.Todo) }
                             addAddTodo(navController) { screenViewModel.setScreen(Routes.AddTodo) }
                             addUpdateTodo(navController) { screenViewModel.setScreen(Routes.UpdateTodo) }

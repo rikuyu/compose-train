@@ -1,60 +1,98 @@
 package com.example.ui.todo
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
+import com.example.data.utils.Result
+import com.example.model.User
+import com.example.ui.utils.LoadingScreen
 import com.example.ui.utils.Routes
+import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.showToast
 
 fun NavGraphBuilder.addSignUp(
     navController: NavHostController,
-    changeScreen: () -> Unit,
+    changeTodoScreen: () -> Unit,
+    changeSignUpScreen: () -> Unit,
 ) {
     composable(route = Routes.SignUp.route) {
-        changeScreen()
-        TodoSignUpScreen(navController)
+        TodoSignUpScreen(navController, changeTodoScreen, changeSignUpScreen)
     }
 }
 
 @Composable
 fun TodoSignUpScreen(
-    navController: NavController,
+    navController: NavHostController,
+    changeTodoScreen: () -> Unit,
+    changeSignUpScreen: () -> Unit,
+    viewModel: TodoViewModel = hiltViewModel()
+) {
+    val user by viewModel.user.collectAsStateWithLifecycle()
+
+    when (user) {
+        is Result.LoadingState -> {
+            if ((user as Result.LoadingState).name == Result.LoadingState.NotLoading.name) {
+                TodoSignUpContent(changeSignUpScreen)
+            } else {
+                LoadingScreen()
+            }
+        }
+        is Result.Error -> {
+            LocalContext.current.showToast("Error")
+            TodoSignUpContent(changeSignUpScreen)
+        }
+        is Result.Success -> {
+            if ((user as Result.Success<User?>).data == null) {
+                LocalContext.current.showToast("Error")
+                TodoSignUpContent(changeSignUpScreen)
+            } else {
+                if (viewModel.isFirstLogIn) {
+                    LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
+                    viewModel.setIsFirstLogIn()
+                }
+                TodoScreen(navController, changeTodoScreen)
+            }
+        }
+    }
+}
+
+@Composable
+fun TodoSignUpContent(
+    changeScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val signUpValueState by viewModel.signUpValueState
     val focusManager = LocalFocusManager.current
 
+    LaunchedEffect(Unit) {
+        changeScreen()
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)
     ) {
+        Spacer(modifier = Modifier.height(30.dp))
         Image(
             painter = painterResource(id = R.drawable.image_signup),
             contentDescription = null,
@@ -75,197 +113,51 @@ fun TodoSignUpScreen(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                OutlinedTextField(
-                    value = signUpValueState.name,
-                    onValueChange = { viewModel.updateSignUpName(it) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_account),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary.copy(alpha = 0.6F)
-                        )
-                    },
-                    label = { Text(text = "UserName") },
-                    placeholder = { Text(text = "UserName") },
-                    singleLine = true,
+                NameForm(
+                    name = signUpValueState.name,
                     isError = signUpValueState.nameValid == InputState.NotValid,
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
-                    ),
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    onNameChange = { viewModel.updateSignUpName(it) }
                 )
-                AnimatedVisibility(visible = signUpValueState.nameValid == InputState.NotValid) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(0.8F),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Text(
-                            text = "名前は2～5文字",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.error
-                        )
-                    }
-                }
-                OutlinedTextField(
-                    value = signUpValueState.email,
-                    onValueChange = { viewModel.updateSignUpEmail(it) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_mail),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary.copy(alpha = 0.6F)
-                        )
-                    },
-                    label = { Text(text = "Email") },
-                    placeholder = { Text(text = "Email") },
-                    singleLine = true,
+                ErrorMessage(text = "名前は2文字～5文字", flag = signUpValueState.nameValid == InputState.NotValid)
+                EmailForm(
+                    email = signUpValueState.email,
                     isError = signUpValueState.emailValid == InputState.NotValid,
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
-                    ),
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    onEmailChange = { viewModel.updateSignUpEmail(it) },
                 )
-                AnimatedVisibility(visible = signUpValueState.emailValid == InputState.NotValid) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(0.8F),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Text(
-                            text = "正しいメールアドレスではありません",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.error
-                        )
-                    }
-                }
-                OutlinedTextField(
-                    value = signUpValueState.password,
-                    onValueChange = { viewModel.updateSignUpPassword(it) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_key),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary.copy(alpha = 0.5F)
-                        )
-                    },
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            viewModel.toggleSignUpPasswordVisibility()
-                        }) {
-                            Icon(
-                                painter =
-                                if (signUpValueState.passwordVisibility)
-                                    painterResource(id = R.drawable.ic_eye_visibility_on)
-                                else painterResource(
-                                    id = R.drawable.ic_eye_visibility_off
-                                ),
-                                tint = if (signUpValueState.passwordVisibility) MaterialTheme.colors.primary.copy(alpha = 0.5F) else Color.Gray,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    label = { Text("Password") },
-                    placeholder = { Text(text = "Password") },
-                    singleLine = true,
-                    visualTransformation = if (signUpValueState.passwordVisibility) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(0.8f),
+                ErrorMessage(text = "正しいメールアドレスではありません", flag = signUpValueState.emailValid == InputState.NotValid)
+                PasswordForm(
+                    password = signUpValueState.password,
                     isError = signUpValueState.passwordValid == InputState.NotValid,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusManager.moveFocus(FocusDirection.Down)
-                        }
-                    ),
+                    visibility = signUpValueState.passwordVisibility,
+                    toggleVisibility = { viewModel.toggleSignUpPasswordVisibility() },
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    onDone = null,
+                    onPasswordChange = { viewModel.updateSignUpPassword(it) },
                 )
-                AnimatedVisibility(visible = signUpValueState.passwordValid == InputState.NotValid) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(0.8F),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Text(
-                            text = "パスワードは半角数字英小文字で3～6文字",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.error
-                        )
-                    }
-                }
-                OutlinedTextField(
-                    value = signUpValueState.confirmationPassword,
-                    onValueChange = { viewModel.updateSignUpConfirmationPassword(it) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_key),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary.copy(alpha = 0.5F)
-                        )
-                    },
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            viewModel.toggleSignUpConfirmationPasswordVisibility()
-                        }) {
-                            Icon(
-                                painter =
-                                if (signUpValueState.confirmationPasswordVisibility)
-                                    painterResource(id = R.drawable.ic_eye_visibility_on)
-                                else painterResource(
-                                    id = R.drawable.ic_eye_visibility_off
-                                ),
-                                tint = if (signUpValueState.confirmationPasswordVisibility) MaterialTheme.colors.primary.copy(
-                                    alpha = 0.5F
-                                ) else Color.Gray,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    label = { Text("Confirmation Password") },
-                    placeholder = { Text(text = "Confirmation Password") },
-                    singleLine = true,
-                    visualTransformation = if (signUpValueState.confirmationPasswordVisibility) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(0.8f),
+                ErrorMessage(
+                    text = "パスワードは半角数字英小文字で6～10文字",
+                    flag = signUpValueState.passwordValid == InputState.NotValid
+                )
+                PasswordForm(
+                    label = "Confirmation Password",
+                    password = signUpValueState.confirmationPassword,
                     isError = signUpValueState.confirmationPasswordValid == InputState.NotValid,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done,
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-                        }
-                    ),
+                    visibility = signUpValueState.confirmationPasswordVisibility,
+                    toggleVisibility = { viewModel.toggleSignUpConfirmationPasswordVisibility() },
+                    onNext = null,
+                    onDone = { focusManager.clearFocus() },
+                    onPasswordChange = { viewModel.updateSignUpConfirmationPassword(it) },
                 )
-                AnimatedVisibility(visible = signUpValueState.confirmationPasswordValid == InputState.NotValid) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(0.8F),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Text(
-                            text = "パスワードが等しくありません",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colors.error
-                        )
-                    }
-                }
+                ErrorMessage(
+                    text = "パスワードが等しくありません",
+                    flag = signUpValueState.confirmationPasswordValid == InputState.NotValid
+                )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
                     enabled = signUpValueState.canRequestSignUp,
-                    onClick = {
-                    },
+                    onClick = { viewModel.signUp() },
                     shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)

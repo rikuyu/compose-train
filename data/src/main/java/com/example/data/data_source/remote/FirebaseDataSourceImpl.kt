@@ -95,8 +95,8 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
 
     override fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
-    override suspend fun registerUser(userName: String, email: String, password: String): Result<String> {
-        var result: Result<String> = Result.LoadingState.Loading
+    override suspend fun registerUser(userName: String, email: String, password: String): Result<User> {
+        var result: Result<User> = Result.LoadingState.Loading
         runCatching {
             auth.createUserWithEmailAndPassword(email, password).await()
         }
@@ -109,12 +109,10 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
                         .set(user)
                         .await()
                 }
-                    .onSuccess { result = Result.Success(MESSAGE_SUCCESS) }
+                    .onSuccess { result = Result.Success(User(userId, userName, email)) }
                     .onFailure { result = Result.Error(it) }
             }
-            .onFailure {
-                result = Result.Error(it)
-            }
+            .onFailure { result = Result.Error(it) }
         return result
     }
 
@@ -135,7 +133,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
                         result = Result.Success(it.toObject<User>())
                     }
                     .onFailure {
-                        result = Result.Error(it)
+                        result = Result.Error(Exception())
                     }
             }
             .onFailure { result = Result.Error(it) }

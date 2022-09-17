@@ -44,6 +44,9 @@ class TodoViewModel @Inject constructor(
     var signUpValueState: MutableState<SignUpValueState> = mutableStateOf(SignUpValueState())
         private set
 
+    var isFirstLogIn = true
+        private set
+
     init {
         getIsLogin()
     }
@@ -153,8 +156,11 @@ class TodoViewModel @Inject constructor(
         )
     }
 
-    fun signUp(userName: String, email: String, password: String) {
+    fun signUp() {
+        _user.value = Result.LoadingState.Loading
         viewModelScope.launch {
+            val state = signUpValueState.value
+            _user.value = repository.registerUser(state.name, state.email, state.password)
         }
     }
 
@@ -220,5 +226,9 @@ class TodoViewModel @Inject constructor(
                 state.nameValid == InputState.Valid &&
                 state.passwordValid == InputState.Valid
         )
+    }
+
+    fun setIsFirstLogIn() {
+        isFirstLogIn = false
     }
 }

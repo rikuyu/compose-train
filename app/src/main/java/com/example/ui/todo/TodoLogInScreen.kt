@@ -1,28 +1,18 @@
 package com.example.ui.todo
 
-import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.material.OutlinedTextField
-import com.example.ui.utils.collectAsStateWithLifecycle
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,183 +21,133 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
-import com.example.ui.utils.Routes
 import com.example.data.utils.Result
-import com.example.ui.utils.ErrorScreen
-import com.example.ui.utils.LoadingScreen
+import com.example.model.User
+import com.example.ui.utils.*
 
 fun NavGraphBuilder.addLogIn(
     navController: NavHostController,
-    changeScreen: () -> Unit,
+    changeTodoScreen: () -> Unit,
+    changeSignUpScreen: () -> Unit,
+    changeLogInScreen: () -> Unit,
 ) {
     composable(route = Routes.LogIn.route) {
-        changeScreen()
-        TodoLogInScreen(navController)
+        changeLogInScreen()
+        TodoLogInScreen(navController, changeTodoScreen, changeSignUpScreen)
     }
 }
 
 @Composable
 fun TodoLogInScreen(
-    navController: NavController,
+    navController: NavHostController,
+    changeTodoScreen: () -> Unit,
+    changeSignUpScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
-    val logInValueState by viewModel.logInValueState
-    val focusManager = LocalFocusManager.current
-
-    SideEffect {
-        Log.d("AAAAAAAAA", "state $logInValueState")
-    }
 
     when (user) {
         is Result.LoadingState -> {
             if ((user as Result.LoadingState).name == Result.LoadingState.NotLoading.name) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(10.dp)
-                ) {
-                    Spacer(modifier = Modifier.height(60.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.image_login),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxHeight(0.2F)
-                    )
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "Log In",
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                                // letterSpacing = TextUnit.Companion.Sp(2)
-                            ),
-                            fontSize = 26.sp
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            OutlinedTextField(
-                                value = logInValueState.email,
-                                onValueChange = { viewModel.updateLoginEmail(it) },
-                                leadingIcon = {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_mail),
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colors.primary.copy(alpha = 0.6F)
-                                    )
-                                },
-                                label = { Text(text = "Email") },
-                                placeholder = { Text(text = "Email") },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth(0.8f),
-                                isError = logInValueState.emailValid == InputState.NotValid,
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Email,
-                                    imeAction = ImeAction.Next,
-                                ),
-                                keyboardActions = KeyboardActions(
-                                    onNext = {
-                                        focusManager.moveFocus(FocusDirection.Down)
-                                    }
-                                ),
-                            )
-                            AnimatedVisibility(visible = logInValueState.emailValid == InputState.NotValid) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(0.8F),
-                                    horizontalAlignment = Alignment.End
-                                ) {
-                                    Text(
-                                        text = "正しいメールアドレスではありません",
-                                        fontSize = 14.sp,
-                                        color = MaterialTheme.colors.error
-                                    )
-                                }
-                            }
-                            OutlinedTextField(
-                                value = logInValueState.password,
-                                onValueChange = { viewModel.updateLoginPassword(it) },
-                                leadingIcon = {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_key),
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colors.primary.copy(alpha = 0.5F)
-                                    )
-                                },
-                                trailingIcon = {
-                                    IconButton(onClick = {
-                                        viewModel.toggleLoginPasswordVisibility()
-                                    }) {
-                                        Icon(
-                                            painter =
-                                            if (logInValueState.passwordVisibility)
-                                                painterResource(id = R.drawable.ic_eye_visibility_on)
-                                            else painterResource(
-                                                id = R.drawable.ic_eye_visibility_off
-                                            ),
-                                            tint = if (logInValueState.passwordVisibility) MaterialTheme.colors.primary.copy(
-                                                alpha = 0.5F
-                                            ) else Color.Gray,
-                                            contentDescription = null
-                                        )
-                                    }
-                                },
-                                label = { Text("Password") },
-                                placeholder = { Text(text = "Password") },
-                                singleLine = true,
-                                visualTransformation =
-                                if (logInValueState.passwordVisibility)
-                                    VisualTransformation.None
-                                else
-                                    PasswordVisualTransformation(),
-                                isError = logInValueState.passwordValid == InputState.NotValid,
-                                modifier = Modifier.fillMaxWidth(0.8f),
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Password,
-                                    imeAction = ImeAction.Done,
-                                ),
-                                keyboardActions = KeyboardActions(
-                                    onDone = {
-                                        focusManager.clearFocus()
-                                    }
-                                ),
-                            )
-                            AnimatedVisibility(visible = logInValueState.passwordValid == InputState.NotValid) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(0.8F),
-                                    horizontalAlignment = Alignment.End
-                                ) {
-                                    Text(
-                                        text = "パスワードは半角数字英小文字で3～6文字",
-                                        fontSize = 14.sp,
-                                        color = MaterialTheme.colors.error
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.padding(10.dp))
-                            Button(
-                                enabled = logInValueState.canRequestLogIn,
-                                onClick = {
-                                    navController.navigate(Routes.SignUp.route)
-                                },
-                                shape = RoundedCornerShape(50),
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .height(50.dp)
-                            ) {
-                                Text(text = "Log In", fontSize = 20.sp)
-                            }
-                        }
-                    }
-                }
+                TodoLogInContent(navController, viewModel)
             } else {
                 LoadingScreen()
             }
         }
-        is Result.Error -> ErrorScreen()
-        is Result.Success -> {}
+        is Result.Error -> {
+            LocalContext.current.showToast("ユーザーが見つかりません\n新規登録してください")
+            TodoSignUpContent(changeSignUpScreen)
+        }
+        is Result.Success -> {
+            if ((user as Result.Success<User?>).data == null) {
+                LocalContext.current.showToast("ユーザーが見つかりません\n新規登録してください")
+                TodoSignUpContent(changeSignUpScreen)
+            } else {
+                if (viewModel.isFirstLogIn) {
+                    LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
+                    viewModel.setIsFirstLogIn()
+                }
+                TodoScreen(navController, changeTodoScreen)
+            }
+        }
+    }
+}
+
+@Composable
+fun TodoLogInContent(
+    navController: NavController,
+    viewModel: TodoViewModel
+) {
+    val logInValueState by viewModel.logInValueState
+    val focusManager = LocalFocusManager.current
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        Spacer(modifier = Modifier.height(60.dp))
+        Image(
+            painter = painterResource(id = R.drawable.image_login),
+            contentDescription = null,
+            modifier = Modifier.fillMaxHeight(0.2F)
+        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Log In",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    // letterSpacing = TextUnit.Companion.Sp(2)
+                ),
+                fontSize = 26.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                EmailForm(
+                    email = logInValueState.email,
+                    isError = logInValueState.emailValid == InputState.NotValid,
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    onEmailChange = { viewModel.updateLoginEmail(it) },
+                )
+                ErrorMessage(
+                    text = "正しいメールアドレスではありません",
+                    flag = logInValueState.emailValid == InputState.NotValid
+                )
+                PasswordForm(
+                    password = logInValueState.password,
+                    isError = logInValueState.passwordValid == InputState.NotValid,
+                    visibility = logInValueState.passwordVisibility,
+                    toggleVisibility = { viewModel.toggleLoginPasswordVisibility() },
+                    onNext = null,
+                    onDone = { focusManager.clearFocus() },
+                    onPasswordChange = { viewModel.updateLoginPassword(it) },
+                )
+                ErrorMessage(
+                    text = "パスワードは半角数字英小文字で6～10文字",
+                    flag = logInValueState.passwordValid == InputState.NotValid
+                )
+                Spacer(modifier = Modifier.padding(10.dp))
+                Button(
+                    enabled = logInValueState.canRequestLogIn,
+                    onClick = { viewModel.logIn() },
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .height(50.dp)
+                ) {
+                    Text(text = "Log In", fontSize = 20.sp)
+                }
+                Spacer(modifier = Modifier.padding(4.dp))
+                TextButton(onClick = { navController.navigate(Routes.SignUp.route) }) {
+                    Text(text = "Sign Up", fontSize = 20.sp, color = MaterialTheme.colors.primary)
+                }
+            }
+        }
     }
 }

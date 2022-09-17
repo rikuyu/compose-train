@@ -63,7 +63,7 @@ fun TodoListItem(
                 }
                 if (todo.isImportant)
                     Icon(
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(28.dp),
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
                         tint = Color.Red
