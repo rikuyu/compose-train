@@ -22,7 +22,9 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override suspend fun deleteTodo(id: String): Result<String> = firebaseDataSource.deleteTodo(id)
 
-    override fun getCurrentUser(): FirebaseUser? = firebaseDataSource.getCurrentUser()
+    override fun getFirebaseUser(): FirebaseUser? = firebaseDataSource.getFirebaseUser()
+
+    override suspend fun getUser(id: String): Result<User?> = firebaseDataSource.getUser(id)
 
     override suspend fun registerUser(userName: String, email: String, password: String): Result<User> =
         firebaseDataSource.registerUser(userName, email, password)

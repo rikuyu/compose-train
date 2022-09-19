@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
 import com.example.data.utils.Result
 import com.example.model.User
+import com.example.ui.todo.components.TodoScreen
 import com.example.ui.utils.*
 
 fun NavGraphBuilder.addLogIn(
@@ -67,7 +68,7 @@ fun TodoLogInScreen(
                     LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
                     viewModel.setIsFirstLogIn()
                 }
-                TodoScreen(navController, changeTodoScreen)
+                TodoScreen(navController, null, changeTodoScreen)
             }
         }
     }

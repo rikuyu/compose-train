@@ -1,4 +1,4 @@
-package com.example.ui.todo
+package com.example.ui.todo.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -8,51 +8,59 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.data.utils.Result
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.model.Todo
+import com.example.model.TodoData
+import com.example.ui.todo.TodoListItem
+import com.example.ui.todo.TodoViewModel
+import com.example.ui.todo.TopSearchBar
 import com.example.ui.utils.ErrorScreen
 import com.example.ui.utils.LoadingScreen
 import com.example.ui.utils.Routes
+import com.example.ui.utils.collectAsStateWithLifecycle
+import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addTodo(
     navController: NavController,
+    firebaseUser: FirebaseUser?,
     changeScreen: () -> Unit,
 ) {
     composable(route = Routes.Todo.route) {
-        TodoScreen(navController, changeScreen)
+        TodoScreen(navController, firebaseUser, changeScreen)
     }
 }
 
 @Composable
 fun TodoScreen(
     navController: NavController,
+    firebaseUser: FirebaseUser?,
     changeScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
         changeScreen()
         viewModel.getAllTodo()
+        viewModel.getUserData(firebaseUser?.uid)
     }
 
-    val todos by viewModel.todos.collectAsState()
+    val todosData by viewModel.todosData.collectAsStateWithLifecycle()
 
-    todos.StateView(
-        loadingView = { LoadingScreen() },
-        errorView = { ErrorScreen() },
-        successView = {
+    when (todosData) {
+        is Result.LoadingState -> LoadingScreen()
+        is Result.Error -> ErrorScreen()
+        is Result.Success ->
             TodoContent(
                 navController = navController,
                 filter = viewModel::getFilteredList,
                 delete = viewModel::deleteTodo,
-                todos = it
+                todosData = (todosData as Result.Success<TodoData>).data
             )
-        }
-    )
+    }
 }
 
 @Composable
@@ -60,7 +68,7 @@ fun TodoContent(
     navController: NavController,
     filter: (String) -> Unit,
     delete: (String) -> Unit,
-    todos: List<Todo>
+    todosData: TodoData,
 ) {
     var query by remember { mutableStateOf("") }
 
@@ -77,7 +85,7 @@ fun TodoContent(
     ) {
         TopSearchBar(query = query) { query = it }
         Spacer(modifier = Modifier.height(10.dp))
-        if (todos.isEmpty()) {
+        if (todosData.todos.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,8 +112,8 @@ fun TodoContent(
                     .fillMaxWidth()
                     .padding(4.dp)
             ) {
-                items(todos, key = { it.id }) {
-                    TodoListItem(todo = it, navController) { id ->
+                items(todosData.todos, key = { it.id }) {
+                    TodoListItem(it, todosData.user, navController) { id ->
                         delete(id)
                     }
                 }

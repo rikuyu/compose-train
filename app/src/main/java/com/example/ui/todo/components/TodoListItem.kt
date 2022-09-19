@@ -20,12 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.composetrainapp.R
 import com.example.model.Todo
+import com.example.model.User
 import com.example.ui.utils.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListItem(
     todo: Todo,
+    user: User?,
     navController: NavController,
     delete: (String) -> Unit
 ) {
@@ -52,7 +54,7 @@ fun TodoListItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "unknown",
+                        text = user?.name ?: "unknown",
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(

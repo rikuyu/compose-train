@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
 import com.example.data.utils.Result
 import com.example.model.User
+import com.example.ui.todo.components.TodoScreen
 import com.example.ui.utils.LoadingScreen
 import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
@@ -67,7 +68,7 @@ fun TodoSignUpScreen(
                     LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
                     viewModel.setIsFirstLogIn()
                 }
-                TodoScreen(navController, changeTodoScreen)
+                TodoScreen(navController, null, changeTodoScreen)
             }
         }
     }

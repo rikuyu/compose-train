@@ -48,9 +48,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
                     Result.Error(Exception("Todo not found"))
                 }
             }
-            .onFailure {
-                result = Result.Error(it)
-            }
+            .onFailure { result = Result.Error(it) }
         return result
     }
 
@@ -93,7 +91,27 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
         return result
     }
 
-    override fun getCurrentUser(): FirebaseUser? = auth.currentUser
+    override fun getFirebaseUser(): FirebaseUser? = auth.currentUser
+
+    override suspend fun getUser(id: String): Result<User?> {
+        var result: Result<User> = Result.LoadingState.Loading
+        runCatching {
+            firestore.collection(USER_COLLECTION)
+                .document(id)
+                .get()
+                .await()
+        }
+            .onSuccess {
+                val user = it.toObject<User>()
+                result = if (user != null) {
+                    Result.Success(user)
+                } else {
+                    Result.Error(Exception("User not found"))
+                }
+            }
+            .onFailure { result = Result.Error(it) }
+        return result
+    }
 
     override suspend fun registerUser(userName: String, email: String, password: String): Result<User> {
         var result: Result<User> = Result.LoadingState.Loading

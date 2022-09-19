@@ -21,6 +21,7 @@ import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
 import com.example.ui.todo.*
+import com.example.ui.todo.components.addTodo
 import com.example.ui.utils.*
 import com.example.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
                                 navController,
                                 { screenViewModel.setScreen(Routes.Todo) }
                             ) { screenViewModel.setScreen(Routes.SignUp) }
-                            addTodo(navController) { screenViewModel.setScreen(Routes.Todo) }
+                            addTodo(navController, currentUser) { screenViewModel.setScreen(Routes.Todo) }
                             addAddTodo(navController) { screenViewModel.setScreen(Routes.AddTodo) }
                             addUpdateTodo(navController) { screenViewModel.setScreen(Routes.UpdateTodo) }
                             composable(route = Routes.Profile.route) {
