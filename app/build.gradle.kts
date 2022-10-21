@@ -81,6 +81,8 @@ dependencies {
 
     daggarHilt()
 
+    test()
+
     ktlint(Deps.ktlint) {
         attributes {
             attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))

@@ -78,7 +78,7 @@ object Deps {
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
             const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
-            // const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
         }
     }
 
@@ -92,8 +92,8 @@ object Deps {
     object Testing {
         const val junit = "junit:junit:4.13.2"
         const val testRunner = "androidx.test:runner:1.4.0"
+        const val extTestRunner = "androidx.test.ext:junit:1.1.3"
         const val truth = "com.google.truth:truth:1.1.3"
-        const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
         const val mockk = "io.mockk:mockk:1.12.5"
     }
 
@@ -102,6 +102,7 @@ object Deps {
         const val bom = "com.google.firebase:firebase-bom:30.3.2"
         const val fireStore = "com.google.firebase:firebase-firestore-ktx"
         const val auth = "com.google.firebase:firebase-auth-ktx"
+        const val storage = "com.google.firebase:firebase-storage-ktx"
     }
 
     object Gradle {

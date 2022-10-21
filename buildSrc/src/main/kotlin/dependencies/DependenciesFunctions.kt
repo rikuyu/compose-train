@@ -44,6 +44,15 @@ fun DependencyHandler.firebase() {
     implementation(Deps.Firebase.auth)
 }
 
+fun DependencyHandler.test() {
+    implementation(Deps.Testing.junit)
+    implementation(Deps.Testing.testRunner)
+    implementation(Deps.Testing.extTestRunner)
+    implementation(Deps.Testing.mockk)
+    implementation(Deps.Testing.truth)
+    implementation(Deps.Kotlin.Coroutines.test)
+}
+
 fun JavaExec.ktlintArgs(
     inputFiles: ConfigurableFileTree,
     outputPath: String,
