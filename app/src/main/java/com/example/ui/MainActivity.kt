@@ -1,6 +1,9 @@
 package com.example.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -36,6 +39,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val currentUser = todoViewModel.firebaseUser.value
+
+        @SuppressLint("HardwareIds")
+        val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        Log.d("ANDROID_ID", "androidId: $androidId")
 
         setContent {
             ComposeTrainAppTheme {
