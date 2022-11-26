@@ -35,7 +35,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.composeVersion
+        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.compiler
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -53,6 +53,8 @@ dependencies {
     implementation(project(path = ":data"))
 
     implementation(Deps.AndroidX.Core.ktx)
+
+    implementation(platform(Deps.AndroidX.Compose.bom))
     implementation(Deps.AndroidX.Compose.ui)
     implementation(Deps.AndroidX.Compose.material)
 
@@ -69,7 +71,7 @@ dependencies {
 
     implementation(Deps.Kotlin.Coroutines.android)
 
-    implementation(Deps.Material.composeMaterial3)
+    implementation(Deps.Material.material3)
 
     accompanist()
 

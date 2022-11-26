@@ -2,7 +2,7 @@ object Versions {
     const val versionCode: Int = AppVersions.appVersionCode
     const val versionName: String = AppVersions.appVersionName
 
-    const val targetSdkVersion: Int = 32
+    const val targetSdkVersion: Int = 33
     const val compileSdkVersion: Int = targetSdkVersion
     const val minSdkVersion: Int = 26
 

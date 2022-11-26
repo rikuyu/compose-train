@@ -37,21 +37,20 @@ object Deps {
         }
 
         object Compose {
-            const val composeVersion = "1.2.0-rc02"
-            const val ui = "androidx.compose.ui:ui:$composeVersion"
-            const val uiTooling = "androidx.compose.ui:ui-tooling:$composeVersion"
-            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+            const val bom = "androidx.compose:compose-bom:2022.11.00"
+            const val compiler = "1.3.2"
+            const val ui = "androidx.compose.ui:ui"
+            const val uiTooling = "androidx.compose.ui:ui-tooling"
+            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
 
-            // const val foundation = "androidx.compose.foundation:foundation:1.2.0"
             const val material = "androidx.compose.material:material:1.2.0"
             // const val materialIcons = "androidx.compose.material:material-icons-extended:1.2.0"
         }
     }
 
     object Material {
-        const val core = "com.google.android.material:material:1.6.1"
         // const val composeThemeAdapter = "com.google.android.material:compose-theme-adapter:1.1.14"
-        const val composeMaterial3 = "androidx.compose.material3:material3:1.0.0-alpha14"
+        const val material3 = "androidx.compose.material3:material3"
     }
 
     object Hilt {
@@ -72,8 +71,6 @@ object Deps {
     }
 
     object Kotlin {
-        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-
         object Coroutines {
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
