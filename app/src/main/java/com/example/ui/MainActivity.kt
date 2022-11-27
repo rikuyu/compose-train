@@ -7,24 +7,21 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ui.home.column_row.addColumnRow
 import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
+import com.example.ui.mypage.addMyPage
 import com.example.ui.todo.*
 import com.example.ui.todo.components.addTodo
+import com.example.ui.todo.components.addUpdateTodo
 import com.example.ui.utils.*
 import com.example.ui.utils.theme.ComposeTrainAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,15 +85,7 @@ class MainActivity : ComponentActivity() {
                             addTodo(navController, currentUser) { screenViewModel.setScreen(Routes.Todo) }
                             addAddTodo(navController) { screenViewModel.setScreen(Routes.AddTodo) }
                             addUpdateTodo(navController) { screenViewModel.setScreen(Routes.UpdateTodo) }
-                            composable(route = Routes.Profile.route) {
-                                screenViewModel.setScreen(Routes.Profile)
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Green)
-                                ) {
-                                }
-                            }
+                            addMyPage(navController) { screenViewModel.setScreen(Routes.MyPage) }
                         }
                     }
                 }

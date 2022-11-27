@@ -36,6 +36,8 @@ fun DependencyHandler.daggarHilt() {
 fun DependencyHandler.accompanist() {
     implementation(Deps.Accompanist.placeholder)
     implementation(Deps.Accompanist.swipeRefresh)
+    implementation(Deps.Accompanist.pager)
+    implementation(Deps.Accompanist.pagerIndicators)
 }
 
 fun DependencyHandler.firebase() {

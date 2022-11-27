@@ -1,4 +1,4 @@
-package com.example.ui.todo
+package com.example.ui.todo.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,6 +17,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.model.Todo
+import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.*
 
 fun NavGraphBuilder.addUpdateTodo(

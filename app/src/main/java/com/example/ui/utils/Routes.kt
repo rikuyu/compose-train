@@ -14,7 +14,7 @@ sealed class Routes(val route: String, val title: String? = null) {
 
     object Favorite : Routes("favorite", "Favorite")
 
-    object Profile : Routes("profile")
+    object MyPage : Routes("mypage")
 
     object DetailCharacter : Routes("character_detail", "Detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
@@ -36,5 +36,5 @@ sealed class Routes(val route: String, val title: String? = null) {
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
     COLUMN_ROW("ColRow", Icons.Filled.Home),
     TODO("Todo", Icons.Outlined.Add),
-    PROFILE("Profile", Icons.Filled.Person)
+    MYPAGE("MyPage", Icons.Filled.Person)
 }

@@ -22,7 +22,7 @@ fun CustomBottomNavigationBar(navController: NavController, screen: Routes, curr
     val item = when (screen) {
         Routes.ColumnRow, Routes.Grid -> BottomNavigationItem.COLUMN_ROW
         Routes.Todo -> BottomNavigationItem.TODO
-        else -> BottomNavigationItem.PROFILE
+        else -> BottomNavigationItem.MYPAGE
     }
     var selectedItem by remember { mutableStateOf(item) }
     Row(

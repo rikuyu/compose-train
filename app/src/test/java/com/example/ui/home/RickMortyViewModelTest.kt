@@ -8,14 +8,9 @@ import com.google.common.truth.Truth.assertThat
 import com.example.model.Character
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -42,9 +37,11 @@ class RickMortyViewModelTest {
         val viewModel = RickMortyViewModel(repository)
 
         val firstValue = viewModel.characterListState.value
-        val dummyData = listOf(mockk<Character>(relaxed = true) {
-            every { name } returns "john"
-        })
+        val dummyData = listOf(
+            mockk<Character>(relaxed = true) {
+                every { name } returns "john"
+            }
+        )
         val response = flowOf(dummyData)
         coEvery { repository.getCharacterList() } returns response
 

@@ -49,8 +49,8 @@ object Deps {
     }
 
     object Material {
-        // const val composeThemeAdapter = "com.google.android.material:compose-theme-adapter:1.1.14"
         const val material3 = "androidx.compose.material3:material3"
+        // const val composeThemeAdapter = "com.google.android.material:compose-theme-adapter:1.1.14"
     }
 
     object Hilt {
@@ -64,26 +64,31 @@ object Deps {
     }
 
     object Ktor {
-        const val core = "io.ktor:ktor-client-core:2.0.1"
-        const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:2.0.1"
-        const val cio ="io.ktor:ktor-client-cio:2.0.1"
-        const val serializationGson = "io.ktor:ktor-serialization-gson:2.0.1"
+        const val ktor = "2.0.1"
+        const val core = "io.ktor:ktor-client-core:$ktor"
+        const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktor"
+        const val cio ="io.ktor:ktor-client-cio:$ktor"
+        const val serializationGson = "io.ktor:ktor-serialization-gson:$ktor"
     }
 
     object Kotlin {
         object Coroutines {
-            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-            const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
-            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+            const val coroutines = "1.6.4"
+            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+            const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines"
+            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
         }
     }
 
     object Accompanist {
-        const val systemUIController = "com.google.accompanist:accompanist-systemuicontroller:0.25.0"
-        const val flowLayout = "com.google.accompanist:accompanist-flowlayout:0.25.0"
-        const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:0.25.0"
-        const val placeholder = "com.google.accompanist:accompanist-placeholder-material:0.23.1"
+        const val accompanist = "0.27.1"
+//        const val systemUIController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+//        const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanist"
+        const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanist"
+        const val placeholder = "com.google.accompanist:accompanist-placeholder-material:$accompanist"
+        const val pager = "com.google.accompanist:accompanist-pager:$accompanist"
+        const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$accompanist"
     }
 
     object Testing {
