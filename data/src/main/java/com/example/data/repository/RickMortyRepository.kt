@@ -7,6 +7,8 @@ interface RickMortyRepository {
 
     suspend fun getCharacterList(): Flow<List<Character>>
 
+    suspend fun getCharacters(): List<Character>
+
     suspend fun getSpecificCharacter(id: Int): Flow<Character>
 
     suspend fun getFavoriteCharacterList(): Flow<List<Character>>

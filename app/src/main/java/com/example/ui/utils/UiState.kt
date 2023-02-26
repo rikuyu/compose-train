@@ -3,6 +3,7 @@ package com.example.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 @Stable
 data class UiState<T>(

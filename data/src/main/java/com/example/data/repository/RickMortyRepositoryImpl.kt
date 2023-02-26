@@ -18,6 +18,8 @@ class RickMortyRepositoryImpl @Inject constructor(
         emit(rickMortyDataSource.getCharacters())
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun getCharacters(): List<Character> = rickMortyDataSource.getCharacters()
+
     override suspend fun getSpecificCharacter(id: Int): Flow<Character> = flow {
         emit(rickMortyDataSource.getSpecificCharacter(id))
     }.flowOn(Dispatchers.IO)

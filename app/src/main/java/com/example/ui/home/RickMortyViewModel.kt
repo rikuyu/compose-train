@@ -9,11 +9,29 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.repository.RickMortyRepository
 import com.example.model.Character
 import com.example.model.DetailCharacter
-import com.example.ui.utils.*
+import com.example.ui.utils.LoadingState
+import com.example.ui.utils.UiState
+import com.example.ui.utils.getBackgroundColor
+import com.example.ui.utils.handleData
+import com.example.ui.utils.handleError
+import com.example.ui.utils.startLoading
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class CharactersState(
+    val isLoading: Boolean = false,
+    val characters: List<Character> = emptyList(),
+    val error: Throwable? = null
+)
 
 @HiltViewModel
 class RickMortyViewModel @Inject constructor(
@@ -22,6 +40,9 @@ class RickMortyViewModel @Inject constructor(
 
     private val _characterListState = MutableStateFlow(UiState<List<Character>>())
     val characterListState = _characterListState.asStateFlow()
+
+    private val _characters = MutableStateFlow(CharactersState())
+    val characters = _characters.asStateFlow()
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
     val backgroundColor: State<Color> get() = _backgroundColor
@@ -57,6 +78,19 @@ class RickMortyViewModel @Inject constructor(
     fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
         _characterListState.startLoading(loadingState)
         viewModelScope.launch {
+            _characters.update { it.copy(isLoading = true) }
+            runCatching { repository.getCharacters() }
+                .onSuccess { c ->
+                    _characters.update {
+                        it.copy(isLoading = false, characters = c)
+                    }
+                }
+                .onFailure { t ->
+                    _characters.update {
+                        it.copy(isLoading = false, error = t)
+                    }
+                }
+
             repository.getCharacterList()
                 .catch { _characterListState.handleError(it) }
                 .collect { _characterListState.handleData(it) }
