@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.ui.home.column_row.addColumnRow
 import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
@@ -65,9 +64,6 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = Routes.Grid.route
                         ) {
-                            addColumnRow(scope, scaffoldState, navController) {
-                                screenViewModel.setScreen(Routes.ColumnRow)
-                            }
                             addGrid(scope, scaffoldState, navController) { screenViewModel.setScreen(Routes.Grid) }
                             addFavorite(scope, scaffoldState, navController) {
                                 screenViewModel.setScreen(Routes.Favorite)

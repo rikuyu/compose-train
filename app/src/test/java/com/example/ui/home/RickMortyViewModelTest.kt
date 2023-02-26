@@ -18,46 +18,4 @@ import org.junit.Test
 @RunWith(AndroidJUnit4::class)
 class RickMortyViewModelTest {
 
-    @MockK
-    private lateinit var repository: RickMortyRepository
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        // Dispatchers.setMain(StandardTestDispatcher())
-    }
-
-//    @After
-//    fun tearDown() {
-//        Dispatchers.resetMain()
-//    }
-
-    @Test
-    fun getCharacters() = runTest {
-        val viewModel = RickMortyViewModel(repository)
-
-        val firstValue = viewModel.characterListState.value
-        val dummyData = listOf(
-            mockk<Character>(relaxed = true) {
-                every { name } returns "john"
-            }
-        )
-        val response = flowOf(dummyData)
-        coEvery { repository.getCharacterList() } returns response
-
-        assertThat(firstValue.data).isNull()
-        assertThat(firstValue.error).isNull()
-        assertThat(firstValue.isLoading.name).isEqualTo(LoadingState.NOT_LOADING.name)
-
-        viewModel.getCharacters()
-
-        assertThat(firstValue.data).isEqualTo(dummyData)
-        assertThat(firstValue.error).isNull()
-        assertThat(firstValue.isLoading.name).isEqualTo(LoadingState.NOT_LOADING.name)
-
-        coVerify(exactly = 1) {
-            repository.getCharacterList()
-            viewModel.getCharacters()
-        }
-    }
 }

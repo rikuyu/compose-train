@@ -14,11 +14,11 @@ class RickMortyDataSourceImpl @Inject constructor(
 ) : RickMortyDataSource {
 
     override suspend fun getCharacters(): List<Character> {
-        if ((1..8).random() == 1) {
+        if ((1..10).random() == 1) {
             delay(1000L)
             throw Exception()
         }
-        return client.get(Constants.URL_CHARACTER).body<Response>().results
+        return client.get(Constants.URL_CHARACTER).body<Response>().results.shuffled()
     }
 
     override suspend fun getSpecificCharacter(id: Int): Character {

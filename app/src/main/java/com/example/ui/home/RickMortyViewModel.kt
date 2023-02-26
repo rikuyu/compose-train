@@ -27,8 +27,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class CharactersState(
+data class CharactersUiState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val characters: List<Character> = emptyList(),
     val error: Throwable? = null
 )
@@ -38,10 +39,7 @@ class RickMortyViewModel @Inject constructor(
     private val repository: RickMortyRepository,
 ) : ViewModel() {
 
-    private val _characterListState = MutableStateFlow(UiState<List<Character>>())
-    val characterListState = _characterListState.asStateFlow()
-
-    private val _characters = MutableStateFlow(CharactersState())
+    private val _characters = MutableStateFlow(CharactersUiState())
     val characters = _characters.asStateFlow()
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
@@ -75,30 +73,39 @@ class RickMortyViewModel @Inject constructor(
         initialValue = DetailState.Loading()
     )
 
-    fun getCharacters(loadingState: LoadingState = LoadingState.LOADING) {
-        _characterListState.startLoading(loadingState)
+    fun getCharacters(isRefreshing: Boolean = false) {
         viewModelScope.launch {
-            _characters.update { it.copy(isLoading = true) }
+            _characters.update {
+                if (isRefreshing) {
+                    it.copy(isRefreshing = true)
+                } else {
+                    it.copy(isLoading = true)
+                }
+            }
             runCatching { repository.getCharacters() }
                 .onSuccess { c ->
                     _characters.update {
-                        it.copy(isLoading = false, characters = c)
+                        if (isRefreshing) {
+                            it.copy(isRefreshing = false, characters = c)
+                        } else {
+                            it.copy(isLoading = false, characters = c)
+                        }
                     }
                 }
                 .onFailure { t ->
                     _characters.update {
-                        it.copy(isLoading = false, error = t)
+                        if (isRefreshing) {
+                            it.copy(isRefreshing = false, error = t)
+                        } else {
+                            it.copy(isLoading = false, error = t)
+                        }
                     }
                 }
-
-            repository.getCharacterList()
-                .catch { _characterListState.handleError(it) }
-                .collect { _characterListState.handleData(it) }
         }
     }
 
     fun refreshCharacters() {
-        getCharacters(LoadingState.REFRESHING)
+        getCharacters(isRefreshing = true)
     }
 
     private fun getSpecificCharacter(id: Int) {

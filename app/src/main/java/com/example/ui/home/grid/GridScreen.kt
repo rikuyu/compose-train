@@ -1,18 +1,38 @@
 package com.example.ui.home.grid
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -26,12 +46,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
 import com.example.model.Character
+import com.example.ui.home.CharactersUiState
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
-import com.example.ui.utils.UiState
 import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.showSnackBar
-import com.example.ui.utils.theme.Purple200
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
@@ -53,7 +72,6 @@ fun NavGraphBuilder.addGrid(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridScreen(
     modifier: Modifier = Modifier,
@@ -62,16 +80,15 @@ fun GridScreen(
     navController: NavHostController,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
-    val state: UiState<List<Character>> by viewModel.characterListState.collectAsStateWithLifecycle()
+    val uiState: CharactersUiState by viewModel.characters.collectAsStateWithLifecycle()
     val listState = rememberLazyGridState()
-    val isShowButton by remember { derivedStateOf { listState.firstVisibleItemIndex != 0 } }
     var gridNum by remember { mutableStateOf(2) }
 
     LaunchedEffect(Unit) {
         scope.launch { viewModel.getCharacters() }
     }
 
-    if (state.error != null) {
+    if (uiState.error != null) {
         LaunchedEffect(Unit) {
             scope.launch {
                 showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
@@ -80,30 +97,27 @@ fun GridScreen(
     }
 
     Box {
-        state.StateView(
-            loadingView = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center),
-                ) {
-                    CircularProgressIndicator()
-                }
-            },
-            errorView = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center),
-                ) {
-                    TextButton(onClick = {
-                        scope.launch { viewModel.getCharacters() }
-                    }) {
-                        Text(text = "Retry")
-                    }
+        if (uiState.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (uiState.error != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+            ) {
+                TextButton(onClick = {
+                    scope.launch { viewModel.getCharacters() }
+                }) {
+                    Text(text = "Retry")
                 }
             }
-        ) { characterList ->
+        } else {
             Column(verticalArrangement = Arrangement.Top) {
                 LazyHorizontalGrid(
                     rows = GridCells.Fixed(gridNum),
@@ -115,13 +129,13 @@ fun GridScreen(
                         bottom = 0.dp
                     )
                 ) {
-                    items(characterList, key = { it.id }) {
+                    items(uiState.characters.take(6), key = { it.id }) {
                         HorizontalCharacterItem(character = it)
                     }
                 }
                 Spacer(modifier = modifier.height(10.dp))
                 SwipeRefresh(
-                    state = rememberSwipeRefreshState(state.isRefreshing),
+                    state = rememberSwipeRefreshState(uiState.isRefreshing),
                     onRefresh = { viewModel.refreshCharacters() },
                 ) {
                     LazyVerticalGrid(
@@ -138,7 +152,7 @@ fun GridScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         itemsIndexed(
-                            items = characterList,
+                            items = uiState.characters.takeLast(14),
                             key = { _, c -> c.id },
                         ) { _, c ->
                             VerticalCharacterItem(
@@ -154,39 +168,6 @@ fun GridScreen(
                         }
                     }
                 }
-            }
-        }
-        Column(modifier = Modifier.align(alignment = Alignment.BottomEnd).padding(12.dp)) {
-            AnimatedVisibility(visible = isShowButton) {
-                IconButton(
-                    onClick = { scope.launch { listState.animateScrollToItem(0) } },
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .background(color = Purple200, shape = CircleShape)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_upward),
-                        contentDescription = null, tint = Color.White
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            IconButton(
-                onClick = {
-                    gridNum = if (gridNum == 2) {
-                        3
-                    } else {
-                        2
-                    }
-                },
-                modifier = Modifier
-                    .padding(10.dp)
-                    .background(color = Purple200, shape = CircleShape)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_refresh),
-                    contentDescription = null, tint = Color.White
-                )
             }
         }
     }

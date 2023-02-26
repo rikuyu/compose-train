@@ -18,7 +18,7 @@ fun TrainTopBar(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    if (screen == Routes.ColumnRow ||
+    if (
         screen == Routes.Grid ||
         screen == Routes.DetailCharacter ||
         screen == Routes.Favorite
@@ -43,14 +43,6 @@ fun TrainTopBar(
                             navController.navigate(Routes.Grid.route)
                     }) {
                         Text(text = "Grid")
-                    }
-                    Divider()
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        if (screen != Routes.ColumnRow)
-                            navController.navigate(Routes.ColumnRow.route)
-                    }) {
-                        Text(text = "Normal")
                     }
                     Divider()
                     DropdownMenuItem(onClick = {
