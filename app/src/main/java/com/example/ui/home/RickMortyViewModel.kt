@@ -77,9 +77,9 @@ class RickMortyViewModel @Inject constructor(
         viewModelScope.launch {
             _characters.update {
                 if (isRefreshing) {
-                    it.copy(isRefreshing = true)
+                    it.copy(isRefreshing = true, error = null)
                 } else {
-                    it.copy(isLoading = true)
+                    it.copy(isLoading = true, error = null)
                 }
             }
             runCatching { repository.getCharacters() }

@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                 val scaffoldState = rememberScaffoldState()
 
                 Scaffold(
-                    topBar = { TrainTopBar(screen, navController, scaffoldState, scope) },
+                    topBar = { TrainTopBar(screen, navController) },
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         if (screen != Routes.AddTodo || screen != Routes.UpdateTodo) CustomBottomNavigationBar(

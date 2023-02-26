@@ -18,7 +18,11 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun CustomBottomNavigationBar(navController: NavController, screen: Routes, currentUser: FirebaseUser?) {
+fun CustomBottomNavigationBar(
+    navController: NavController,
+    screen: Routes,
+    currentUser: FirebaseUser?
+) {
     val item = when (screen) {
         Routes.Grid -> BottomNavigationItem.GRID
         Routes.Todo -> BottomNavigationItem.TODO

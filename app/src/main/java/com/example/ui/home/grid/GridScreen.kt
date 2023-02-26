@@ -28,9 +28,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -82,7 +79,6 @@ fun GridScreen(
 ) {
     val uiState: CharactersUiState by viewModel.characters.collectAsStateWithLifecycle()
     val listState = rememberLazyGridState()
-    var gridNum by remember { mutableStateOf(2) }
 
     LaunchedEffect(Unit) {
         scope.launch { viewModel.getCharacters() }
@@ -120,7 +116,7 @@ fun GridScreen(
         } else {
             Column(verticalArrangement = Arrangement.Top) {
                 LazyHorizontalGrid(
-                    rows = GridCells.Fixed(gridNum),
+                    rows = GridCells.Fixed(2),
                     modifier = modifier.height(150.dp),
                     contentPadding = PaddingValues(
                         start = 8.dp,
@@ -130,7 +126,16 @@ fun GridScreen(
                     )
                 ) {
                     items(uiState.characters.take(6), key = { it.id }) {
-                        HorizontalCharacterItem(character = it)
+                        HorizontalCharacterItem(
+                            character = it,
+                            onClickItem = {
+                                navController.navigate(
+                                    Routes.DetailCharacter.createRoute(
+                                        it.id
+                                    )
+                                )
+                            }
+                        )
                     }
                 }
                 Spacer(modifier = modifier.height(10.dp))
@@ -140,7 +145,7 @@ fun GridScreen(
                 ) {
                     LazyVerticalGrid(
                         state = listState,
-                        columns = GridCells.Fixed(gridNum),
+                        columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(
                             start = 16.dp,
                             end = 16.dp,
@@ -157,7 +162,7 @@ fun GridScreen(
                         ) { _, c ->
                             VerticalCharacterItem(
                                 character = c,
-                                onClick = {
+                                onClickItem = {
                                     navController.navigate(
                                         Routes.DetailCharacter.createRoute(
                                             c.id
@@ -176,6 +181,7 @@ fun GridScreen(
 @Composable
 fun HorizontalCharacterItem(
     character: Character,
+    onClickItem: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -188,7 +194,7 @@ fun HorizontalCharacterItem(
                     onPress = { /* Called when the gesture starts */ },
                     onDoubleTap = { /* Called on Double Tap */ },
                     onLongPress = { /* Called on Long Press */ },
-                    onTap = { },
+                    onTap = { onClickItem() },
                 )
             }
     ) {
@@ -212,13 +218,13 @@ fun HorizontalCharacterItem(
 @Composable
 fun VerticalCharacterItem(
     character: Character,
-    onClick: () -> Unit,
+    onClickItem: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(210.dp)
-            .clickable { onClick() },
+            .clickable { onClickItem() },
         verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(

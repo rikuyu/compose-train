@@ -10,12 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun TrainTopBar(
-    screen: Routes,
-    navController: NavController,
-    scaffoldState: ScaffoldState,
-    scope: CoroutineScope,
-) {
+fun TrainTopBar(screen: Routes, navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
 
     if (
@@ -51,15 +46,6 @@ fun TrainTopBar(
                             navController.navigate(Routes.Favorite.route)
                     }) {
                         Text(text = "Favorite")
-                    }
-                    Divider()
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        scope.launch {
-                            showSnackBar(scaffoldState, "Sample SnackBar", "Do")
-                        }
-                    }) {
-                        Text(text = "SnackBar")
                     }
                 }
             }
