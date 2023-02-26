@@ -9,12 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.repository.RickMortyRepository
 import com.example.model.Character
 import com.example.model.DetailCharacter
-import com.example.ui.utils.LoadingState
-import com.example.ui.utils.UiState
 import com.example.ui.utils.getBackgroundColor
-import com.example.ui.utils.handleData
-import com.example.ui.utils.handleError
-import com.example.ui.utils.startLoading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,13 +22,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class CharactersUiState(
-    val isLoading: Boolean = false,
-    val isRefreshing: Boolean = false,
-    val characters: List<Character> = emptyList(),
-    val error: Throwable? = null
-)
-
 @HiltViewModel
 class RickMortyViewModel @Inject constructor(
     private val repository: RickMortyRepository,
@@ -42,11 +30,11 @@ class RickMortyViewModel @Inject constructor(
     private val _characters = MutableStateFlow(CharactersUiState())
     val characters = _characters.asStateFlow()
 
+    private val _favoriteCharacters = MutableStateFlow(FavoriteCharacterUiState())
+    val favoriteCharacters = _favoriteCharacters.asStateFlow()
+
     private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
     val backgroundColor: State<Color> get() = _backgroundColor
-
-    private val _favoriteCharacterState = MutableStateFlow(UiState<List<Character>>())
-    val favoriteCharacterState = _favoriteCharacterState.asStateFlow()
 
     private val _characterState: MutableStateFlow<DetailState<Character>> = MutableStateFlow(DetailState.Loading())
     private val _isExistInFavorite: MutableStateFlow<DetailState<Boolean>> = MutableStateFlow(DetailState.Loading())
@@ -132,7 +120,11 @@ class RickMortyViewModel @Inject constructor(
         checkIsExistInFavorite(id)
     }
 
-    fun onClickHeartIconEvent(isClicked: Boolean, character: Character, isFavoriteScreen: Boolean = false) {
+    fun onClickHeartIcon(
+        isClicked: Boolean,
+        character: Character,
+        isFavoriteScreen: Boolean = false
+    ) {
         viewModelScope.launch {
             if (isClicked) {
                 addFavoriteCharacter(character)
@@ -152,11 +144,19 @@ class RickMortyViewModel @Inject constructor(
     }
 
     fun getFavoriteCharacterList() {
-        _favoriteCharacterState.startLoading(LoadingState.LOADING)
         viewModelScope.launch {
-            repository.getFavoriteCharacterList()
-                .catch { _favoriteCharacterState.handleError(it) }
-                .collect { _favoriteCharacterState.handleData(it) }
+            _favoriteCharacters.update { it.copy(isLoading = true, error = null) }
+            runCatching { repository.getFavoriteCharacters() }
+                .onSuccess { c ->
+                    _favoriteCharacters.update {
+                        it.copy(isLoading = false, characters = c)
+                    }
+                }
+                .onFailure { t ->
+                    _favoriteCharacters.update {
+                        it.copy(isLoading = false, error = t)
+                    }
+                }
         }
     }
 }
@@ -166,3 +166,16 @@ sealed class DetailState<T> {
     data class Error<T>(val exception: Throwable) : DetailState<T>()
     class Loading<T> : DetailState<T>()
 }
+
+data class CharactersUiState(
+    val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
+    val characters: List<Character> = emptyList(),
+    val error: Throwable? = null
+)
+
+data class FavoriteCharacterUiState(
+    val isLoading: Boolean = false,
+    val characters: List<Character> = emptyList(),
+    val error: Throwable? = null
+)

@@ -20,8 +20,7 @@ class RickMortyRepositoryImpl @Inject constructor(
         emit(rickMortyDataSource.getSpecificCharacter(id))
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getFavoriteCharacterList(): Flow<List<Character>> =
-        localDataSource.getFavoriteCharacterList()
+    override suspend fun getFavoriteCharacters(): List<Character> = localDataSource.getFavoriteCharacters()
 
     override suspend fun insertCharacter(character: Character) {
         localDataSource.insertCharacter(character)

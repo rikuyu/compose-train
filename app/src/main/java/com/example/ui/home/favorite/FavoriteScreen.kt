@@ -28,7 +28,6 @@ import androidx.navigation.compose.composable
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.model.Character
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.*
 import kotlinx.coroutines.CoroutineScope
@@ -57,19 +56,19 @@ fun FavoriteScreen(
     navController: NavHostController,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
-    val state: UiState<List<Character>> by viewModel.favoriteCharacterState.collectAsStateWithLifecycle()
+    val uiState by viewModel.favoriteCharacters.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacterList() } }
 
-    if (state.error != null) {
+    if (uiState.error != null) {
         LaunchedEffect(Unit) {
             scope.launch { showSnackBar(scaffoldState, "error") }
         }
     }
 
-    state.StateView(loadingView = {
+    if (uiState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,20 +76,20 @@ fun FavoriteScreen(
         ) {
             CircularProgressIndicator()
         }
-    }, errorView = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize()
-            ) {
-                TextButton(onClick = {
-                    viewModel.getFavoriteCharacterList()
-                }) {
-                    Text(text = "Retry")
-                }
+    } else if (uiState.error != null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize()
+        ) {
+            TextButton(onClick = {
+                viewModel.getFavoriteCharacterList()
+            }) {
+                Text(text = "Retry")
             }
-        }) { list ->
-        if (list.isEmpty()) {
+        }
+    } else {
+        if (uiState.characters.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -110,13 +109,16 @@ fun FavoriteScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = LocalContext.current.getString(R.string.num_favorite_items, list.size),
+                                text = LocalContext.current.getString(
+                                    R.string.num_favorite_items,
+                                    uiState.characters.size
+                                ),
                                 style = MaterialTheme.typography.subtitle1
                             )
                         }
                     }
                     item { Divider() }
-                    items(list) { character ->
+                    items(uiState.characters) { character ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -158,7 +160,7 @@ fun FavoriteScreen(
                                 clickedIconVector = Icons.Default.Favorite,
                                 notClickedIconVector = Icons.Default.FavoriteBorder,
                             ) {
-                                viewModel.onClickHeartIconEvent(it, character, true)
+                                viewModel.onClickHeartIcon(it, character, true)
                                 context.showToast(context.getString(R.string.delete_favorite_character))
                             }
                             Spacer(modifier = Modifier.width(12.dp))

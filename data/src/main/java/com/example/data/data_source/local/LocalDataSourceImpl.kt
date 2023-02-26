@@ -12,9 +12,7 @@ class LocalDataSourceImpl @Inject constructor(
     private val dao: RickAndMortyDao,
 ) : LocalDataSource {
 
-    override suspend fun getFavoriteCharacterList(): Flow<List<Character>> = flow {
-        emit(dao.getCharacterList())
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getFavoriteCharacters(): List<Character> = dao.getFavoriteCharacters()
 
     override suspend fun insertCharacter(character: Character) {
         dao.insert(character)

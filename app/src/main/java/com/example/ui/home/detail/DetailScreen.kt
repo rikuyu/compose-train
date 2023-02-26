@@ -146,7 +146,7 @@ fun DetailScreen(
                                 .align(Alignment.BottomEnd)
                                 .padding(start = 12.dp)
                         ) {
-                            viewModel.onClickHeartIconEvent(it, DetailCharacter.convertToCharacter(data))
+                            viewModel.onClickHeartIcon(it, DetailCharacter.convertToCharacter(data))
                             if (it) {
                                 context.showToast(context.getString(R.string.save_favorite_character))
                             } else {

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
-    suspend fun getFavoriteCharacterList(): Flow<List<Character>>
+    suspend fun getFavoriteCharacters(): List<Character>
 
     suspend fun insertCharacter(character: Character)
 
