@@ -1,21 +1,18 @@
 package com.example.ui.home
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.RickMortyRepository
 import com.example.model.Character
-import com.example.model.DetailCharacter
+import com.example.model.CharacterDetail
 import com.example.ui.utils.getBackgroundColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -30,35 +27,39 @@ class RickMortyViewModel @Inject constructor(
     private val _characters = MutableStateFlow(CharactersUiState())
     val characters = _characters.asStateFlow()
 
-    private val _favoriteCharacters = MutableStateFlow(FavoriteCharacterUiState())
+    private val _favoriteCharacters = MutableStateFlow(FavoriteCharactersUiState())
     val favoriteCharacters = _favoriteCharacters.asStateFlow()
 
-    private val _backgroundColor: MutableState<Color> = mutableStateOf(getBackgroundColor(null))
-    val backgroundColor: State<Color> get() = _backgroundColor
+    private val _backgroundColor: MutableStateFlow<Color> = MutableStateFlow(getBackgroundColor(null))
+    val backgroundColor: StateFlow<Color> get() = _backgroundColor
 
-    private val _characterState: MutableStateFlow<DetailState<Character>> = MutableStateFlow(DetailState.Loading())
-    private val _isExistInFavorite: MutableStateFlow<DetailState<Boolean>> = MutableStateFlow(DetailState.Loading())
+    private val _character: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState())
+    private val _isFavorite: MutableStateFlow<FavoriteCharacterUiState> = MutableStateFlow(FavoriteCharacterUiState())
 
-    val characterDetailState: StateFlow<DetailState<DetailCharacter>> = combine(
-        _characterState,
-        _isExistInFavorite
-    ) { remoteCharacterData, isExistInFavorite ->
-        val data = if (remoteCharacterData is DetailState.Loading || isExistInFavorite is DetailState.Loading) {
-            DetailState.Loading()
-        } else if (remoteCharacterData is DetailState.Error) {
-            DetailState.Error(remoteCharacterData.exception)
-        } else if (isExistInFavorite is DetailState.Error) {
-            DetailState.Error(isExistInFavorite.exception)
-        } else if (remoteCharacterData is DetailState.Success && isExistInFavorite is DetailState.Success) {
-            DetailState.Success(DetailCharacter.convertToDetail(remoteCharacterData.data, isExistInFavorite.data))
+    val characterDetail: StateFlow<CharacterDetailUiState> = combine(
+        _character,
+        _isFavorite
+    ) { c, f ->
+        val isLoading = c.isLoading || f.isLoading
+        val error = c.error ?: f.error
+        return@combine if (isLoading) {
+            CharacterDetailUiState(isLoading = isLoading)
+        } else if (error != null) {
+            CharacterDetailUiState(isLoading = false, error = error)
         } else {
-            DetailState.Error(Exception("unknown error"))
+            CharacterDetailUiState(
+                isLoading = false,
+                detail = CharacterDetail.convertToDetail(
+                    character = c.character,
+                    isFavorite = f.isFavorite
+                ),
+                error = null
+            )
         }
-        return@combine data
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = DetailState.Loading()
+        initialValue = CharacterDetailUiState()
     )
 
     fun getCharacters(isRefreshing: Boolean = false) {
@@ -98,52 +99,62 @@ class RickMortyViewModel @Inject constructor(
 
     private fun getSpecificCharacter(id: Int) {
         viewModelScope.launch {
-            repository.getSpecificCharacter(id)
-                .catch { _characterState.value = DetailState.Error(it) }
-                .collect {
-                    _characterState.value = DetailState.Success(it)
-                    _backgroundColor.value = getBackgroundColor(it.gender)
+            _character.update { it.copy(isLoading = true) }
+            runCatching { repository.getSpecificCharacter(id) }
+                .onSuccess { c ->
+                    _character.update {
+                        it.copy(isLoading = false, character = c)
+                    }
+                    _backgroundColor.update { getBackgroundColor(c.gender) }
                 }
+                .onFailure { t -> _character.update { it.copy(isLoading = false, error = t) } }
         }
     }
 
-    private fun checkIsExistInFavorite(id: Int) {
+    private fun getIsFavorite(id: Int) {
         viewModelScope.launch {
-            repository.checkIsExistInFavorite(id)
-                .catch { _isExistInFavorite.value = DetailState.Error(it) }
-                .collect { _isExistInFavorite.value = DetailState.Success(it) }
+            _isFavorite.update { it.copy(isLoading = true) }
+            runCatching { repository.getIsFavorite(id) }
+                .onSuccess { b ->
+                    _isFavorite.update { it.copy(isLoading = false, isFavorite = b) }
+                }
+                .onFailure { t ->
+                    _isFavorite.update { it.copy(isLoading = false, error = t) }
+                }
         }
     }
 
     fun getDetail(id: Int) {
         getSpecificCharacter(id)
-        checkIsExistInFavorite(id)
+        getIsFavorite(id)
     }
 
-    fun onClickHeartIcon(
+    fun onClickFavorite(
         isClicked: Boolean,
         character: Character,
         isFavoriteScreen: Boolean = false
     ) {
         viewModelScope.launch {
             if (isClicked) {
-                addFavoriteCharacter(character)
+                addFavorite(character)
             } else {
-                deleteFavoriteCharacter(character)
-                if (isFavoriteScreen) getFavoriteCharacterList()
+                deleteFavorite(character)
+                if (isFavoriteScreen) getFavoriteCharacters()
             }
         }
     }
 
-    private suspend fun addFavoriteCharacter(character: Character) {
-        repository.insertCharacter(character)
+    private suspend fun addFavorite(character: Character) {
+        runCatching { repository.insertCharacter(character) }
+            .onSuccess { getIsFavorite(character.id) }
     }
 
-    private suspend fun deleteFavoriteCharacter(character: Character) {
-        repository.deleteCharacter(character)
+    private suspend fun deleteFavorite(character: Character) {
+        runCatching { repository.deleteCharacter(character) }
+            .onSuccess { getIsFavorite(character.id) }
     }
 
-    fun getFavoriteCharacterList() {
+    fun getFavoriteCharacters() {
         viewModelScope.launch {
             _favoriteCharacters.update { it.copy(isLoading = true, error = null) }
             runCatching { repository.getFavoriteCharacters() }
@@ -161,21 +172,43 @@ class RickMortyViewModel @Inject constructor(
     }
 }
 
-sealed class DetailState<T> {
-    data class Success<T>(val data: T) : DetailState<T>()
-    data class Error<T>(val exception: Throwable) : DetailState<T>()
-    class Loading<T> : DetailState<T>()
-}
-
+@Stable
 data class CharactersUiState(
-    val isLoading: Boolean = false,
+    val characters: List<Character> = emptyList(),
     val isRefreshing: Boolean = false,
-    val characters: List<Character> = emptyList(),
-    val error: Throwable? = null
-)
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
 
-data class FavoriteCharacterUiState(
-    val isLoading: Boolean = false,
+@Stable
+data class CharacterUiState(
+    val character: Character? = null,
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
+
+@Stable
+data class FavoriteCharactersUiState(
     val characters: List<Character> = emptyList(),
-    val error: Throwable? = null
-)
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
+
+@Stable
+data class FavoriteCharacterUiState(
+    val isFavorite: Boolean = false,
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
+
+@Stable
+data class CharacterDetailUiState(
+    val detail: CharacterDetail? = null,
+    override val isLoading: Boolean = true,
+    override val error: Throwable? = null
+) : UiState
+
+interface UiState {
+    val isLoading: Boolean
+    val error: Throwable?
+}

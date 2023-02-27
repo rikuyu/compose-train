@@ -60,7 +60,7 @@ fun FavoriteScreen(
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacterList() } }
+    LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacters() } }
 
     if (uiState.error != null) {
         LaunchedEffect(Unit) {
@@ -83,7 +83,7 @@ fun FavoriteScreen(
                 .wrapContentSize()
         ) {
             TextButton(onClick = {
-                viewModel.getFavoriteCharacterList()
+                viewModel.getFavoriteCharacters()
             }) {
                 Text(text = "Retry")
             }
@@ -160,7 +160,7 @@ fun FavoriteScreen(
                                 clickedIconVector = Icons.Default.Favorite,
                                 notClickedIconVector = Icons.Default.FavoriteBorder,
                             ) {
-                                viewModel.onClickHeartIcon(it, character, true)
+                                viewModel.onClickFavorite(it, character, true)
                                 context.showToast(context.getString(R.string.delete_favorite_character))
                             }
                             Spacer(modifier = Modifier.width(12.dp))

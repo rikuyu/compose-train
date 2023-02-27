@@ -1,7 +1,6 @@
 package com.example.data.data_source.local
 
 import com.example.model.Character
-import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
@@ -11,5 +10,5 @@ interface LocalDataSource {
 
     suspend fun deleteCharacter(character: Character)
 
-    suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean>
+    suspend fun getIsFavorite(id: Int): Boolean
 }

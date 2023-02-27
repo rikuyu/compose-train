@@ -1,11 +1,23 @@
 package com.example.ui.home.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -29,10 +41,13 @@ import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.composetrainapp.R
-import com.example.model.DetailCharacter
-import com.example.ui.home.DetailState
+import com.example.model.CharacterDetail
 import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.*
+import com.example.ui.utils.Routes
+import com.example.ui.utils.ToggleButton
+import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.showSnackBarWithArg
+import com.example.ui.utils.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -66,101 +81,83 @@ fun DetailScreen(
     scope: CoroutineScope,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
-    val state: DetailState<DetailCharacter> by viewModel.characterDetailState.collectAsStateWithLifecycle()
-    val color by viewModel.backgroundColor
+    val uiState by viewModel.characterDetail.collectAsStateWithLifecycle()
+    val backgroundColor by viewModel.backgroundColor.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.getDetail(characterId) }
 
-    when (state) {
-        is DetailState.Error -> {
-            LaunchedEffect(Unit) {
-                scope.launch {
-                    showSnackBarWithArg(
-                        scaffoldState,
-                        (state as DetailState.Error<DetailCharacter>).exception.message ?: "error",
-                        "retry",
-                        characterId,
-                        viewModel::getDetail
-                    )
-                }
-            }
+    if (uiState.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize()
+        ) {
+            CircularProgressIndicator()
         }
-        is DetailState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize()
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        is DetailState.Success -> {
-            val scrollState = rememberScrollState(0)
-            val data = (state as DetailState.Success<DetailCharacter>).data
-            Box(modifier = Modifier.fillMaxSize()) {
-                Spacer(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    color,
-                                    MaterialTheme.colors.background
-                                )
-                            )
-                        )
+    } else if (uiState.error != null) {
+        LaunchedEffect(Unit) {
+            scope.launch {
+                showSnackBarWithArg(
+                    scaffoldState,
+                    requireNotNull(uiState.error).message ?: "error",
+                    "retry",
+                    characterId,
+                    viewModel::getDetail
                 )
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(scrollState)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 30.dp, start = 80.dp, end = 80.dp, bottom = 12.dp)
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(data.image)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop,
-                            placeholder = painterResource(id = R.drawable.place_holder)
+            }
+        }
+    } else {
+        val data = requireNotNull(uiState.detail)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            backgroundColor,
+                            MaterialTheme.colors.background
                         )
-                        ToggleButton(
-                            isClicked = data.isFavorite,
-                            backgroundColor = Color.LightGray.copy(alpha = 0.3f),
-                            iconColor = Color(0xFFFE4E98),
-                            clickedIconVector = Icons.Default.Favorite,
-                            notClickedIconVector = Icons.Default.FavoriteBorder,
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(start = 12.dp)
-                        ) {
-                            viewModel.onClickHeartIcon(it, DetailCharacter.convertToCharacter(data))
-                            if (it) {
-                                context.showToast(context.getString(R.string.save_favorite_character))
-                            } else {
-                                context.showToast(context.getString(R.string.delete_favorite_character))
-                            }
-                        }
+                    )
+                )
+        ) {
+            Spacer(modifier = Modifier.height(30.dp))
+            Box {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(data.image)
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(240.dp)
+                        .clip(CircleShape)
+                        .align(Alignment.Center),
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.place_holder)
+                )
+                ToggleButton(
+                    isClicked = data.isFavorite,
+                    backgroundColor = Color.LightGray.copy(alpha = 0.5f),
+                    iconColor = Color(0xFFFE4E98),
+                    clickedIconVector = Icons.Default.Favorite,
+                    notClickedIconVector = Icons.Default.FavoriteBorder,
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                ) {
+                    viewModel.onClickFavorite(it, CharacterDetail.convertToCharacter(data))
+                    if (it) {
+                        context.showToast(context.getString(R.string.save_favorite_character))
+                    } else {
+                        context.showToast(context.getString(R.string.delete_favorite_character))
                     }
-                    CharacterProfileSection("Name", data.name)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    CharacterProfileSection("Gender", data.gender)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    CharacterProfileSection("Spices", data.species)
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
+            CharacterProfileSection("Name", data.name)
+            Spacer(modifier = Modifier.height(12.dp))
+            CharacterProfileSection("Gender", data.gender)
+            Spacer(modifier = Modifier.height(12.dp))
+            CharacterProfileSection("Spices", data.species)
         }
     }
 }

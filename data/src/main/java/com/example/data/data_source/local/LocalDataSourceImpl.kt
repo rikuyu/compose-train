@@ -2,10 +2,6 @@ package com.example.data.data_source.local
 
 import com.example.data.database.RickAndMortyDao
 import com.example.model.Character
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -22,5 +18,5 @@ class LocalDataSourceImpl @Inject constructor(
         dao.delete(character)
     }
 
-    override suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean> = dao.checkIsExistInFavorite(id)
+    override suspend fun getIsFavorite(id: Int): Boolean = dao.getIsFavorite(id)
 }

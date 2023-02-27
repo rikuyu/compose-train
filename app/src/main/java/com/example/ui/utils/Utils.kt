@@ -96,7 +96,7 @@ suspend fun showSnackBarWithArg(
 fun getBackgroundColor(genderType: String?) = when (genderType) {
     "Male" -> Color(0xFF82BDE9)
     "Female" -> Color(0xFFE982D2)
-    else -> Color.LightGray
+    else -> Color.Gray
 }
 
 fun Context.showToast(message: String) {

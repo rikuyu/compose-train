@@ -3,10 +3,6 @@ package com.example.data.repository
 import com.example.data.data_source.local.LocalDataSource
 import com.example.data.data_source.remote.RickMortyDataSource
 import com.example.model.Character
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class RickMortyRepositoryImpl @Inject constructor(
@@ -16,9 +12,7 @@ class RickMortyRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacters(): List<Character> = rickMortyDataSource.getCharacters()
 
-    override suspend fun getSpecificCharacter(id: Int): Flow<Character> = flow {
-        emit(rickMortyDataSource.getSpecificCharacter(id))
-    }.flowOn(Dispatchers.IO)
+    override suspend fun getSpecificCharacter(id: Int): Character = rickMortyDataSource.getSpecificCharacter(id)
 
     override suspend fun getFavoriteCharacters(): List<Character> = localDataSource.getFavoriteCharacters()
 
@@ -30,5 +24,5 @@ class RickMortyRepositoryImpl @Inject constructor(
         localDataSource.deleteCharacter(character)
     }
 
-    override suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean> = localDataSource.checkIsExistInFavorite(id)
+    override suspend fun getIsFavorite(id: Int): Boolean = localDataSource.getIsFavorite(id)
 }

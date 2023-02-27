@@ -19,7 +19,7 @@ data class Character(
     val url: String,
 )
 
-data class DetailCharacter(
+data class CharacterDetail(
     val id: Int,
     val created: String,
     val episode: List<String>,
@@ -33,21 +33,24 @@ data class DetailCharacter(
     val isFavorite: Boolean,
 ) {
     companion object {
-        fun convertToDetail(character: Character, isFavorite: Boolean): DetailCharacter = DetailCharacter(
-            id = character.id,
-            created = character.created,
-            episode = character.episode,
-            gender = character.gender,
-            image = character.image,
-            name = character.name,
-            species = character.species,
-            status = character.status,
-            type = character.type,
-            url = character.url,
-            isFavorite = isFavorite
-        )
+        fun convertToDetail(character: Character?, isFavorite: Boolean): CharacterDetail? {
+            val c = character ?: return null
+            return CharacterDetail(
+                id = c.id,
+                created = c.created,
+                episode = c.episode,
+                gender = c.gender,
+                image = c.image,
+                name = c.name,
+                species = c.species,
+                status = c.status,
+                type = c.type,
+                url = c.url,
+                isFavorite = isFavorite
+            )
+        }
 
-        fun convertToCharacter(character: DetailCharacter): Character = Character(
+        fun convertToCharacter(character: CharacterDetail): Character = Character(
             id = character.id,
             created = character.created,
             episode = character.episode,

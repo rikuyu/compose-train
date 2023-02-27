@@ -7,7 +7,7 @@ interface RickMortyRepository {
 
     suspend fun getCharacters(): List<Character>
 
-    suspend fun getSpecificCharacter(id: Int): Flow<Character>
+    suspend fun getSpecificCharacter(id: Int): Character
 
     suspend fun getFavoriteCharacters(): List<Character>
 
@@ -15,5 +15,5 @@ interface RickMortyRepository {
 
     suspend fun deleteCharacter(character: Character)
 
-    suspend fun checkIsExistInFavorite(id: Int): Flow<Boolean>
+    suspend fun getIsFavorite(id: Int): Boolean
 }

@@ -17,5 +17,5 @@ interface RickAndMortyDao {
     fun getFavoriteCharacters(): List<Character>
 
     @Query("SELECT EXISTS(SELECT * FROM characters WHERE id = :id)")
-    fun checkIsExistInFavorite(id: Int): Flow<Boolean>
+    fun getIsFavorite(id: Int): Boolean
 }
