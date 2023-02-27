@@ -97,6 +97,7 @@ object Deps {
         const val extTestRunner = "androidx.test.ext:junit:1.1.3"
         const val truth = "com.google.truth:truth:1.1.3"
         const val mockk = "io.mockk:mockk:1.12.5"
+        const val turbine = "app.cash.turbine:turbine:0.12.1"
     }
 
     object Firebase {

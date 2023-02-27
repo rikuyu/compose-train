@@ -1,4 +1,4 @@
-package com.example.ui.todo
+package com.example.ui.todo.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
@@ -23,7 +23,11 @@ import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
 import com.example.data.utils.Result
 import com.example.model.User
-import com.example.ui.todo.components.TodoScreen
+import com.example.ui.todo.EmailForm
+import com.example.ui.todo.ErrorMessage
+import com.example.ui.todo.InputState
+import com.example.ui.todo.PasswordForm
+import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.*
 
 fun NavGraphBuilder.addLogIn(

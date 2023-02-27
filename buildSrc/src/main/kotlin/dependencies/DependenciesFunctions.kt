@@ -52,6 +52,7 @@ fun DependencyHandler.test() {
     implementation(Deps.Testing.extTestRunner)
     implementation(Deps.Testing.mockk)
     implementation(Deps.Testing.truth)
+    implementation(Deps.Testing.turbine)
     implementation(Deps.Kotlin.Coroutines.test)
 }
 

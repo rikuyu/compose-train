@@ -19,6 +19,8 @@ import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
 import com.example.ui.mypage.addMyPage
 import com.example.ui.todo.*
+import com.example.ui.todo.components.addLogIn
+import com.example.ui.todo.components.addSignUp
 import com.example.ui.todo.components.addTodo
 import com.example.ui.todo.components.addUpdateTodo
 import com.example.ui.utils.*
