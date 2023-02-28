@@ -3,18 +3,25 @@ package com.example.ui.utils.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.ui.utils.BottomNavigationItem
 import com.example.ui.utils.Routes
 import com.google.firebase.auth.FirebaseUser
@@ -25,12 +32,10 @@ fun CustomBottomNavigationBar(
     screen: Routes,
     currentUser: FirebaseUser?
 ) {
-    val item = when (screen) {
-        Routes.Grid -> BottomNavigationItem.GRID
-        Routes.Todo -> BottomNavigationItem.TODO
-        else -> BottomNavigationItem.MYPAGE
-    }
-    var selectedItem by remember { mutableStateOf(item) }
+    if (screen != Routes.AddTodo || screen != Routes.UpdateTodo) return
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     Row(
         modifier = Modifier
             .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
@@ -42,9 +47,10 @@ fun CustomBottomNavigationBar(
         BottomNavigationItem.values().forEachIndexed { _, item ->
             CustomBottomNavigationItem(
                 bottomNavigationItem = item,
-                isSelected = selectedItem == item
+                isSelected = currentDestination?.hierarchy?.any {
+                    it.route == item.label.lowercase()
+                } == true
             ) {
-                selectedItem = item
                 if (item == BottomNavigationItem.TODO && currentUser == null) {
                     navController.navigate(Routes.LogIn.route)
                 } else {

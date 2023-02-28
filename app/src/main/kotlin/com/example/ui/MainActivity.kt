@@ -9,8 +9,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -18,12 +20,13 @@ import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
 import com.example.ui.mypage.addMyPage
-import com.example.ui.todo.*
+import com.example.ui.todo.TodoViewModel
+import com.example.ui.todo.components.addAddTodo
 import com.example.ui.todo.components.addLogIn
 import com.example.ui.todo.components.addSignUp
 import com.example.ui.todo.components.addTodo
 import com.example.ui.todo.components.addUpdateTodo
-import com.example.ui.utils.*
+import com.example.ui.utils.Routes
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar
@@ -56,11 +59,7 @@ class MainActivity : ComponentActivity() {
                     topBar = { TrainTopBar(screen, navController) },
                     scaffoldState = scaffoldState,
                     bottomBar = {
-                        if (screen != Routes.AddTodo || screen != Routes.UpdateTodo) CustomBottomNavigationBar(
-                            navController,
-                            screen,
-                            currentUser
-                        )
+                        CustomBottomNavigationBar(navController, screen, currentUser)
                     },
                     floatingActionButton = { TrainFloatingActionButton(screen, navController) }
                 ) { innerPadding ->

@@ -9,17 +9,16 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import java.util.*
 import javax.inject.Inject
 
 class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
 
-    private val firestore = Firebase.firestore
+    private val fireStore = Firebase.firestore
     private val auth = Firebase.auth
 
     override suspend fun getAllTodo(): Result<List<Todo>> {
         var result: Result<List<Todo>> = Result.LoadingState.Loading
-        runCatching { firestore.collection(TODO_COLLECTION).get().await() }
+        runCatching { fireStore.collection(TODO_COLLECTION).get().await() }
             .onSuccess {
                 val todos = it.map { snapshot ->
                     snapshot.toObject<Todo>()
@@ -35,7 +34,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     override suspend fun getTodo(id: String): Result<Todo> {
         var result: Result<Todo> = Result.LoadingState.Loading
         runCatching {
-            firestore.collection(TODO_COLLECTION)
+            fireStore.collection(TODO_COLLECTION)
                 .document(id)
                 .get()
                 .await()
@@ -55,7 +54,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     override suspend fun addTodo(todo: Todo): Result<String> {
         var result: Result<String> = Result.LoadingState.Loading
         runCatching {
-            firestore.collection(TODO_COLLECTION)
+            fireStore.collection(TODO_COLLECTION)
                 .document(todo.id)
                 .set(todo)
                 .await()
@@ -68,7 +67,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     override suspend fun updateTodo(id: String, todo: Map<String, Any>): Result<String> {
         var result: Result<String> = Result.LoadingState.Loading
         runCatching {
-            firestore.collection(TODO_COLLECTION)
+            fireStore.collection(TODO_COLLECTION)
                 .document(id)
                 .update(todo)
                 .await()
@@ -81,7 +80,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     override suspend fun deleteTodo(id: String): Result<String> {
         var result: Result<String> = Result.LoadingState.Loading
         runCatching {
-            firestore.collection(TODO_COLLECTION)
+            fireStore.collection(TODO_COLLECTION)
                 .document(id)
                 .delete()
                 .await()
@@ -96,7 +95,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
     override suspend fun getUser(id: String): Result<User?> {
         var result: Result<User> = Result.LoadingState.Loading
         runCatching {
-            firestore.collection(USER_COLLECTION)
+            fireStore.collection(USER_COLLECTION)
                 .document(id)
                 .get()
                 .await()
@@ -122,7 +121,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
                 val userId = auth.currentUser?.uid ?: return Result.Error(Exception())
                 val user = mapOf("id" to userId, "name" to userName, "email" to email)
                 runCatching {
-                    firestore.collection(USER_COLLECTION)
+                    fireStore.collection(USER_COLLECTION)
                         .document(userId)
                         .set(user)
                         .await()
@@ -142,7 +141,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
             .onSuccess {
                 val userId = auth.currentUser?.uid ?: return Result.Error(Exception())
                 runCatching {
-                    firestore.collection(USER_COLLECTION)
+                    fireStore.collection(USER_COLLECTION)
                         .document(userId)
                         .get()
                         .await()
