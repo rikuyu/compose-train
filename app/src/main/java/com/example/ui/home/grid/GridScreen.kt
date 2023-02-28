@@ -8,23 +8,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,21 +28,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.composetrainapp.R
 import com.example.model.Character
 import com.example.ui.home.CharactersUiState
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.compose.FullScreenErrorView
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
+import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBar
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -94,25 +88,9 @@ fun GridScreen(
 
     Box {
         if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-            ) {
-                CircularProgressIndicator()
-            }
+            FullScreenLoadingIndicator()
         } else if (uiState.error != null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center),
-            ) {
-                TextButton(onClick = {
-                    scope.launch { viewModel.getCharacters() }
-                }) {
-                    Text(text = "Retry")
-                }
-            }
+            FullScreenErrorView { viewModel.getCharacters() }
         } else {
             Column(verticalArrangement = Arrangement.Top) {
                 LazyHorizontalGrid(
@@ -198,15 +176,9 @@ fun HorizontalCharacterItem(
                 )
             }
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(character.image)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
+        TrainAppImage(
             modifier = Modifier.padding(end = 4.dp),
-            contentScale = ContentScale.FillHeight,
-            placeholder = painterResource(id = R.drawable.place_holder)
+            url = character.image
         )
         Text(
             text = character.name,
@@ -227,15 +199,10 @@ fun VerticalCharacterItem(
             .clickable { onClickItem() },
         verticalArrangement = Arrangement.Center
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(character.image)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
+        TrainAppImage(
             modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.FillWidth,
-            placeholder = painterResource(id = R.drawable.place_holder)
+            url = character.image,
+            contentScale = ContentScale.FillWidth
         )
         Text(
             text = character.name,

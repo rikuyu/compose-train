@@ -28,7 +28,7 @@ import com.example.ui.todo.InputState
 import com.example.ui.todo.NameForm
 import com.example.ui.todo.PasswordForm
 import com.example.ui.todo.TodoViewModel
-import com.example.ui.utils.LoadingScreen
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.showToast
@@ -57,7 +57,7 @@ fun TodoSignUpScreen(
             if ((user as Result.LoadingState).name == Result.LoadingState.NotLoading.name) {
                 TodoSignUpContent(changeSignUpScreen)
             } else {
-                LoadingScreen()
+                FullScreenLoadingIndicator()
             }
         }
         is Result.Error -> {

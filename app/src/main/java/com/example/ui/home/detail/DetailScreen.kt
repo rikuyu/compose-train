@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -30,24 +27,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.composetrainapp.R
 import com.example.model.CharacterDetail
 import com.example.ui.home.RickMortyViewModel
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.ToggleButton
+import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBarWithArg
-import com.example.ui.utils.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -83,18 +76,11 @@ fun DetailScreen(
 ) {
     val uiState by viewModel.characterDetail.collectAsStateWithLifecycle()
     val backgroundColor by viewModel.backgroundColor.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.getDetail(characterId) }
 
     if (uiState.isLoading) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize()
-        ) {
-            CircularProgressIndicator()
-        }
+        FullScreenLoadingIndicator()
     } else if (uiState.error != null) {
         LaunchedEffect(Unit) {
             scope.launch {
@@ -124,17 +110,13 @@ fun DetailScreen(
         ) {
             Spacer(modifier = Modifier.height(30.dp))
             Box {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(data.image)
-                        .build(),
-                    contentDescription = null,
+                TrainAppImage(
+                    url = data.image,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(240.dp)
                         .clip(CircleShape)
-                        .align(Alignment.Center),
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(id = R.drawable.place_holder)
+                        .align(Alignment.Center)
                 )
                 ToggleButton(
                     isClicked = data.isFavorite,
@@ -145,28 +127,20 @@ fun DetailScreen(
                     modifier = Modifier.align(Alignment.BottomEnd)
                 ) {
                     viewModel.onClickFavorite(it, CharacterDetail.convertToCharacter(data))
-                    if (it) {
-                        context.showToast(context.getString(R.string.save_favorite_character))
-                    } else {
-                        context.showToast(context.getString(R.string.delete_favorite_character))
-                    }
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
-            CharacterProfileSection("Name", data.name)
+            AtrItem("Name", data.name)
             Spacer(modifier = Modifier.height(12.dp))
-            CharacterProfileSection("Gender", data.gender)
+            AtrItem("Gender", data.gender)
             Spacer(modifier = Modifier.height(12.dp))
-            CharacterProfileSection("Spices", data.species)
+            AtrItem("Spices", data.species)
         }
     }
 }
 
 @Composable
-fun CharacterProfileSection(
-    title: String,
-    content: String,
-) {
+fun AtrItem(title: String, content: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

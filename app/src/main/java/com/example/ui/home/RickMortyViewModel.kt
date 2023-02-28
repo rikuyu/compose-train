@@ -97,10 +97,10 @@ class RickMortyViewModel @Inject constructor(
         getCharacters(isRefreshing = true)
     }
 
-    private fun getSpecificCharacter(id: Int) {
+    private fun getCharacter(id: Int) {
         viewModelScope.launch {
             _character.update { it.copy(isLoading = true) }
-            runCatching { repository.getSpecificCharacter(id) }
+            runCatching { repository.getCharacter(id) }
                 .onSuccess { c ->
                     _character.update {
                         it.copy(isLoading = false, character = c)
@@ -125,7 +125,7 @@ class RickMortyViewModel @Inject constructor(
     }
 
     fun getDetail(id: Int) {
-        getSpecificCharacter(id)
+        getCharacter(id)
         getIsFavorite(id)
     }
 

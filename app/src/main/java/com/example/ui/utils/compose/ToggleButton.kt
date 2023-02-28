@@ -1,4 +1,4 @@
-package com.example.ui.utils
+package com.example.ui.utils.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource

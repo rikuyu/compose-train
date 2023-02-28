@@ -26,6 +26,6 @@ class RickMortyDataSourceImpl @Inject constructor(
         return client.get(Constants.URL_CHARACTER).body<Response>().results.shuffled()
     }
 
-    override suspend fun getSpecificCharacter(id: Int): Character =
+    override suspend fun getCharacter(id: Int): Character =
         client.get("${Constants.URL_CHARACTER}/$id").body()
 }

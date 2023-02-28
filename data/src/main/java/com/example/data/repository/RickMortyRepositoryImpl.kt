@@ -12,7 +12,7 @@ class RickMortyRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacters(): List<Character> = rickMortyDataSource.getCharacters()
 
-    override suspend fun getSpecificCharacter(id: Int): Character = rickMortyDataSource.getSpecificCharacter(id)
+    override suspend fun getCharacter(id: Int): Character = rickMortyDataSource.getCharacter(id)
 
     override suspend fun getFavoriteCharacters(): List<Character> = localDataSource.getFavoriteCharacters()
 

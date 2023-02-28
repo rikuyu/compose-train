@@ -1,4 +1,4 @@
-package com.example.ui.utils
+package com.example.ui.utils.compose
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.ui.utils.BottomNavigationItem
+import com.example.ui.utils.Routes
 import com.google.firebase.auth.FirebaseUser
 
 @Composable

@@ -19,8 +19,8 @@ import com.example.model.TodoData
 import com.example.ui.todo.TodoListItem
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.TopSearchBar
-import com.example.ui.utils.ErrorScreen
-import com.example.ui.utils.LoadingScreen
+import com.example.ui.utils.compose.FullScreenErrorView
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
 import com.google.firebase.auth.FirebaseUser
@@ -51,8 +51,8 @@ fun TodoScreen(
     val todosData by viewModel.todosData.collectAsStateWithLifecycle()
 
     when (todosData) {
-        is Result.LoadingState -> LoadingScreen()
-        is Result.Error -> ErrorScreen()
+        is Result.LoadingState -> FullScreenLoadingIndicator()
+        is Result.Error -> FullScreenErrorView()
         is Result.Success ->
             TodoContent(
                 navController = navController,

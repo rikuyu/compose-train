@@ -1,4 +1,4 @@
-package com.example.ui.utils
+package com.example.ui.utils.compose
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.example.ui.utils.Routes
 
 @Composable
 fun TrainFloatingActionButton(screen: Routes, navController: NavController) {

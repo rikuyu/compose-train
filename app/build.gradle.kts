@@ -58,6 +58,7 @@ dependencies {
 
     implementation(project(path = ":model"))
     implementation(project(path = ":data"))
+    implementation(project(path = ":testing-utils"))
 
     implementation(Deps.AndroidX.Core.ktx)
 

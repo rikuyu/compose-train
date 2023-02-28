@@ -1,4 +1,4 @@
-package com.example.ui.utils
+package com.example.ui.utils.compose
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -6,8 +6,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.navigation.NavController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.example.ui.utils.Routes
 
 @Composable
 fun TrainTopBar(screen: Routes, navController: NavController) {

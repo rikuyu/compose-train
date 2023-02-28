@@ -29,6 +29,7 @@ import com.example.ui.todo.InputState
 import com.example.ui.todo.PasswordForm
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.*
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 
 fun NavGraphBuilder.addLogIn(
     navController: NavHostController,
@@ -56,7 +57,7 @@ fun TodoLogInScreen(
             if ((user as Result.LoadingState).name == Result.LoadingState.NotLoading.name) {
                 TodoLogInContent(navController, viewModel)
             } else {
-                LoadingScreen()
+                FullScreenLoadingIndicator()
             }
         }
         is Result.Error -> {

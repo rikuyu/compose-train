@@ -6,5 +6,5 @@ interface RickMortyDataSource {
 
     suspend fun getCharacters(): List<Character>
 
-    suspend fun getSpecificCharacter(id: Int): Character
+    suspend fun getCharacter(id: Int): Character
 }

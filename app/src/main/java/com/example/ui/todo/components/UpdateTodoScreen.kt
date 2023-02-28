@@ -19,6 +19,8 @@ import androidx.navigation.navArgument
 import com.example.model.Todo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.*
+import com.example.ui.utils.compose.FullScreenErrorView
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 
 fun NavGraphBuilder.addUpdateTodo(
     navController: NavController,
@@ -50,7 +52,7 @@ fun UpdateTodoScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     if (id == null) {
-        ErrorScreen()
+        FullScreenErrorView()
     } else {
         LaunchedEffect(Unit) {
             viewModel.getTodo(id)
@@ -59,8 +61,8 @@ fun UpdateTodoScreen(
         val oldTodo by viewModel.todo.collectAsStateWithLifecycle()
 
         oldTodo.StateView(
-            loadingView = { LoadingScreen() },
-            errorView = { ErrorScreen() },
+            loadingView = { FullScreenLoadingIndicator() },
+            errorView = { FullScreenErrorView() },
             successView = { UpdateContent(modifier, navController, it, viewModel) }
         )
     }
