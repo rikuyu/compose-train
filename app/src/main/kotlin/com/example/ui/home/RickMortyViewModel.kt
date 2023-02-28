@@ -208,6 +208,7 @@ data class CharacterDetailUiState(
     override val error: Throwable? = null
 ) : UiState
 
+@Stable
 interface UiState {
     val isLoading: Boolean
     val error: Throwable?

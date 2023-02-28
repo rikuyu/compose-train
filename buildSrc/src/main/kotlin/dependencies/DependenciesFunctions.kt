@@ -48,7 +48,6 @@ fun DependencyHandler.firebase() {
 
 fun DependencyHandler.test() {
     implementation(Deps.Testing.junit)
-    implementation(Deps.Testing.testRunner)
     implementation(Deps.Testing.extTestRunner)
     implementation(Deps.Testing.mockk)
     implementation(Deps.Testing.truth)
