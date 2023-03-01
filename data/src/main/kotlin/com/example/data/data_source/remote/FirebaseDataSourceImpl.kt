@@ -92,7 +92,7 @@ class FirebaseDataSourceImpl @Inject constructor() : FirebaseDataSource {
 
     override fun getFirebaseUser(): FirebaseUser? = auth.currentUser
 
-    override suspend fun getUser(id: String): Result<User?> {
+    override suspend fun getUser(id: String): Result<User> {
         var result: Result<User> = Result.LoadingState.Loading
         runCatching {
             fireStore.collection(USER_COLLECTION)

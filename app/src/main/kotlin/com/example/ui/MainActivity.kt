@@ -59,9 +59,9 @@ class MainActivity : ComponentActivity() {
                     topBar = { TrainTopBar(screen, navController) },
                     scaffoldState = scaffoldState,
                     bottomBar = {
-                        CustomBottomNavigationBar(navController, screen, currentUser)
+                        CustomBottomNavigationBar(navController, currentUser)
                     },
-                    floatingActionButton = { TrainFloatingActionButton(screen, navController) }
+                    floatingActionButton = { TrainFloatingActionButton(navController) }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(

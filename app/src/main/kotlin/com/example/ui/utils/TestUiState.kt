@@ -3,10 +3,9 @@ package com.example.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 @Stable
-data class UiState<T>(
+data class TestUiState<T>(
     val isLoading: LoadingState = LoadingState.NOT_LOADING,
     val data: T? = null,
     val error: Throwable? = null,
@@ -29,11 +28,11 @@ data class UiState<T>(
     val isRefreshing: Boolean get() = isLoading == LoadingState.REFRESHING
 }
 
-fun <T> MutableStateFlow<UiState<T>>.startLoading(loadingState: LoadingState) {
+fun <T> MutableStateFlow<TestUiState<T>>.startLoading(loadingState: LoadingState) {
     value = value.copy(isLoading = loadingState)
 }
 
-fun <T> MutableStateFlow<UiState<T>>.handleData(data: T) {
+fun <T> MutableStateFlow<TestUiState<T>>.handleData(data: T) {
     value = value.copy(
         isLoading = LoadingState.NOT_LOADING,
         data = data,
@@ -41,7 +40,7 @@ fun <T> MutableStateFlow<UiState<T>>.handleData(data: T) {
     )
 }
 
-fun <T> MutableStateFlow<UiState<T>>.handleError(error: Throwable) {
+fun <T> MutableStateFlow<TestUiState<T>>.handleError(error: Throwable) {
     value = value.copy(
         isLoading = LoadingState.NOT_LOADING,
         error = error

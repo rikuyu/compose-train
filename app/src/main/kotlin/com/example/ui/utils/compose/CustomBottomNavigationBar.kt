@@ -1,6 +1,8 @@
 package com.example.ui.utils.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,35 +28,44 @@ import com.example.ui.utils.BottomNavigationItem
 import com.example.ui.utils.Routes
 import com.google.firebase.auth.FirebaseUser
 
+private val String?.isTop
+    get() = this == Routes.Grid.route ||
+            this == Routes.Todo.route ||
+            this == Routes.MyPage.route
+
 @Composable
-fun CustomBottomNavigationBar(
-    navController: NavController,
-    screen: Routes,
-    currentUser: FirebaseUser?
-) {
-    if (screen != Routes.AddTodo || screen != Routes.UpdateTodo) return
+fun CustomBottomNavigationBar(navController: NavController, currentUser: FirebaseUser?) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    Row(
-        modifier = Modifier
-            .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
-            .padding(8.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
+
+    val isShowBottomBar = currentDestination?.hierarchy?.any { it.route.isTop } ?: false
+
+    AnimatedVisibility(
+        visible = isShowBottomBar,
+        enter = fadeIn(),
+        exit = fadeOut(),
     ) {
-        BottomNavigationItem.values().forEachIndexed { _, item ->
-            CustomBottomNavigationItem(
-                bottomNavigationItem = item,
-                isSelected = currentDestination?.hierarchy?.any {
-                    it.route == item.label.lowercase()
-                } == true
-            ) {
-                if (item == BottomNavigationItem.TODO && currentUser == null) {
-                    navController.navigate(Routes.LogIn.route)
-                } else {
-                    navController.navigate(item.label.lowercase())
+        Row(
+            modifier = Modifier
+                .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
+                .padding(8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BottomNavigationItem.values().forEachIndexed { _, item ->
+                CustomBottomNavigationItem(
+                    bottomNavigationItem = item,
+                    isSelected = currentDestination?.hierarchy?.any {
+                        it.route == item.label.lowercase()
+                    } == true
+                ) {
+                    if (item == BottomNavigationItem.TODO && currentUser == null) {
+                        navController.navigate(Routes.LogIn.route)
+                    } else {
+                        navController.navigate(item.label.lowercase())
+                    }
                 }
             }
         }

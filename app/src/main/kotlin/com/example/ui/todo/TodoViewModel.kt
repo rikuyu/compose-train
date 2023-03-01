@@ -1,6 +1,7 @@
 package com.example.ui.todo
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,15 +11,11 @@ import com.example.model.Todo
 import com.example.model.Todo.Companion.toFirebaseObject
 import com.example.model.TodoData
 import com.example.model.User
-import com.example.ui.utils.LoadingState
-import com.example.ui.utils.UiState
+import com.example.ui.utils.TestUiState
 import com.example.ui.utils.checkIsEmailValid
 import com.example.ui.utils.checkIsNameValid
 import com.example.ui.utils.checkIsPasswordValid
 import com.example.ui.utils.getInputState
-import com.example.ui.utils.handleData
-import com.example.ui.utils.handleError
-import com.example.ui.utils.startLoading
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -28,6 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -37,15 +35,21 @@ class TodoViewModel @Inject constructor(
     private val repository: FirebaseRepository,
 ) : ViewModel() {
 
-    private val _todo: MutableStateFlow<UiState<Todo>> = MutableStateFlow(UiState())
+    private val _todo: MutableStateFlow<TestUiState<Todo>> = MutableStateFlow(TestUiState())
     val todo = _todo.asStateFlow()
+    private val _t: MutableStateFlow<TodoUiState> = MutableStateFlow(TodoUiState())
+    val t = _t.asStateFlow()
 
     private val _firebaseUser: MutableStateFlow<FirebaseUser?> = MutableStateFlow(null)
     val firebaseUser = _firebaseUser.asStateFlow()
 
     private val _todos: MutableStateFlow<Result<List<Todo>>> = MutableStateFlow(Result.LoadingState.Loading)
+    private val _ts: MutableStateFlow<TodosUiState> = MutableStateFlow(TodosUiState())
+
     private val _user: MutableStateFlow<Result<User?>> = MutableStateFlow(Result.LoadingState.NotLoading)
     val user = _user.asStateFlow()
+    private val _u: MutableStateFlow<UserUiState> = MutableStateFlow(UserUiState())
+    val u = _u.asStateFlow()
 
     private var job: Job? = null
 
@@ -85,20 +89,32 @@ class TodoViewModel @Inject constructor(
 
     fun getUserData(id: String?) {
         if (id == null) {
+            // TODO Delete
             _user.value = Result.Error(Exception())
+
+            _u.update { it.copy(error = Throwable("id null")) }
             return
         }
-        _user.value = Result.LoadingState.Loading
         viewModelScope.launch {
+            // TODO Delete
+            _user.value = Result.LoadingState.Loading
             _user.value = when (val result = repository.getUser(id)) {
                 is Result.LoadingState -> Result.LoadingState.Loading
                 is Result.Error -> Result.Error(result.exception)
                 is Result.Success -> Result.Success(result.data)
             }
+
+            _u.update { it.copy(isLoading = true) }
+            when (val result = repository.getUser(id)) {
+                is Result.LoadingState -> _u.update { it.copy(isLoading = true) }
+                is Result.Success -> _u.update { it.copy(isLoading = false, user = result.data) }
+                is Result.Error -> _u.update { it.copy(isLoading = false, error = result.exception) }
+            }
         }
     }
 
     fun getAllTodo() {
+        // TODO Delete
         if (job != null) job?.cancel()
         _todos.value = Result.LoadingState.Loading
         job = viewModelScope.launch {
@@ -106,6 +122,15 @@ class TodoViewModel @Inject constructor(
                 is Result.LoadingState -> Result.LoadingState.Loading
                 is Result.Error -> Result.Error(result.exception)
                 is Result.Success -> Result.Success(result.data)
+            }
+        }
+
+        viewModelScope.launch {
+            _ts.update { it.copy(isLoading = true) }
+            when (val result = repository.getAllTodo()) {
+                is Result.LoadingState -> _ts.update { it.copy(isLoading = true) }
+                is Result.Success -> _ts.update { it.copy(isLoading = false, todos = result.data) }
+                is Result.Error -> _ts.update { it.copy(isLoading = false, error = result.exception) }
             }
         }
     }
@@ -124,12 +149,20 @@ class TodoViewModel @Inject constructor(
     }
 
     fun getTodo(id: String) {
-        _todo.startLoading(LoadingState.LOADING)
         viewModelScope.launch {
+            // TODO Delete
+//            _todo.startLoading(LoadingState.LOADING)
+//            when (val result = repository.getTodo(id)) {
+//                is Result.Success -> _todo.handleData(result.data)
+//                is Result.Error -> _todo.handleError(result.exception)
+//                is Result.LoadingState -> {}
+//            }
+
+            _t.update { it.copy(isLoading = true) }
             when (val result = repository.getTodo(id)) {
-                is Result.Success -> _todo.handleData(result.data)
-                is Result.Error -> _todo.handleError(result.exception)
-                is Result.LoadingState -> {}
+                is Result.Success -> _t.update { it.copy(isLoading = false, todo = result.data) }
+                is Result.Error -> _t.update { it.copy(isLoading = false, error = result.exception) }
+                is Result.LoadingState -> _t.update { it.copy(isLoading = false) }
             }
         }
     }
@@ -188,7 +221,7 @@ class TodoViewModel @Inject constructor(
             emailValid = getInputState(checkIsEmailValid(email)),
             canRequestLogIn =
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
-                state.passwordValid == InputState.Valid
+                    state.passwordValid == InputState.Valid
         )
     }
 
@@ -229,9 +262,9 @@ class TodoViewModel @Inject constructor(
             nameValid = getInputState(checkIsNameValid(name)),
             canRequestSignUp =
             getInputState(checkIsNameValid(name)) == InputState.Valid &&
-                state.emailValid == InputState.Valid &&
-                state.passwordValid == InputState.Valid &&
-                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                    state.emailValid == InputState.Valid &&
+                    state.passwordValid == InputState.Valid &&
+                    getInputState(state.password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -242,9 +275,9 @@ class TodoViewModel @Inject constructor(
             emailValid = getInputState(checkIsEmailValid(email)),
             canRequestSignUp =
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
-                state.passwordValid == InputState.Valid &&
-                state.nameValid == InputState.Valid &&
-                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                    state.passwordValid == InputState.Valid &&
+                    state.nameValid == InputState.Valid &&
+                    getInputState(state.password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -255,9 +288,9 @@ class TodoViewModel @Inject constructor(
             passwordValid = getInputState(checkIsPasswordValid(password)),
             canRequestSignUp =
             state.emailValid == InputState.Valid &&
-                getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
-                state.nameValid == InputState.Valid &&
-                getInputState(password == state.confirmationPassword) == InputState.Valid
+                    getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
+                    state.nameValid == InputState.Valid &&
+                    getInputState(password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -268,9 +301,9 @@ class TodoViewModel @Inject constructor(
             confirmationPasswordValid = getInputState(state.password == confirmationPassword),
             canRequestSignUp =
             state.emailValid == InputState.Valid &&
-                getInputState(state.password == confirmationPassword) == InputState.Valid &&
-                state.nameValid == InputState.Valid &&
-                state.passwordValid == InputState.Valid
+                    getInputState(state.password == confirmationPassword) == InputState.Valid &&
+                    state.nameValid == InputState.Valid &&
+                    state.passwordValid == InputState.Valid
         )
     }
 
@@ -278,3 +311,24 @@ class TodoViewModel @Inject constructor(
         isFirstLogIn = false
     }
 }
+
+@Stable
+data class TodoUiState(
+    val todo: Todo = Todo(),
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
+
+@Stable
+data class TodosUiState(
+    val todos: List<Todo> = emptyList(),
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
+
+@Stable
+data class UserUiState(
+    val user: User = User(),
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null
+) : UiState
