@@ -1,5 +1,6 @@
 package com.example.ui.todo
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +12,6 @@ import com.example.model.Todo
 import com.example.model.Todo.Companion.toFirebaseObject
 import com.example.model.TodoData
 import com.example.model.User
-import com.example.ui.utils.TestUiState
 import com.example.ui.utils.checkIsEmailValid
 import com.example.ui.utils.checkIsNameValid
 import com.example.ui.utils.checkIsPasswordValid
@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -35,21 +34,16 @@ class TodoViewModel @Inject constructor(
     private val repository: FirebaseRepository,
 ) : ViewModel() {
 
-    private val _todo: MutableStateFlow<TestUiState<Todo>> = MutableStateFlow(TestUiState())
+    private val _todo: MutableStateFlow<TodoUiState<Todo>> = MutableStateFlow(TodoUiState())
     val todo = _todo.asStateFlow()
-    private val _t: MutableStateFlow<TodoUiState> = MutableStateFlow(TodoUiState())
-    val t = _t.asStateFlow()
 
     private val _firebaseUser: MutableStateFlow<FirebaseUser?> = MutableStateFlow(null)
     val firebaseUser = _firebaseUser.asStateFlow()
 
     private val _todos: MutableStateFlow<Result<List<Todo>>> = MutableStateFlow(Result.LoadingState.Loading)
-    private val _ts: MutableStateFlow<TodosUiState> = MutableStateFlow(TodosUiState())
 
     private val _user: MutableStateFlow<Result<User?>> = MutableStateFlow(Result.LoadingState.NotLoading)
     val user = _user.asStateFlow()
-    private val _u: MutableStateFlow<UserUiState> = MutableStateFlow(UserUiState())
-    val u = _u.asStateFlow()
 
     private var job: Job? = null
 
@@ -89,32 +83,20 @@ class TodoViewModel @Inject constructor(
 
     fun getUserData(id: String?) {
         if (id == null) {
-            // TODO Delete
             _user.value = Result.Error(Exception())
-
-            _u.update { it.copy(error = Throwable("id null")) }
             return
         }
         viewModelScope.launch {
-            // TODO Delete
             _user.value = Result.LoadingState.Loading
             _user.value = when (val result = repository.getUser(id)) {
                 is Result.LoadingState -> Result.LoadingState.Loading
                 is Result.Error -> Result.Error(result.exception)
                 is Result.Success -> Result.Success(result.data)
             }
-
-            _u.update { it.copy(isLoading = true) }
-            when (val result = repository.getUser(id)) {
-                is Result.LoadingState -> _u.update { it.copy(isLoading = true) }
-                is Result.Success -> _u.update { it.copy(isLoading = false, user = result.data) }
-                is Result.Error -> _u.update { it.copy(isLoading = false, error = result.exception) }
-            }
         }
     }
 
     fun getAllTodo() {
-        // TODO Delete
         if (job != null) job?.cancel()
         _todos.value = Result.LoadingState.Loading
         job = viewModelScope.launch {
@@ -122,15 +104,6 @@ class TodoViewModel @Inject constructor(
                 is Result.LoadingState -> Result.LoadingState.Loading
                 is Result.Error -> Result.Error(result.exception)
                 is Result.Success -> Result.Success(result.data)
-            }
-        }
-
-        viewModelScope.launch {
-            _ts.update { it.copy(isLoading = true) }
-            when (val result = repository.getAllTodo()) {
-                is Result.LoadingState -> _ts.update { it.copy(isLoading = true) }
-                is Result.Success -> _ts.update { it.copy(isLoading = false, todos = result.data) }
-                is Result.Error -> _ts.update { it.copy(isLoading = false, error = result.exception) }
             }
         }
     }
@@ -150,19 +123,11 @@ class TodoViewModel @Inject constructor(
 
     fun getTodo(id: String) {
         viewModelScope.launch {
-            // TODO Delete
-//            _todo.startLoading(LoadingState.LOADING)
-//            when (val result = repository.getTodo(id)) {
-//                is Result.Success -> _todo.handleData(result.data)
-//                is Result.Error -> _todo.handleError(result.exception)
-//                is Result.LoadingState -> {}
-//            }
-
-            _t.update { it.copy(isLoading = true) }
+            _todo.startLoading(LoadingState.LOADING)
             when (val result = repository.getTodo(id)) {
-                is Result.Success -> _t.update { it.copy(isLoading = false, todo = result.data) }
-                is Result.Error -> _t.update { it.copy(isLoading = false, error = result.exception) }
-                is Result.LoadingState -> _t.update { it.copy(isLoading = false) }
+                is Result.Success -> _todo.handleData(result.data)
+                is Result.Error -> _todo.handleError(result.exception)
+                is Result.LoadingState -> {}
             }
         }
     }
@@ -313,22 +278,48 @@ class TodoViewModel @Inject constructor(
 }
 
 @Stable
-data class TodoUiState(
-    val todo: Todo = Todo(),
-    override val isLoading: Boolean = false,
-    override val error: Throwable? = null
-) : UiState
+data class TodoUiState<T>(
+    val isLoading: LoadingState = LoadingState.NOT_LOADING,
+    val data: T? = null,
+    val error: Throwable? = null,
+) {
+    @Composable
+    fun StateView(
+        loadingView: (@Composable () -> Unit)?,
+        errorView: (@Composable (error: Throwable) -> Unit)?,
+        successView: @Composable (data: T) -> Unit,
+    ) {
+        if (isLoading == LoadingState.LOADING) {
+            if (loadingView != null) loadingView()
+        } else if (error != null) {
+            if (errorView != null) errorView(error)
+        } else if (data != null) {
+            successView(data)
+        }
+    }
 
-@Stable
-data class TodosUiState(
-    val todos: List<Todo> = emptyList(),
-    override val isLoading: Boolean = false,
-    override val error: Throwable? = null
-) : UiState
+    val isRefreshing: Boolean get() = isLoading == LoadingState.REFRESHING
+}
 
-@Stable
-data class UserUiState(
-    val user: User = User(),
-    override val isLoading: Boolean = false,
-    override val error: Throwable? = null
-) : UiState
+fun <T> MutableStateFlow<TodoUiState<T>>.startLoading(loadingState: LoadingState) {
+    value = value.copy(isLoading = loadingState)
+}
+
+fun <T> MutableStateFlow<TodoUiState<T>>.handleData(data: T) {
+    value = value.copy(
+        isLoading = LoadingState.NOT_LOADING,
+        data = data,
+        error = null
+    )
+}
+
+fun <T> MutableStateFlow<TodoUiState<T>>.handleError(error: Throwable) {
+    value = value.copy(
+        isLoading = LoadingState.NOT_LOADING,
+        error = error
+    )
+}
+
+enum class LoadingState {
+    LOADING, NOT_LOADING, REFRESHING,
+}
