@@ -1,4 +1,11 @@
-import dependencies.*
+import dependencies.accompanist
+import dependencies.daggarHilt
+import dependencies.firebase
+import dependencies.ktFormatArgs
+import dependencies.ktlintArgs
+import dependencies.ktor
+import dependencies.room
+import dependencies.test
 
 plugins {
     id("com.android.application")
@@ -51,6 +58,7 @@ dependencies {
 
     implementation(project(path = ":model"))
     implementation(project(path = ":data"))
+    implementation(project(path = ":testing-utils"))
 
     implementation(Deps.AndroidX.Core.ktx)
 

@@ -83,8 +83,6 @@ object Deps {
 
     object Accompanist {
         const val accompanist = "0.27.1"
-//        const val systemUIController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
-//        const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanist"
         const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanist"
         const val placeholder = "com.google.accompanist:accompanist-placeholder-material:$accompanist"
         const val pager = "com.google.accompanist:accompanist-pager:$accompanist"
@@ -93,10 +91,10 @@ object Deps {
 
     object Testing {
         const val junit = "junit:junit:4.13.2"
-        const val testRunner = "androidx.test:runner:1.4.0"
-        const val extTestRunner = "androidx.test.ext:junit:1.1.3"
+        const val extTestRunner = "androidx.test.ext:junit:1.1.5"
         const val truth = "com.google.truth:truth:1.1.3"
         const val mockk = "io.mockk:mockk:1.12.5"
+        const val turbine = "app.cash.turbine:turbine:0.12.1"
     }
 
     object Firebase {
