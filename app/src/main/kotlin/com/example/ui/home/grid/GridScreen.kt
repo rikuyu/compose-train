@@ -51,10 +51,8 @@ fun NavGraphBuilder.addGrid(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
-    changeScreen: () -> Unit,
 ) {
     composable(route = Routes.Grid.route) {
-        changeScreen()
         GridScreen(
             scope = scope,
             scaffoldState = scaffoldState,

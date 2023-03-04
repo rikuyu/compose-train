@@ -9,10 +9,11 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +37,10 @@ private val String?.topBarTitle
     get() = this?.let { substring(0, 1).uppercase() + substring(1).lowercase() } ?: ""
 
 @Composable
-fun TrainTopBar(screen: Routes, navController: NavController) {
+fun TrainTopBar(
+    navController: NavController,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
     var expanded by remember { mutableStateOf(false) }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -69,7 +73,11 @@ fun TrainTopBar(screen: Routes, navController: NavController) {
                     ) {
                         DropdownMenuItem(onClick = {
                             expanded = false
-                            if (screen != Routes.Grid)
+                            if (
+                                currentDestination?.hierarchy?.any {
+                                    it.route == Routes.Grid.route
+                                } == true
+                            )
                                 navController.navigate(Routes.Grid.route)
                         }) {
                             Text(text = "Grid")
@@ -77,14 +85,19 @@ fun TrainTopBar(screen: Routes, navController: NavController) {
                         Divider()
                         DropdownMenuItem(onClick = {
                             expanded = false
-                            if (screen != Routes.Favorite)
+                            if (
+                                currentDestination?.hierarchy?.any {
+                                    it.route == Routes.Favorite.route
+                                } == true
+                            )
                                 navController.navigate(Routes.Favorite.route)
                         }) {
                             Text(text = "Favorite")
                         }
                     }
                 }
-            }
+            },
+            scrollBehavior = scrollBehavior
         )
     }
 }

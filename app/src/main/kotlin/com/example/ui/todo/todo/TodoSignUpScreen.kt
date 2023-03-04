@@ -1,4 +1,4 @@
-package com.example.ui.todo.components
+package com.example.ui.todo.todo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,21 +42,15 @@ import com.example.ui.utils.Routes
 import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.showToast
 
-fun NavGraphBuilder.addSignUp(
-    navController: NavHostController,
-    changeTodoScreen: () -> Unit,
-    changeSignUpScreen: () -> Unit,
-) {
+fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     composable(route = Routes.SignUp.route) {
-        TodoSignUpScreen(navController, changeTodoScreen, changeSignUpScreen)
+        TodoSignUpScreen(navController)
     }
 }
 
 @Composable
 fun TodoSignUpScreen(
     navController: NavHostController,
-    changeTodoScreen: () -> Unit,
-    changeSignUpScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -65,41 +58,34 @@ fun TodoSignUpScreen(
     when (user) {
         is Result.LoadingState -> {
             if ((user as Result.LoadingState).name == Result.LoadingState.NotLoading.name) {
-                TodoSignUpContent(changeSignUpScreen)
+                TodoSignUpContent()
             } else {
                 FullScreenLoadingIndicator()
             }
         }
         is Result.Error -> {
             LocalContext.current.showToast("Error")
-            TodoSignUpContent(changeSignUpScreen)
+            TodoSignUpContent()
         }
         is Result.Success -> {
             if ((user as Result.Success<User?>).data == null) {
                 LocalContext.current.showToast("Error")
-                TodoSignUpContent(changeSignUpScreen)
+                TodoSignUpContent()
             } else {
                 if (viewModel.isFirstLogIn) {
                     LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
                     viewModel.setIsFirstLogIn()
                 }
-                TodoScreen(navController, null, changeTodoScreen)
+                TodoScreen(navController, null)
             }
         }
     }
 }
 
 @Composable
-fun TodoSignUpContent(
-    changeScreen: () -> Unit,
-    viewModel: TodoViewModel = hiltViewModel()
-) {
+fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
     val signUpValueState by viewModel.signUpValueState
     val focusManager = LocalFocusManager.current
-
-    LaunchedEffect(Unit) {
-        changeScreen()
-    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

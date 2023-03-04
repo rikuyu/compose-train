@@ -1,4 +1,4 @@
-package com.example.ui.todo.components
+package com.example.ui.todo.todo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -44,23 +44,15 @@ import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.showToast
 
-fun NavGraphBuilder.addLogIn(
-    navController: NavHostController,
-    changeTodoScreen: () -> Unit,
-    changeSignUpScreen: () -> Unit,
-    changeLogInScreen: () -> Unit,
-) {
+fun NavGraphBuilder.addLogIn(navController: NavHostController) {
     composable(route = Routes.LogIn.route) {
-        changeLogInScreen()
-        TodoLogInScreen(navController, changeTodoScreen, changeSignUpScreen)
+        TodoLogInScreen(navController)
     }
 }
 
 @Composable
 fun TodoLogInScreen(
     navController: NavHostController,
-    changeTodoScreen: () -> Unit,
-    changeSignUpScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
@@ -75,18 +67,18 @@ fun TodoLogInScreen(
         }
         is Result.Error -> {
             LocalContext.current.showToast("ユーザーが見つかりません\n新規登録してください")
-            TodoSignUpContent(changeSignUpScreen)
+            TodoSignUpContent()
         }
         is Result.Success -> {
             if ((user as Result.Success<User?>).data == null) {
                 LocalContext.current.showToast("ユーザーが見つかりません\n新規登録してください")
-                TodoSignUpContent(changeSignUpScreen)
+                TodoSignUpContent()
             } else {
                 if (viewModel.isFirstLogIn) {
                     LocalContext.current.showToast("ようこそ ${(user as Result.Success<User?>).data?.name}")
                     viewModel.setIsFirstLogIn()
                 }
-                TodoScreen(navController, null, changeTodoScreen)
+                TodoScreen(navController, null)
             }
         }
     }

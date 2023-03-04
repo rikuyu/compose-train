@@ -46,6 +46,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
     }
     buildFeatures {
         compose = true
@@ -64,7 +65,7 @@ dependencies {
 
     implementation(platform(Deps.AndroidX.Compose.bom))
     implementation(Deps.AndroidX.Compose.ui)
-    implementation(Deps.AndroidX.Compose.material)
+    implementation(Deps.AndroidX.Compose.material3)
 
     implementation(Deps.AndroidX.Compose.uiToolingPreview)
     implementation(Deps.AndroidX.Lifecycle.runtimeKtx)

@@ -1,4 +1,4 @@
-package com.example.ui.todo.components
+package com.example.ui.todo.todo
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -39,10 +39,9 @@ import com.google.firebase.auth.FirebaseUser
 fun NavGraphBuilder.addTodo(
     navController: NavController,
     firebaseUser: FirebaseUser?,
-    changeScreen: () -> Unit,
 ) {
     composable(route = Routes.Todo.route) {
-        TodoScreen(navController, firebaseUser, changeScreen)
+        TodoScreen(navController, firebaseUser)
     }
 }
 
@@ -50,11 +49,9 @@ fun NavGraphBuilder.addTodo(
 fun TodoScreen(
     navController: NavController,
     firebaseUser: FirebaseUser?,
-    changeScreen: () -> Unit,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        changeScreen()
         viewModel.getAllTodo()
         viewModel.getUserData(firebaseUser?.uid)
     }

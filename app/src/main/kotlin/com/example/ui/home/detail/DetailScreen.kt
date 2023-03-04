@@ -47,7 +47,6 @@ import kotlinx.coroutines.launch
 fun NavGraphBuilder.addDetail(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
-    changeScreen: () -> Unit,
 ) {
     composable(
         route = "${Routes.DetailCharacter.route}/{id}",
@@ -58,7 +57,6 @@ fun NavGraphBuilder.addDetail(
             }
         )
     ) { backStackEntry ->
-        changeScreen()
         DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
             scaffoldState,
