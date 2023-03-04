@@ -35,7 +35,7 @@ import com.example.ui.utils.checkIsTodoBodyValid
 import com.example.ui.utils.checkIsTodoTitleValid
 
 fun NavGraphBuilder.addAddTodo(navController: NavController) {
-    composable(route = Routes.AddTodo.route) {
+    composable(route = Routes.CreateTodo.route) {
         AddTodoScreen(modifier = Modifier.padding(4.dp), navController)
     }
 }

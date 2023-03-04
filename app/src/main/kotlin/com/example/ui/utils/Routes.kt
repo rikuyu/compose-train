@@ -6,15 +6,15 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Routes(val route: String, val title: String? = null) {
+sealed class Routes(val route: String) {
 
-    object Grid : Routes("grid", "Home")
+    object Grid : Routes("grid")
 
-    object Favorite : Routes("favorite", "Favorite")
+    object Favorite : Routes("favorite")
 
     object MyPage : Routes("mypage")
 
-    object DetailCharacter : Routes("character_detail", "Detail") {
+    object DetailCharacter : Routes("detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
     }
 
@@ -22,11 +22,11 @@ sealed class Routes(val route: String, val title: String? = null) {
 
     object SignUp : Routes("signup")
 
-    object Todo : Routes("todo", "Todo")
+    object Todo : Routes("todo")
 
-    object AddTodo : Routes("add_todo", "AddTodo")
+    object CreateTodo : Routes("create")
 
-    object UpdateTodo : Routes("update_todo", "UpdateTodo") {
+    object UpdateTodo : Routes("update") {
         fun createRoute(id: String) = "${this.route}/$id"
     }
 }
