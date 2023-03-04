@@ -52,10 +52,8 @@ fun NavGraphBuilder.addFavorite(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
-    changeScreen: () -> Unit,
 ) {
     composable(route = Routes.Favorite.route) {
-        changeScreen()
         FavoriteScreen(
             scope = scope,
             scaffoldState = scaffoldState,

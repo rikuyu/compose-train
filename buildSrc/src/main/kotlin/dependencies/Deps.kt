@@ -12,8 +12,6 @@ object Deps {
             const val compose = "androidx.activity:activity-compose:1.5.1"
         }
 
-        object Fragment {}
-
         object Lifecycle {
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
@@ -43,8 +41,7 @@ object Deps {
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
 
-            const val material = "androidx.compose.material:material:1.2.0"
-            // const val materialIcons = "androidx.compose.material:material-icons-extended:1.2.0"
+            const val material3 = "androidx.compose.material3:material3:1.0.1"
         }
     }
 

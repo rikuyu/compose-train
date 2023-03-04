@@ -1,4 +1,4 @@
-package com.example.ui.todo.components
+package com.example.ui.todo.todo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,37 +29,76 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.model.Todo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.Routes
 import com.example.ui.utils.checkIsTodoBodyValid
 import com.example.ui.utils.checkIsTodoTitleValid
+import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.compose.FullScreenErrorView
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
 
-fun NavGraphBuilder.addAddTodo(
-    navController: NavController,
-    changeScreen: () -> Unit,
-) {
-    composable(route = Routes.AddTodo.route) {
-        changeScreen()
-        AddTodoScreen(modifier = Modifier.padding(4.dp), navController)
+fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
+    composable(
+        route = "${Routes.UpdateTodo.route}/{id}",
+        arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+                nullable = false
+            }
+        )
+    ) {
+        UpdateTodoScreen(
+            modifier = Modifier.padding(4.dp),
+            navController = navController,
+            id = it.arguments?.getString("id")
+        )
     }
 }
 
 @Composable
-fun AddTodoScreen(
+fun UpdateTodoScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    id: String?,
     viewModel: TodoViewModel = hiltViewModel()
 ) {
-    var title by remember { mutableStateOf("") }
+    if (id == null) {
+        FullScreenErrorView()
+    } else {
+        LaunchedEffect(Unit) {
+            viewModel.getTodo(id)
+        }
 
-    var body by remember { mutableStateOf("") }
+        val oldTodo by viewModel.todo.collectAsStateWithLifecycle()
 
-    var isImportant by remember { mutableStateOf(false) }
+        oldTodo.StateView(
+            loadingView = { FullScreenLoadingIndicator() },
+            errorView = { FullScreenErrorView() },
+            successView = { UpdateContent(modifier, navController, it, viewModel) }
+        )
+    }
+}
 
-    var isTodoTitleValid by remember { mutableStateOf(false) }
+@Composable
+fun UpdateContent(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    todo: Todo,
+    viewModel: TodoViewModel
+) {
+    var title by remember { mutableStateOf(todo.title) }
 
-    var isTodoBodyValid by remember { mutableStateOf(false) }
+    var body by remember { mutableStateOf(todo.body) }
+
+    var isImportant by remember { mutableStateOf(todo.isImportant) }
+
+    var isTodoTitleValid by remember { mutableStateOf(checkIsTodoTitleValid(title)) }
+
+    var isTodoBodyValid by remember { mutableStateOf(checkIsTodoBodyValid(body)) }
 
     Column(modifier = modifier.fillMaxSize()) {
         Column(
@@ -74,7 +114,7 @@ fun AddTodoScreen(
                 },
                 label = {
                     Text(
-                        text = "Todo Title",
+                        text = "New Todo Title",
                         style = MaterialTheme.typography.body2
                     )
                 },
@@ -91,7 +131,7 @@ fun AddTodoScreen(
                 },
                 label = {
                     Text(
-                        text = "Todo Body",
+                        text = "New Todo Body",
                         style = MaterialTheme.typography.body2
                     )
                 },
@@ -127,7 +167,7 @@ fun AddTodoScreen(
         ) {
             Button(
                 onClick = {
-                    viewModel.addTodo(title, body, isImportant)
+                    viewModel.updateTodo(todo.id, title, body, isImportant)
                     navController.navigate(Routes.Todo.route)
                 },
                 enabled = isTodoTitleValid && isTodoBodyValid,
@@ -143,7 +183,7 @@ fun AddTodoScreen(
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 4.dp),
-                    text = "Add",
+                    text = "Update",
                     fontSize = 18.sp
                 )
             }
