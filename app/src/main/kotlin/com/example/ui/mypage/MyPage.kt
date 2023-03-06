@@ -13,5 +13,4 @@ fun NavGraphBuilder.addMyPage() {
 
 @Composable
 fun MyPage() {
-
 }

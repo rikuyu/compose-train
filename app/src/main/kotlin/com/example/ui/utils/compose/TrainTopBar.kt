@@ -28,12 +28,12 @@ import com.example.ui.utils.Routes
 
 private val String?.isHome
     get() = this == Routes.Grid.route ||
-            this == Routes.Favorite.route ||
-            this?.startsWith(Routes.DetailCharacter.route) ?: false
+        this == Routes.Favorite.route ||
+        this?.startsWith(Routes.DetailCharacter.route) ?: false
 
 private val String?.isAddOrUpdateTodo
     get() = this == Routes.CreateTodo.route ||
-            this == Routes.UpdateTodo.route
+        this == Routes.UpdateTodo.route
 
 private val String?.topBarTitle
     get() = this?.split("/")?.let {

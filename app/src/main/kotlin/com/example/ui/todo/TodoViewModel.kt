@@ -186,7 +186,7 @@ class TodoViewModel @Inject constructor(
             emailValid = getInputState(checkIsEmailValid(email)),
             canRequestLogIn =
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
-                    state.passwordValid == InputState.Valid
+                state.passwordValid == InputState.Valid
         )
     }
 
@@ -227,9 +227,9 @@ class TodoViewModel @Inject constructor(
             nameValid = getInputState(checkIsNameValid(name)),
             canRequestSignUp =
             getInputState(checkIsNameValid(name)) == InputState.Valid &&
-                    state.emailValid == InputState.Valid &&
-                    state.passwordValid == InputState.Valid &&
-                    getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                state.emailValid == InputState.Valid &&
+                state.passwordValid == InputState.Valid &&
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -240,9 +240,9 @@ class TodoViewModel @Inject constructor(
             emailValid = getInputState(checkIsEmailValid(email)),
             canRequestSignUp =
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
-                    state.passwordValid == InputState.Valid &&
-                    state.nameValid == InputState.Valid &&
-                    getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                state.passwordValid == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -253,9 +253,9 @@ class TodoViewModel @Inject constructor(
             passwordValid = getInputState(checkIsPasswordValid(password)),
             canRequestSignUp =
             state.emailValid == InputState.Valid &&
-                    getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
-                    state.nameValid == InputState.Valid &&
-                    getInputState(password == state.confirmationPassword) == InputState.Valid
+                getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                getInputState(password == state.confirmationPassword) == InputState.Valid
         )
     }
 
@@ -266,9 +266,9 @@ class TodoViewModel @Inject constructor(
             confirmationPasswordValid = getInputState(state.password == confirmationPassword),
             canRequestSignUp =
             state.emailValid == InputState.Valid &&
-                    getInputState(state.password == confirmationPassword) == InputState.Valid &&
-                    state.nameValid == InputState.Valid &&
-                    state.passwordValid == InputState.Valid
+                getInputState(state.password == confirmationPassword) == InputState.Valid &&
+                state.nameValid == InputState.Valid &&
+                state.passwordValid == InputState.Valid
         )
     }
 
