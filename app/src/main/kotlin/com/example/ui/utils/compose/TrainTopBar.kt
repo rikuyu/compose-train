@@ -19,6 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -26,15 +28,17 @@ import com.example.ui.utils.Routes
 
 private val String?.isHome
     get() = this == Routes.Grid.route ||
-            this == Routes.Favorite.route ||
-            this == Routes.DetailCharacter.route
+        this == Routes.Favorite.route ||
+        this?.startsWith(Routes.DetailCharacter.route) ?: false
 
 private val String?.isAddOrUpdateTodo
-    get() = this == Routes.AddTodo.route ||
-            this == Routes.UpdateTodo.route
+    get() = this == Routes.CreateTodo.route ||
+        this == Routes.UpdateTodo.route
 
 private val String?.topBarTitle
-    get() = this?.let { substring(0, 1).uppercase() + substring(1).lowercase() } ?: ""
+    get() = this?.split("/")?.let {
+        it[0].substring(0, 1).uppercase() + it[0].substring(1).lowercase()
+    } ?: ""
 
 @Composable
 fun TrainTopBar(
@@ -46,7 +50,9 @@ fun TrainTopBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val isShowTopBar = currentDestination?.hierarchy?.any { it.route.isHome || it.route.isAddOrUpdateTodo } ?: false
+    val isShowTopBar = currentDestination?.hierarchy?.any {
+        it.route.isHome || it.route.isAddOrUpdateTodo
+    } ?: false
     val isShowArrowBack = currentDestination?.hierarchy?.any {
         it.route == Routes.DetailCharacter.route || it.route.isAddOrUpdateTodo
     } ?: false
@@ -76,9 +82,10 @@ fun TrainTopBar(
                             if (
                                 currentDestination?.hierarchy?.any {
                                     it.route == Routes.Grid.route
-                                } == true
-                            )
+                                } == false
+                            ) {
                                 navController.navigate(Routes.Grid.route)
+                            }
                         }) {
                             Text(text = "Grid")
                         }
@@ -88,16 +95,18 @@ fun TrainTopBar(
                             if (
                                 currentDestination?.hierarchy?.any {
                                     it.route == Routes.Favorite.route
-                                } == true
-                            )
+                                } == false
+                            ) {
                                 navController.navigate(Routes.Favorite.route)
+                            }
                         }) {
                             Text(text = "Favorite")
                         }
                     }
                 }
             },
-            scrollBehavior = scrollBehavior
+            scrollBehavior = scrollBehavior,
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         )
     }
 }

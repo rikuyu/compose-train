@@ -108,7 +108,7 @@ fun TodoContent(
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedButton(
                     border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                    onClick = { navController.navigate(Routes.AddTodo.route) }
+                    onClick = { navController.navigate(Routes.CreateTodo.route) }
                 ) {
                     Text(text = "Add")
                 }

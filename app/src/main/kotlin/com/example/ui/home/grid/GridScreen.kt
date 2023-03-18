@@ -21,6 +21,9 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -84,6 +87,11 @@ fun GridScreen(
         }
     }
 
+    val state = rememberPullRefreshState(
+        refreshing = uiState.isRefreshing,
+        onRefresh = { viewModel.refreshCharacters() }
+    )
+
     Box {
         if (uiState.isLoading) {
             FullScreenLoadingIndicator()
@@ -115,10 +123,7 @@ fun GridScreen(
                     }
                 }
                 Spacer(modifier = modifier.height(10.dp))
-                SwipeRefresh(
-                    state = rememberSwipeRefreshState(uiState.isRefreshing),
-                    onRefresh = { viewModel.refreshCharacters() },
-                ) {
+                Box(modifier = Modifier.pullRefresh(state)) {
                     LazyVerticalGrid(
                         state = listState,
                         columns = GridCells.Fixed(2),
@@ -148,6 +153,11 @@ fun GridScreen(
                             )
                         }
                     }
+                    PullRefreshIndicator(
+                        refreshing = uiState.isRefreshing,
+                        state = state,
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
                 }
             }
         }

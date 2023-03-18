@@ -29,7 +29,7 @@ fun TrainFloatingActionButton(navController: NavController) {
         exit = fadeOut(),
     ) {
         FloatingActionButton(
-            onClick = { navController.navigate(Routes.AddTodo.route) },
+            onClick = { navController.navigate(Routes.CreateTodo.route) },
             backgroundColor = MaterialTheme.colorScheme.primary
         ) {
             Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
