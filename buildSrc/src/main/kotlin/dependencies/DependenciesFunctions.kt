@@ -19,13 +19,6 @@ fun DependencyHandler.room() {
     kapt(Deps.AndroidX.Room.compiler)
 }
 
-fun DependencyHandler.ktor() {
-    implementation(Deps.Ktor.core)
-    implementation(Deps.Ktor.cio)
-    implementation(Deps.Ktor.contentNegotiation)
-    implementation(Deps.Ktor.serializationGson)
-}
-
 fun DependencyHandler.daggarHilt() {
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.compiler)

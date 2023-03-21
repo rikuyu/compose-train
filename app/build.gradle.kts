@@ -2,7 +2,6 @@ import dependencies.daggarHilt
 import dependencies.firebase
 import dependencies.ktFormatArgs
 import dependencies.ktlintArgs
-import dependencies.ktor
 import dependencies.room
 import dependencies.test
 
@@ -88,7 +87,9 @@ dependencies {
 
     firebase()
 
-    ktor()
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.gson)
+    implementation(libs.ktor.negotiation)
 
     room()
 

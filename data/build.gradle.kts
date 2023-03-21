@@ -18,7 +18,9 @@ dependencies {
 
     firebase()
 
-    ktor()
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.gson)
+    implementation(libs.ktor.negotiation)
 
     room()
 

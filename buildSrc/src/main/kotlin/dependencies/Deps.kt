@@ -49,14 +49,6 @@ object Deps {
         const val hiltAndroidGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:2.39.1"
     }
 
-    object Ktor {
-        const val ktor = "2.0.1"
-        const val core = "io.ktor:ktor-client-core:$ktor"
-        const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktor"
-        const val cio ="io.ktor:ktor-client-cio:$ktor"
-        const val serializationGson = "io.ktor:ktor-serialization-gson:$ktor"
-    }
-
     object Kotlin {
         object Coroutines {
             const val coroutines = "1.6.4"
