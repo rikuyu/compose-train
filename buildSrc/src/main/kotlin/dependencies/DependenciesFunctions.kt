@@ -33,13 +33,6 @@ fun DependencyHandler.daggarHilt() {
     kapt(Deps.AndroidX.Hilt.compiler)
 }
 
-fun DependencyHandler.accompanist() {
-    implementation(Deps.Accompanist.placeholder)
-    implementation(Deps.Accompanist.swipeRefresh)
-    implementation(Deps.Accompanist.pager)
-    implementation(Deps.Accompanist.pagerIndicators)
-}
-
 fun DependencyHandler.firebase() {
     implementation(platform(Deps.Firebase.bom))
     implementation(Deps.Firebase.fireStore)

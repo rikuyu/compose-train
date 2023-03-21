@@ -1,4 +1,3 @@
-import dependencies.accompanist
 import dependencies.daggarHilt
 import dependencies.firebase
 import dependencies.ktFormatArgs
@@ -68,7 +67,6 @@ dependencies {
 
     implementation(platform(Deps.AndroidX.Compose.bom))
     implementation(Deps.AndroidX.Compose.ui)
-    implementation(Deps.AndroidX.Compose.material3)
 
     implementation(Deps.AndroidX.Compose.uiToolingPreview)
     implementation(Deps.AndroidX.Lifecycle.runtimeKtx)
@@ -79,13 +77,14 @@ dependencies {
 
     implementation(Deps.AndroidX.Navigation.navigationCompose)
 
-    implementation(Deps.Coil.compose)
+    implementation(libs.coil.compose)
 
     implementation(Deps.Kotlin.Coroutines.android)
+    implementation(libs.compose.material3)
 
-    implementation(Deps.Material.material3)
-
-    accompanist()
+    implementation(libs.accompanist.swiperefresh)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     firebase()
 

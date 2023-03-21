@@ -40,23 +40,13 @@ object Deps {
             const val ui = "androidx.compose.ui:ui"
             const val uiTooling = "androidx.compose.ui:ui-tooling"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
-
-            const val material3 = "androidx.compose.material3:material3:1.0.1"
         }
-    }
-
-    object Material {
-        const val material3 = "androidx.compose.material3:material3"
     }
 
     object Hilt {
         const val android = "com.google.dagger:hilt-android:2.40"
         const val compiler = "com.google.dagger:hilt-android-compiler:2.40"
         const val hiltAndroidGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:2.39.1"
-    }
-
-    object Coil {
-        const val compose = "io.coil-kt:coil-compose:2.1.0"
     }
 
     object Ktor {
@@ -75,14 +65,6 @@ object Deps {
             const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
         }
-    }
-
-    object Accompanist {
-        const val accompanist = "0.27.1"
-        const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanist"
-        const val placeholder = "com.google.accompanist:accompanist-placeholder-material:$accompanist"
-        const val pager = "com.google.accompanist:accompanist-pager:$accompanist"
-        const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators:$accompanist"
     }
 
     object Testing {
