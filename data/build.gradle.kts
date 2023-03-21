@@ -13,16 +13,20 @@ dependencies {
 
     implementation(project(path = ":model"))
 
-    implementation(Deps.Kotlin.Coroutines.android)
-    implementation(Deps.Kotlin.Coroutines.playServices)
+    implementation(libs.coroutine.android)
+    implementation(libs.coroutine.play.services)
 
     firebase()
 
     implementation(libs.ktor.core)
     implementation(libs.ktor.gson)
+    implementation(libs.ktor.cio)
     implementation(libs.ktor.negotiation)
 
     room()
+//    implementation(libs.room.compiler)
+//    implementation(libs.room.runtime)
+//    implementation(libs.room.ktx)
 
     daggarHilt()
 

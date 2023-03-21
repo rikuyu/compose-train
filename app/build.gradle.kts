@@ -1,9 +1,5 @@
-import dependencies.daggarHilt
-import dependencies.firebase
-import dependencies.ktFormatArgs
-import dependencies.ktlintArgs
-import dependencies.room
-import dependencies.test
+import dependencies.*
+import org.gradle.kotlin.dsl.kotlinOptions
 
 plugins {
     id("com.android.application")
@@ -66,19 +62,19 @@ dependencies {
 
     implementation(platform(Deps.AndroidX.Compose.bom))
     implementation(Deps.AndroidX.Compose.ui)
-
     implementation(Deps.AndroidX.Compose.uiToolingPreview)
-    implementation(Deps.AndroidX.Lifecycle.runtimeKtx)
-    implementation(Deps.AndroidX.Lifecycle.viewModelCompose)
-    implementation(Deps.AndroidX.Activity.ktx)
-    implementation(Deps.AndroidX.Activity.compose)
-    implementation(Deps.AndroidX.Navigation.navigationRuntimeKtx)
 
-    implementation(Deps.AndroidX.Navigation.navigationCompose)
+    implementation(libs.lifecycle.runtime)
+    implementation(libs.lifecycle.viewmodel.compose)
+
+    implementation(libs.activity.ktx)
+    implementation(libs.activity.compose)
+
+    implementation(libs.navigation.compose)
 
     implementation(libs.coil.compose)
 
-    implementation(Deps.Kotlin.Coroutines.android)
+    implementation(libs.coroutine.android)
     implementation(libs.compose.material3)
 
     implementation(libs.accompanist.swiperefresh)
@@ -90,8 +86,12 @@ dependencies {
     implementation(libs.ktor.core)
     implementation(libs.ktor.gson)
     implementation(libs.ktor.negotiation)
+    implementation(libs.ktor.cio)
 
     room()
+//    implementation(libs.room.compiler)
+//    implementation(libs.room.runtime)
+//    implementation(libs.room.ktx)
 
     daggarHilt()
 

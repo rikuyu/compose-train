@@ -15,6 +15,9 @@ dependencies {
     implementation(Deps.Firebase.fireStore)
 
     room()
+//    implementation(libs.room.compiler)
+//    implementation(libs.room.runtime)
+//    implementation(libs.room.ktx)
 
     daggarHilt()
 
