@@ -58,11 +58,9 @@ dependencies {
     implementation(project(path = ":data"))
     implementation(project(path = ":testing-utils"))
 
-    implementation(Deps.AndroidX.Core.ktx)
-
-    implementation(platform(Deps.AndroidX.Compose.bom))
-    implementation(Deps.AndroidX.Compose.ui)
-    implementation(Deps.AndroidX.Compose.uiToolingPreview)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.uiTooling)
 
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.viewmodel.compose)
