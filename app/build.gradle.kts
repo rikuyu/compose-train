@@ -81,21 +81,30 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
 
-    firebase()
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
 
     implementation(libs.ktor.core)
     implementation(libs.ktor.gson)
     implementation(libs.ktor.negotiation)
     implementation(libs.ktor.cio)
 
-    room()
-//    implementation(libs.room.compiler)
-//    implementation(libs.room.runtime)
-//    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
 
-    daggarHilt()
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
 
-    test()
+    implementation(libs.junit)
+    implementation(libs.mockk)
+    implementation(libs.truth)
+    implementation(libs.turbine)
+    implementation(libs.androidx.test.junit)
+    implementation(libs.coroutine.test)
 
     ktlint(Deps.ktlint) {
         attributes {

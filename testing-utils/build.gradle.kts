@@ -1,6 +1,5 @@
 import dependencies.ktFormatArgs
 import dependencies.ktlintArgs
-import dependencies.test
 
 plugins {
     id("com.android.library")
@@ -41,7 +40,12 @@ val ktlint by configurations.creating
 
 dependencies {
 
-    test()
+    implementation(libs.junit)
+    implementation(libs.mockk)
+    implementation(libs.truth)
+    implementation(libs.turbine)
+    implementation(libs.androidx.test.junit)
+    implementation(libs.coroutine.test)
 
     ktlint(Deps.ktlint) {
         attributes {

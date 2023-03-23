@@ -11,15 +11,17 @@ val ktlint by configurations.creating
 
 dependencies {
 
-    implementation(platform(Deps.Firebase.bom))
-    implementation(Deps.Firebase.fireStore)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
 
-    room()
-//    implementation(libs.room.compiler)
-//    implementation(libs.room.runtime)
-//    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
 
-    daggarHilt()
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
 
     ktlint(Deps.ktlint) {
         attributes {

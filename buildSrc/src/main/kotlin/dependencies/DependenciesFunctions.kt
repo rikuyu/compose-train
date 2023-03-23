@@ -7,40 +7,6 @@ import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.api.tasks.JavaExec
 import java.io.File
 
-internal fun DependencyHandler.implementation(dependency: Any) =
-    add("implementation", dependency)
-
-private fun DependencyHandler.kapt(dependency: Any) =
-    add("kapt", dependency)
-
-fun DependencyHandler.room() {
-    implementation(Deps.AndroidX.Room.ktx)
-    implementation(Deps.AndroidX.Room.runtime)
-    kapt(Deps.AndroidX.Room.compiler)
-}
-
-fun DependencyHandler.daggarHilt() {
-    implementation(Deps.Hilt.android)
-    kapt(Deps.Hilt.compiler)
-    implementation(Deps.AndroidX.Hilt.navigationCompose)
-    kapt(Deps.AndroidX.Hilt.compiler)
-}
-
-fun DependencyHandler.firebase() {
-    implementation(platform(Deps.Firebase.bom))
-    implementation(Deps.Firebase.fireStore)
-    implementation(Deps.Firebase.auth)
-}
-
-fun DependencyHandler.test() {
-    implementation(Deps.Testing.junit)
-    implementation(Deps.Testing.extTestRunner)
-    implementation(Deps.Testing.mockk)
-    implementation(Deps.Testing.truth)
-    implementation(Deps.Testing.turbine)
-    implementation(Deps.Kotlin.Coroutines.test)
-}
-
 fun JavaExec.ktlintArgs(
     inputFiles: ConfigurableFileTree,
     outputPath: String,
