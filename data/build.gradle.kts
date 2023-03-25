@@ -4,7 +4,6 @@ plugins {
     id("com.android.library")
     id("android-common-setting")
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 val ktlint by configurations.creating
