@@ -1,11 +1,11 @@
 plugins {
     id("app-base-setting")
+    id("ktlint-setting")
+
     id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
-
-val ktlint by configurations.creating
 
 dependencies {
 
@@ -59,56 +59,4 @@ dependencies {
     implementation(libs.turbine)
     implementation(libs.androidx.test.junit)
     implementation(libs.coroutine.test)
-
-    ktlint(libs.ktlint) {
-        attributes {
-            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
-        }
-    }
-}
-
-val outputDir = "${project.buildDir}/reports/"
-val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
-
-val ktlintCheck by tasks.creating(JavaExec::class) {
-    ktlintArgs(inputFiles, outputDir, ktlint, buildDir)
-}
-
-val ktlintFormat by tasks.creating(JavaExec::class) {
-    ktFormatArgs(inputFiles, outputDir, ktlint)
-}
-
-fun JavaExec.ktlintArgs(
-    inputFiles: ConfigurableFileTree,
-    outputPath: String,
-    configuration: Configuration,
-    buildDir: File,
-) {
-    inputs.files(inputFiles)
-    outputs.dir(outputPath)
-
-    description = "Check Kotlin code style."
-    classpath = configuration
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("--android",
-        "--color",
-        "--reporter=plain",
-        "--reporter=checkstyle,output=${buildDir}/reports/ktlint-result.xml",
-        "src/**/*.kt")
-    isIgnoreExitValue = true
-}
-
-fun JavaExec.ktFormatArgs(
-    inputFiles: ConfigurableFileTree,
-    outputPath: String,
-    configuration: Configuration,
-) {
-    inputs.files(inputFiles)
-    outputs.dir(outputPath)
-
-    description = "Fix Kotlin code style deviations."
-    classpath = configuration
-    mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("-F", "src/**/*.kt")
-    isIgnoreExitValue = true
 }

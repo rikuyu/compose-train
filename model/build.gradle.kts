@@ -1,5 +1,6 @@
 plugins {
     id("library-common-setting")
+    id("ktlint-setting")
     id("kotlin-kapt")
 }
 
