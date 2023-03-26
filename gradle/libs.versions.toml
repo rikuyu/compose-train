@@ -63,6 +63,8 @@ hilt-android = { module = "com.google.dagger:hilt-android", version = "2.40" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.40" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.39.1" }
 
+ktlint = { module = "com.pinterest:ktlint", version = "0.45.2" }
+
 # test
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.12.5"
