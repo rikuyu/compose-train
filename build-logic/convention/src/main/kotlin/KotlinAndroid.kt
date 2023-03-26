@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -19,6 +20,22 @@ internal fun Project.configureKotlinAndroid(
         }
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_11.toString()
+
+            if(this@with is ApplicationExtension) {
+                freeCompilerArgs = listOf(
+                    "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                    "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
+                )
+            }
+        }
+
+        if(this@with is ApplicationExtension) {
+            buildFeatures {
+                compose = true
+            }
+            composeOptions {
+                kotlinCompilerExtensionVersion = libs.version("compose-compiler")
+            }
         }
     }
 }

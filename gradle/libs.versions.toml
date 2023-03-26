@@ -21,11 +21,11 @@ coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android
 coroutine-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutine" }
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
 
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-bom = "androidx.compose:compose-bom:2023.01.00"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version = "compose-compiler" }
 
 coil-compose = { module = "io.coil-kt:coil-compose", version = "2.1.0" }
@@ -83,4 +83,29 @@ android-library = { id = "com.android.library", version.ref = "android-gradle-pl
 gms = { id = "com.google.gms.google-services", version.ref = "gms-plugin" }
 
 [bundles]
-compose = []
+compose = [
+    "compose-ui",
+    "compose-uiTooling",
+    "compose-material3",
+    "compose-runtime",
+]
+
+ktor = [
+    "ktor-core",
+    "ktor-gson",
+    "ktor-negotiation",
+    "ktor-cio",
+]
+
+test = [
+    "junit",
+    "mockk",
+    "truth",
+    "turbine",
+    "androidx-test-junit"
+]
+
+accompanist = ["accompanist-swiperefresh", "accompanist-pager", "accompanist-pager-indicators"]
+room = ["room-runtime", "room-compiler", "room-ktx"]
+lifecycle = ["lifecycle-runtime", "lifecycle-viewmodel-compose"]
+activity = ["activity-ktx", "activity-compose"]

@@ -15,10 +15,7 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
 
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.gson)
-    implementation(libs.ktor.cio)
-    implementation(libs.ktor.negotiation)
+    implementation(libs.bundles.ktor)
 
     kapt(libs.room.compiler)
     implementation(libs.room.runtime)

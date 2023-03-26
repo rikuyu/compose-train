@@ -12,37 +12,13 @@ class TrainAppPlugin : Plugin<Project> {
                 apply("com.android.application")
             }
             extensions.configure<ApplicationExtension> {
-                configureKotlinAndroid(this)
                 with(defaultConfig) {
                     targetSdk = libs.version("target-sdk").toInt()
                     applicationId = "com.example.composetrainapp"
                     versionCode = 1
                     versionName = "1"
-
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    vectorDrawables {
-                        useSupportLibrary = true
-                    }
-
-                    buildTypes {
-                        release {
-                            isMinifyEnabled = true
-                            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-                        }
-                    }
-                    kotlinOptions {
-                        freeCompilerArgs = listOf(
-                            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-                            "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
-                        )
-                    }
-                    buildFeatures {
-                        compose = true
-                    }
-                    composeOptions {
-                        kotlinCompilerExtensionVersion = libs.version("compose-compiler")
-                    }
                 }
+                configureKotlinAndroid(this)
             }
         }
     }

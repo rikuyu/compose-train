@@ -1,4 +1,4 @@
-name: ktlint
+name: ktlint-danger
 
 on:
   push:
