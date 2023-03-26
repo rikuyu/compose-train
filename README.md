@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart LR
-    buildSrc
+    build-logic
     
     subgraph data
     Repository --> LocalDataSource

@@ -1,56 +1,9 @@
-import dependencies.*
-import org.gradle.kotlin.dsl.kotlinOptions
-
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("app-base-setting")
     id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
-
-android {
-    compileSdk = Versions.compileSdkVersion
-
-    defaultConfig {
-        minSdk = Versions.minSdkVersion
-        targetSdk = Versions.targetSdkVersion
-        applicationId = Versions.applicationId
-        versionCode = Versions.versionCode
-        versionName = Versions.versionName
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Deps.AndroidX.Compose.compiler
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
-        )
-    }
-    buildFeatures {
-        compose = true
-    }
-}
-
-val ktlint by configurations.creating
 
 dependencies {
 
@@ -61,6 +14,8 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.uiTooling)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.material3)
 
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.viewmodel.compose)
@@ -73,7 +28,6 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.coroutine.android)
-    implementation(libs.compose.material3)
 
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.pager)
@@ -103,21 +57,4 @@ dependencies {
     implementation(libs.turbine)
     implementation(libs.androidx.test.junit)
     implementation(libs.coroutine.test)
-
-    ktlint(Deps.ktlint) {
-        attributes {
-            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
-        }
-    }
-}
-
-val outputDir = "${project.buildDir}/reports/"
-val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
-
-val ktlintCheck by tasks.creating(JavaExec::class) {
-    ktlintArgs(inputFiles, outputDir, ktlint, buildDir)
-}
-
-val ktlintFormat by tasks.creating(JavaExec::class) {
-    ktFormatArgs(inputFiles, outputDir, ktlint)
 }
