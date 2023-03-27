@@ -1,25 +1,15 @@
 package com.example.ui.home.favorite
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
@@ -45,17 +35,13 @@ import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.addFavorite(
-    scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
 ) {
     composable(route = Routes.Favorite.route) {
         FavoriteScreen(
-            scope = scope,
             scaffoldState = scaffoldState,
             navController = navController
         )
@@ -64,7 +50,6 @@ fun NavGraphBuilder.addFavorite(
 
 @Composable
 fun FavoriteScreen(
-    scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
     viewModel: RickMortyViewModel = hiltViewModel(),
@@ -72,11 +57,11 @@ fun FavoriteScreen(
     val uiState by viewModel.favoriteCharacters.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
-    LaunchedEffect(Unit) { scope.launch { viewModel.getFavoriteCharacters() } }
+    LaunchedEffect(Unit) { viewModel.getFavoriteCharacters() }
 
     if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            scope.launch { showSnackBar(scaffoldState, "error") }
+            showSnackBar(scaffoldState, "error")
         }
     }
 
@@ -147,8 +132,6 @@ fun FavoriteItem(
         ) {
             onClickFavorite(it, character, true)
         }
-        Spacer(modifier = Modifier.width(12.dp))
-        Icon(Icons.Filled.ArrowForward, contentDescription = null, tint = Color.Gray)
         Spacer(modifier = Modifier.width(8.dp))
     }
 }
