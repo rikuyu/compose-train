@@ -60,9 +60,9 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 hilt-compiler = { module = "androidx.hilt:hilt-compiler", version = "1.0.0" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.0.0" }
 
-hilt-android = { module = "com.google.dagger:hilt-android", version = "2.40" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.40" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.39.1" }
+hilt-android = { module = "com.google.dagger:hilt-android", version = "2.45" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.45" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.45" }
 
 ktlint = { module = "com.pinterest:ktlint", version = "0.45.2" }
 
