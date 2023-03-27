@@ -64,6 +64,8 @@ hilt-android = { module = "com.google.dagger:hilt-android", version = "2.40" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.40" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.39.1" }
 
+timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
+
 ktlint = { module = "com.pinterest:ktlint", version = "0.45.2" }
 
 # test
