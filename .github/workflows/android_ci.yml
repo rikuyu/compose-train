@@ -33,9 +33,11 @@ jobs:
       - name: Unit Test
         run: ./gradlew testDebugUnitTest
 
-      - name: Android Unit Test Report on Console
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }}
+      - name: Report Unit Test Result
+        if: cancelled() != true
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
 
       - name: Build with Gradle
         run: ./gradlew assembleDebug
