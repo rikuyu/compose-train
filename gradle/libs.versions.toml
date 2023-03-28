@@ -2,7 +2,7 @@
 ktor = "2.0.1"
 accompanist = "0.27.1"
 lifecycle = "2.5.1"
-activity = "1.5.1"
+activity = "1.7.0"
 navigation = "2.5.1"
 room = "2.4.3"
 coroutine = "1.6.4"
