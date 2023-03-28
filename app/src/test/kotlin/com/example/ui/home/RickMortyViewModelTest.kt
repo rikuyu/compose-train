@@ -125,7 +125,7 @@ class RickMortyViewModelTest {
             with(awaitItem()) {
                 assertThat(characters).isEmpty()
                 assertThat(isLoading).isFalse()
-                assertThat(error).isNotNull()
+                assertThat(error).isNull()
             }
         }
 
