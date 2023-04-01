@@ -1,15 +1,7 @@
 package com.example.ui.home.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -35,19 +27,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.model.CharacterDetail
 import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.collectAsStateWithLifecycle
+import com.example.ui.utils.compose.FullScreenLoadingIndicator
+import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBarWithArg
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
-fun NavGraphBuilder.addDetail(
-    scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
-) {
+fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
     composable(
         route = "${Routes.DetailCharacter.route}/{id}",
         arguments = listOf(
@@ -60,7 +47,6 @@ fun NavGraphBuilder.addDetail(
         DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
             scaffoldState,
-            scope
         )
     }
 }
@@ -69,7 +55,6 @@ fun NavGraphBuilder.addDetail(
 fun DetailScreen(
     characterId: Int,
     scaffoldState: ScaffoldState,
-    scope: CoroutineScope,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.characterDetail.collectAsStateWithLifecycle()
@@ -81,15 +66,13 @@ fun DetailScreen(
         FullScreenLoadingIndicator()
     } else if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            scope.launch {
-                showSnackBarWithArg(
-                    scaffoldState,
-                    requireNotNull(uiState.error).message ?: "error",
-                    "retry",
-                    characterId,
-                    viewModel::getDetail
-                )
-            }
+            showSnackBarWithArg(
+                scaffoldState,
+                requireNotNull(uiState.error).message ?: "error",
+                "retry",
+                characterId,
+                viewModel::getDetail
+            )
         }
     } else {
         val data = requireNotNull(uiState.detail)

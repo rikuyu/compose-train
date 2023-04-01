@@ -2,22 +2,8 @@ package com.example.ui.home.grid
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -45,43 +31,38 @@ import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.addGrid(
-    scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
 ) {
     composable(route = Routes.Grid.route) {
         GridScreen(
-            scope = scope,
             scaffoldState = scaffoldState,
-            navController = navController
+            onClickItem = {
+                navController.navigate(
+                    Routes.DetailCharacter.createRoute(it.id)
+                )
+            }
         )
     }
 }
 
 @Composable
 fun GridScreen(
-    modifier: Modifier = Modifier,
-    scope: CoroutineScope,
     scaffoldState: ScaffoldState,
-    navController: NavHostController,
+    onClickItem: (Character) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val uiState: CharactersUiState by viewModel.characters.collectAsStateWithLifecycle()
     val listState = rememberLazyGridState()
 
-    LaunchedEffect(Unit) {
-        scope.launch { viewModel.getCharacters() }
-    }
+    LaunchedEffect(Unit) { viewModel.getCharacters() }
 
     if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            scope.launch {
-                showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
-            }
+            showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
         }
     }
 
@@ -108,16 +89,7 @@ fun GridScreen(
                     )
                 ) {
                     items(uiState.characters.take(6), key = { it.id }) {
-                        HorizontalCharacterItem(
-                            character = it,
-                            onClickItem = {
-                                navController.navigate(
-                                    Routes.DetailCharacter.createRoute(
-                                        it.id
-                                    )
-                                )
-                            }
-                        )
+                        HorizontalCharacterItem(character = it, onClickItem = onClickItem)
                     }
                 }
                 Spacer(modifier = modifier.height(10.dp))
@@ -139,16 +111,7 @@ fun GridScreen(
                             items = uiState.characters.takeLast(14),
                             key = { _, c -> c.id },
                         ) { _, c ->
-                            VerticalCharacterItem(
-                                character = c,
-                                onClickItem = {
-                                    navController.navigate(
-                                        Routes.DetailCharacter.createRoute(
-                                            c.id
-                                        )
-                                    )
-                                }
-                            )
+                            VerticalCharacterItem(character = c, onClickItem = onClickItem)
                         }
                     }
                     PullRefreshIndicator(
@@ -165,7 +128,7 @@ fun GridScreen(
 @Composable
 fun HorizontalCharacterItem(
     character: Character,
-    onClickItem: () -> Unit,
+    onClickItem: (Character) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -178,7 +141,7 @@ fun HorizontalCharacterItem(
                     onPress = { /* Called when the gesture starts */ },
                     onDoubleTap = { /* Called on Double Tap */ },
                     onLongPress = { /* Called on Long Press */ },
-                    onTap = { onClickItem() },
+                    onTap = { onClickItem(character) },
                 )
             }
     ) {
@@ -196,13 +159,13 @@ fun HorizontalCharacterItem(
 @Composable
 fun VerticalCharacterItem(
     character: Character,
-    onClickItem: () -> Unit,
+    onClickItem: (Character) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(210.dp)
-            .clickable { onClickItem() },
+            .clickable { onClickItem(character) },
         verticalArrangement = Arrangement.Center
     ) {
         TrainAppImage(

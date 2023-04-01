@@ -1,21 +1,32 @@
 name: ktlint-danger
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [ "main", "develop" ]
+
 jobs:
   ktlint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+
+      - name: install danger
+        run: |
+          gem install bundler
+          bundle install
+
       - name: Run ktlint
         run: ./gradlew ktlintCheck
+
+      - name: run danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: danger

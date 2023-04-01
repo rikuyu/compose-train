@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +20,7 @@ jobs:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
         with:
-          access_token: ${{ github.token }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -34,9 +33,11 @@ jobs:
       - name: Unit Test
         run: ./gradlew testDebugUnitTest
 
-      - name: Android Unit Test Report on Console
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }}
+      - name: Report Unit Test Result
+        if: cancelled() != true
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
 
       - name: Build with Gradle
         run: ./gradlew assembleDebug

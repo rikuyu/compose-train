@@ -32,6 +32,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version = "2.1.0" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 
@@ -62,6 +63,8 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 hilt-android = { module = "com.google.dagger:hilt-android", version = "2.40" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.40" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.39.1" }
+
+timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
 ktlint = { module = "com.pinterest:ktlint", version = "0.45.2" }
 
@@ -105,7 +108,13 @@ test = [
     "androidx-test-junit"
 ]
 
-accompanist = ["accompanist-swiperefresh", "accompanist-pager", "accompanist-pager-indicators"]
+accompanist = [
+    "accompanist-swiperefresh",
+    "accompanist-systemuicontroller",
+    "accompanist-pager",
+    "accompanist-pager-indicators"
+]
+
 room = ["room-runtime", "room-compiler", "room-ktx"]
 lifecycle = ["lifecycle-runtime", "lifecycle-viewmodel-compose"]
 activity = ["activity-ktx", "activity-compose"]
