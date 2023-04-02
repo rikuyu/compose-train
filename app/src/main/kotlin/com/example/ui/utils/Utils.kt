@@ -1,21 +1,11 @@
 package com.example.ui.utils
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
-import com.example.composetrainapp.R
 import com.example.ui.todo.InputState
-import kotlinx.coroutines.flow.StateFlow
 import java.util.regex.Pattern
 
 suspend fun showSnackBar(
