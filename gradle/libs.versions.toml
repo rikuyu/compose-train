@@ -51,6 +51,7 @@ activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activ
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -116,5 +117,5 @@ accompanist = [
 ]
 
 room = ["room-runtime", "room-compiler", "room-ktx"]
-lifecycle = ["lifecycle-runtime", "lifecycle-viewmodel-compose"]
+lifecycle = ["lifecycle-runtime", "lifecycle-runtime-compose", "lifecycle-viewmodel-compose"]
 activity = ["activity-ktx", "activity-compose"]

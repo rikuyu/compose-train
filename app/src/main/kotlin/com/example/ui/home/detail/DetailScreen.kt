@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -28,7 +29,6 @@ import androidx.navigation.navArgument
 import com.example.model.CharacterDetail
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.compose.TrainAppImage

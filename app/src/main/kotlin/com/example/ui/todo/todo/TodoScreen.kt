@@ -25,6 +25,7 @@ import com.example.data.utils.Result
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,7 +34,6 @@ import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addTodo(

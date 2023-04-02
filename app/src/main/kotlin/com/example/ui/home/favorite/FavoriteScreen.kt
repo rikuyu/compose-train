@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -29,7 +30,6 @@ import com.example.composetrainapp.R
 import com.example.model.Character
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.ToggleButton

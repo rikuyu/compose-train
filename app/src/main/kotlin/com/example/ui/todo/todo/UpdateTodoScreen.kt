@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -37,7 +38,6 @@ import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.Routes
 import com.example.ui.utils.checkIsTodoBodyValid
 import com.example.ui.utils.checkIsTodoTitleValid
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 

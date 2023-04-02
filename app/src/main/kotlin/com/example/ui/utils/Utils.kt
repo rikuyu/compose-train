@@ -18,45 +18,6 @@ import com.example.ui.todo.InputState
 import kotlinx.coroutines.flow.StateFlow
 import java.util.regex.Pattern
 
-@Composable
-fun <T> StateFlow<T>.collectAsStateWithLifecycle(
-    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-): State<T> {
-    val initialValue = remember(this) { this.value }
-    return produceState(
-        key1 = this,
-        key2 = lifecycle,
-        key3 = minActiveState,
-        initialValue = initialValue
-    ) {
-        lifecycle.repeatOnLifecycle(minActiveState) {
-            collect {
-                Log.d("FLOW_COLLECT_TEST_TAG", "WithLifecycle: $value")
-                this@produceState.value = it
-            }
-        }
-    }
-}
-
-fun getGenderRes(genderType: String): Pair<Int, Color> = when (genderType) {
-    "Male" -> Pair(R.drawable.ic_male, Color(0xFF82BDE9))
-    "Female" -> Pair(R.drawable.ic_female, Color(0xFFE982D2))
-    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
-}
-
-fun getCreatureRes(creatureType: String): Pair<Int, Color> = when (creatureType) {
-    "Human" -> Pair(R.drawable.ic_human, Color(0xFFEFC2A1))
-    "Alien" -> Pair(R.drawable.ic_alien, Color(0xFFA1EFA2))
-    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
-}
-
-fun getStatusRes(status: String): Pair<Int, Color> = when (status) {
-    "Alive" -> Pair(R.drawable.ic_status_alive, Color.LightGray)
-    "Dead" -> Pair(R.drawable.ic_status_dead, Color.Red)
-    else -> Pair(R.drawable.ic_unknown_data, Color.LightGray)
-}
-
 suspend fun showSnackBar(
     scaffoldState: ScaffoldState,
     message: String,
