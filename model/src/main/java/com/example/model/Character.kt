@@ -1,6 +1,7 @@
 package com.example.model
 
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -31,9 +32,14 @@ data class CharacterDetail(
     val type: String,
     val url: String,
     val isFavorite: Boolean,
+    val backgroundColor: Color,
 ) {
     companion object {
-        fun convertToDetail(character: Character?, isFavorite: Boolean): CharacterDetail? {
+        fun convertToDetail(
+            character: Character?,
+            isFavorite: Boolean,
+            backgroundColor: Color,
+        ): CharacterDetail? {
             val c = character ?: return null
             return CharacterDetail(
                 id = c.id,
@@ -46,7 +52,8 @@ data class CharacterDetail(
                 status = c.status,
                 type = c.type,
                 url = c.url,
-                isFavorite = isFavorite
+                isFavorite = isFavorite,
+                backgroundColor = backgroundColor
             )
         }
 

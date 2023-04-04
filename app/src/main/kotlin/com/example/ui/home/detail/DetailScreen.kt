@@ -58,7 +58,6 @@ fun DetailScreen(
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.characterDetail.collectAsStateWithLifecycle()
-    val backgroundColor by viewModel.backgroundColor.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) { viewModel.getDetail(characterId) }
 
@@ -83,7 +82,7 @@ fun DetailScreen(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            backgroundColor,
+                            data.backgroundColor,
                             MaterialTheme.colors.background
                         )
                     )

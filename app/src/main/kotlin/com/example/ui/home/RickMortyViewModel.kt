@@ -31,15 +31,14 @@ class RickMortyViewModel @Inject constructor(
     val favoriteCharacters = _favoriteCharacters.asStateFlow()
 
     private val _backgroundColor: MutableStateFlow<Color> = MutableStateFlow(getBackgroundColor(null))
-    val backgroundColor: StateFlow<Color> get() = _backgroundColor
-
     private val _character: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState())
     private val _isFavorite: MutableStateFlow<FavoriteCharacterUiState> = MutableStateFlow(FavoriteCharacterUiState())
 
     val characterDetail: StateFlow<CharacterDetailUiState> = combine(
         _character,
-        _isFavorite
-    ) { c, f ->
+        _isFavorite,
+        _backgroundColor
+    ) { c, f, b ->
         val isLoading = c.isLoading || f.isLoading
         val error = c.error ?: f.error
         return@combine if (isLoading) {
@@ -51,7 +50,8 @@ class RickMortyViewModel @Inject constructor(
                 isLoading = false,
                 detail = CharacterDetail.convertToDetail(
                     character = c.character,
-                    isFavorite = f.isFavorite
+                    isFavorite = f.isFavorite,
+                    backgroundColor = b
                 ),
                 error = null
             )
