@@ -67,7 +67,7 @@ hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-p
 
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
-ktlint = { module = "com.pinterest:ktlint", version = "0.45.2" }
+ktlint = { module = "com.pinterest:ktlint", version = "0.48.2" }
 
 # test
 junit = "junit:junit:4.13.2"
