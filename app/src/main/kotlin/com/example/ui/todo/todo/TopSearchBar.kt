@@ -21,11 +21,11 @@ fun TopSearchBar(
         label = {
             Text(
                 text = "search todo",
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
             )
         },
         singleLine = true,
         modifier = modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1
+        textStyle = MaterialTheme.typography.body1,
     )
 }

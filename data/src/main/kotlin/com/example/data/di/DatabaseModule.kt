@@ -20,7 +20,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             RickAndMortyDatabase::class.java,
-            DATABASE_NAME
+            DATABASE_NAME,
         ).allowMainThreadQueries().build()
     }
 

@@ -52,19 +52,19 @@ class MainActivity : ComponentActivity() {
 
                 systemUiController.setSystemBarsColor(
                     color = Color.Transparent,
-                    darkIcons = useDarkIcons
+                    darkIcons = useDarkIcons,
                 )
 
                 Scaffold(
                     topBar = { TrainTopBar(navController, scrollBehavior) },
                     scaffoldState = scaffoldState,
                     bottomBar = { CustomBottomNavigationBar(navController, currentUser) },
-                    floatingActionButton = { TrainFloatingActionButton(navController) }
+                    floatingActionButton = { TrainFloatingActionButton(navController) },
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
                             navController = navController,
-                            startDestination = Routes.Grid.route
+                            startDestination = Routes.Grid.route,
                         ) {
                             addGrid(scaffoldState, navController)
                             addFavorite(scaffoldState, navController)

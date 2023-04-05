@@ -12,7 +12,7 @@ fun FullScreenLoadingIndicator() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .wrapContentSize()
+            .wrapContentSize(),
     ) {
         CircularProgressIndicator()
     }

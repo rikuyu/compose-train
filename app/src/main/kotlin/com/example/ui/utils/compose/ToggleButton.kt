@@ -35,21 +35,21 @@ fun ToggleButton(
 ) {
     Box(
         modifier = modifier.toggleButton(onClicked, isClicked, enabled, backgroundColor, size),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         if (isClicked) {
             Icon(
                 imageVector = clickedIconVector,
                 contentDescription = null,
                 modifier = Modifier.size(iconSize),
-                tint = iconColor
+                tint = iconColor,
             )
         } else {
             Icon(
                 imageVector = notClickedIconVector,
                 contentDescription = null,
                 modifier = Modifier.size(iconSize),
-                tint = iconColor
+                tint = iconColor,
             )
         }
     }
@@ -72,7 +72,7 @@ private fun Modifier.toggleButton(
                 enabled = enabled,
                 role = Role.Checkbox,
                 interactionSource = interactionSource,
-                indication = ripple
+                indication = ripple,
             )
     } else {
         this

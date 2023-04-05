@@ -13,10 +13,10 @@ fun FullScreenErrorView(onClickRetry: (() -> Unit)? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .wrapContentSize()
+            .wrapContentSize(),
     ) {
         TextButton(
-            onClick = { onClickRetry?.invoke() }
+            onClick = { onClickRetry?.invoke() },
         ) {
             Text(text = "Retry")
         }

@@ -43,7 +43,7 @@ private val String?.topBarTitle
 @Composable
 fun TrainTopBar(
     navController: NavController,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -75,7 +75,7 @@ fun TrainTopBar(
                     }
                     DropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        onDismissRequest = { expanded = false },
                     ) {
                         DropdownMenuItem(onClick = {
                             expanded = false

@@ -17,7 +17,6 @@ import com.example.ui.utils.Routes
 
 @Composable
 fun TrainFloatingActionButton(navController: NavController) {
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -30,7 +29,7 @@ fun TrainFloatingActionButton(navController: NavController) {
     ) {
         FloatingActionButton(
             onClick = { navController.navigate(Routes.CreateTodo.route) },
-            backgroundColor = MaterialTheme.colorScheme.primary
+            backgroundColor = MaterialTheme.colorScheme.primary,
         ) {
             Icon(Icons.Filled.Add, contentDescription = null, tint = MaterialTheme.colorScheme.surface)
         }

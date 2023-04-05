@@ -53,7 +53,7 @@ data class CharacterDetail(
                 type = c.type,
                 url = c.url,
                 isFavorite = isFavorite,
-                backgroundColor = backgroundColor
+                backgroundColor = backgroundColor,
             )
         }
 
@@ -67,7 +67,7 @@ data class CharacterDetail(
             species = character.species,
             status = character.status,
             type = character.type,
-            url = character.url
+            url = character.url,
         )
     }
 }

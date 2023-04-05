@@ -49,7 +49,7 @@ fun NavGraphBuilder.addTodo(
 fun TodoScreen(
     navController: NavController,
     firebaseUser: FirebaseUser?,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.getAllTodo()
@@ -66,7 +66,7 @@ fun TodoScreen(
                 navController = navController,
                 filter = viewModel::getFilteredList,
                 delete = viewModel::deleteTodo,
-                todosData = (todosData as Result.Success<TodoData>).data
+                todosData = (todosData as Result.Success<TodoData>).data,
             )
     }
 }
@@ -89,7 +89,7 @@ fun TodoContent(
             .fillMaxSize()
             .padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         TopSearchBar(query = query) { query = it }
         Spacer(modifier = Modifier.height(10.dp))
@@ -97,18 +97,18 @@ fun TodoContent(
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = buildAnnotatedString {
                         append("Todoがありません\n")
                         append("追加してください")
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedButton(
                     border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                    onClick = { navController.navigate(Routes.CreateTodo.route) }
+                    onClick = { navController.navigate(Routes.CreateTodo.route) },
                 ) {
                     Text(text = "Add")
                 }
@@ -118,7 +118,7 @@ fun TodoContent(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp)
+                    .padding(4.dp),
             ) {
                 items(todosData.todos, key = { it.id }) {
                     TodoListItem(it, todosData.user, navController) { id ->

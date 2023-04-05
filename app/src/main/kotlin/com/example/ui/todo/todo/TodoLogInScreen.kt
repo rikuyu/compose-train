@@ -53,7 +53,7 @@ fun NavGraphBuilder.addLogIn(navController: NavHostController) {
 @Composable
 fun TodoLogInScreen(
     navController: NavHostController,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
 
@@ -87,7 +87,7 @@ fun TodoLogInScreen(
 @Composable
 fun TodoLogInContent(
     navController: NavController,
-    viewModel: TodoViewModel
+    viewModel: TodoViewModel,
 ) {
     val logInValueState by viewModel.logInValueState
     val focusManager = LocalFocusManager.current
@@ -97,18 +97,18 @@ fun TodoLogInContent(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         Spacer(modifier = Modifier.height(60.dp))
         Image(
             painter = painterResource(id = R.drawable.image_login),
             contentDescription = null,
-            modifier = Modifier.fillMaxHeight(0.2F)
+            modifier = Modifier.fillMaxHeight(0.2F),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = "Log In",
@@ -116,7 +116,7 @@ fun TodoLogInContent(
                     fontWeight = FontWeight.Bold,
                     // letterSpacing = TextUnit.Companion.Sp(2)
                 ),
-                fontSize = 26.sp
+                fontSize = 26.sp,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -128,7 +128,7 @@ fun TodoLogInContent(
                 )
                 ErrorMessage(
                     text = "正しいメールアドレスではありません",
-                    flag = logInValueState.emailValid == InputState.NotValid
+                    flag = logInValueState.emailValid == InputState.NotValid,
                 )
                 PasswordForm(
                     password = logInValueState.password,
@@ -141,7 +141,7 @@ fun TodoLogInContent(
                 )
                 ErrorMessage(
                     text = "パスワードは半角数字英小文字で6～10文字",
-                    flag = logInValueState.passwordValid == InputState.NotValid
+                    flag = logInValueState.passwordValid == InputState.NotValid,
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
@@ -150,7 +150,7 @@ fun TodoLogInContent(
                     shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
-                        .height(50.dp)
+                        .height(50.dp),
                 ) {
                     Text(text = "Log In", fontSize = 20.sp)
                 }

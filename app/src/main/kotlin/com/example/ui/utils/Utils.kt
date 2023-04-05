@@ -17,7 +17,7 @@ suspend fun showSnackBar(
     when (
         scaffoldState.snackbarHostState.showSnackbar(
             message = message,
-            actionLabel = actionLabel
+            actionLabel = actionLabel,
         )
     ) {
         SnackbarResult.ActionPerformed -> action?.invoke()
@@ -35,7 +35,7 @@ suspend fun showSnackBarWithArg(
     when (
         scaffoldState.snackbarHostState.showSnackbar(
             message = message,
-            actionLabel = actionLabel
+            actionLabel = actionLabel,
         )
     ) {
         SnackbarResult.ActionPerformed -> action.invoke(arg)

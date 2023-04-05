@@ -35,12 +35,12 @@ fun ColumnScope.ErrorMessage(text: String, flag: Boolean) {
     AnimatedVisibility(visible = flag) {
         Column(
             modifier = Modifier.fillMaxWidth(0.8F),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Text(
                 text = text,
                 fontSize = 14.sp,
-                color = MaterialTheme.colors.error
+                color = MaterialTheme.colors.error,
             )
         }
     }
@@ -51,7 +51,7 @@ fun NameForm(
     name: String,
     isError: Boolean,
     onNext: () -> Unit,
-    onNameChange: (String) -> Unit
+    onNameChange: (String) -> Unit,
 ) {
     OutlinedTextField(
         value = name,
@@ -60,7 +60,7 @@ fun NameForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_account),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F)
+                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F),
             )
         },
         label = { Text(text = "UserName") },
@@ -73,7 +73,7 @@ fun NameForm(
             imeAction = ImeAction.Next,
         ),
         keyboardActions = KeyboardActions(
-            onNext = { onNext() }
+            onNext = { onNext() },
         ),
     )
 }
@@ -92,7 +92,7 @@ fun EmailForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_mail),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F)
+                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F),
             )
         },
         label = { Text(text = "Email") },
@@ -105,7 +105,7 @@ fun EmailForm(
             imeAction = ImeAction.Next,
         ),
         keyboardActions = KeyboardActions(
-            onNext = { onNext() }
+            onNext = { onNext() },
         ),
     )
 }
@@ -128,7 +128,7 @@ fun PasswordForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_key),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.5F)
+                tint = MaterialTheme.colors.primary.copy(alpha = 0.5F),
             )
         },
         trailingIcon = {
@@ -137,15 +137,21 @@ fun PasswordForm(
             }) {
                 Icon(
                     painter =
-                    if (visibility)
+                    if (visibility) {
                         painterResource(id = R.drawable.ic_eye_visibility_on)
-                    else painterResource(
-                        id = R.drawable.ic_eye_visibility_off
-                    ),
-                    tint = if (visibility) MaterialTheme.colors.primary.copy(
-                        alpha = 0.5F
-                    ) else Color.Gray,
-                    contentDescription = null
+                    } else {
+                        painterResource(
+                            id = R.drawable.ic_eye_visibility_off,
+                        )
+                    },
+                    tint = if (visibility) {
+                        MaterialTheme.colors.primary.copy(
+                            alpha = 0.5F,
+                        )
+                    } else {
+                        Color.Gray
+                    },
+                    contentDescription = null,
                 )
             }
         },
@@ -153,10 +159,11 @@ fun PasswordForm(
         placeholder = { Text(text = label) },
         singleLine = true,
         visualTransformation =
-        if (visibility)
+        if (visibility) {
             VisualTransformation.None
-        else
-            PasswordVisualTransformation(),
+        } else {
+            PasswordVisualTransformation()
+        },
         isError = isError,
         modifier = Modifier.fillMaxWidth(0.8f),
         keyboardOptions = KeyboardOptions(
@@ -165,7 +172,7 @@ fun PasswordForm(
         ),
         keyboardActions = KeyboardActions(
             onNext = { onNext?.invoke() },
-            onDone = { onDone?.invoke() }
+            onDone = { onDone?.invoke() },
         ),
     )
 }

@@ -44,7 +44,7 @@ fun NavGraphBuilder.addAddTodo(navController: NavController) {
 fun AddTodoScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     var title by remember { mutableStateOf("") }
 
@@ -60,7 +60,7 @@ fun AddTodoScreen(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
         ) {
             OutlinedTextField(
                 value = title,
@@ -71,7 +71,7 @@ fun AddTodoScreen(
                 label = {
                     Text(
                         text = "Todo Title",
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
                     )
                 },
                 singleLine = true,
@@ -88,7 +88,7 @@ fun AddTodoScreen(
                 label = {
                     Text(
                         text = "Todo Body",
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
                     )
                 },
                 singleLine = true,
@@ -101,16 +101,16 @@ fun AddTodoScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Important"
+                    text = "Important",
                 )
                 Checkbox(
                     checked = isImportant,
                     onCheckedChange = { isImportant = it },
-                    colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+                    colors = CheckboxDefaults.colors(MaterialTheme.colors.primary),
                 )
             }
         }
@@ -119,7 +119,7 @@ fun AddTodoScreen(
                 .background(MaterialTheme.colors.background)
                 .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Button(
                 onClick = {
@@ -127,20 +127,24 @@ fun AddTodoScreen(
                     navController.navigate(Routes.Todo.route)
                 },
                 enabled = isTodoTitleValid && isTodoBodyValid,
-                colors = if (isTodoTitleValid && isTodoBodyValid) ButtonDefaults.textButtonColors(
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = Color.White,
-                ) else ButtonDefaults.textButtonColors(
-                    backgroundColor = Color.LightGray,
-                    contentColor = Color.DarkGray,
-                ),
+                colors = if (isTodoTitleValid && isTodoBodyValid) {
+                    ButtonDefaults.textButtonColors(
+                        backgroundColor = MaterialTheme.colors.primary,
+                        contentColor = Color.White,
+                    )
+                } else {
+                    ButtonDefaults.textButtonColors(
+                        backgroundColor = Color.LightGray,
+                        contentColor = Color.DarkGray,
+                    )
+                },
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20)
+                shape = RoundedCornerShape(20),
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 4.dp),
                     text = "Add",
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
                 )
             }
         }

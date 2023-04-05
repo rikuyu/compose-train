@@ -22,7 +22,7 @@ fun CustomTextField(
     errorText: String,
     value: String,
     changeValue: (String) -> Unit,
-    checkIsValid: (String) -> Boolean
+    checkIsValid: (String) -> Boolean,
 ) {
     var isEmailValid by remember { mutableStateOf(false) }
 
@@ -36,7 +36,7 @@ fun CustomTextField(
             label = {
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.body2
+                    style = MaterialTheme.typography.body2,
                 )
             },
             singleLine = true,
@@ -47,12 +47,12 @@ fun CustomTextField(
         if (isEmailValid) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = errorText,
                     modifier = Modifier.fillMaxWidth(),
-                    style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error)
+                    style = LocalTextStyle.current.copy(color = MaterialTheme.colors.error),
                 )
             }
         }

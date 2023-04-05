@@ -41,9 +41,9 @@ fun NavGraphBuilder.addGrid(
             scaffoldState = scaffoldState,
             onClickItem = {
                 navController.navigate(
-                    Routes.DetailCharacter.createRoute(it.id)
+                    Routes.DetailCharacter.createRoute(it.id),
                 )
-            }
+            },
         )
     }
 }
@@ -68,7 +68,7 @@ fun GridScreen(
 
     val state = rememberPullRefreshState(
         refreshing = uiState.isRefreshing,
-        onRefresh = { viewModel.refreshCharacters() }
+        onRefresh = { viewModel.refreshCharacters() },
     )
 
     Box {
@@ -85,8 +85,8 @@ fun GridScreen(
                         start = 8.dp,
                         end = 4.dp,
                         top = 12.dp,
-                        bottom = 0.dp
-                    )
+                        bottom = 0.dp,
+                    ),
                 ) {
                     items(uiState.characters.take(6), key = { it.id }) {
                         HorizontalCharacterItem(character = it, onClickItem = onClickItem)
@@ -101,7 +101,7 @@ fun GridScreen(
                             start = 16.dp,
                             end = 16.dp,
                             top = 12.dp,
-                            bottom = 24.dp
+                            bottom = 24.dp,
                         ),
                         modifier = modifier,
                         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -117,7 +117,7 @@ fun GridScreen(
                     PullRefreshIndicator(
                         refreshing = uiState.isRefreshing,
                         state = state,
-                        modifier = Modifier.align(Alignment.TopCenter)
+                        modifier = Modifier.align(Alignment.TopCenter),
                     )
                 }
             }
@@ -143,15 +143,15 @@ fun HorizontalCharacterItem(
                     onLongPress = { /* Called on Long Press */ },
                     onTap = { onClickItem(character) },
                 )
-            }
+            },
     ) {
         TrainAppImage(
             modifier = Modifier.padding(end = 4.dp),
-            url = character.image
+            url = character.image,
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
         )
     }
 }
@@ -166,16 +166,16 @@ fun VerticalCharacterItem(
             .fillMaxWidth()
             .height(210.dp)
             .clickable { onClickItem(character) },
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         TrainAppImage(
             modifier = Modifier.fillMaxWidth(),
             url = character.image,
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.FillWidth,
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
         )
     }
 }

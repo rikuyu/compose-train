@@ -36,7 +36,7 @@ private val DarkColorPalette = darkColorScheme(
     inverseOnSurface = Grey10,
     surfaceVariant = GreenGrey30,
     onSurfaceVariant = GreenGrey80,
-    outline = GreenGrey80
+    outline = GreenGrey80,
 )
 
 private val LightColorPalette = lightColorScheme(
@@ -65,12 +65,11 @@ private val LightColorPalette = lightColorScheme(
     inverseOnSurface = Grey95,
     surfaceVariant = GreenGrey90,
     onSurfaceVariant = GreenGrey30,
-    outline = GreenGrey50
+    outline = GreenGrey50,
 )
 
 @Composable
 fun M3TrainAppTheme(darkTheme: Boolean = false, content: @Composable () -> Unit) {
-
     val useDynamicColors = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colors = when {
         useDynamicColors && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
@@ -83,6 +82,6 @@ fun M3TrainAppTheme(darkTheme: Boolean = false, content: @Composable () -> Unit)
         colorScheme = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
+        content = content,
     )
 }

@@ -43,7 +43,7 @@ fun NavGraphBuilder.addFavorite(
     composable(route = Routes.Favorite.route) {
         FavoriteScreen(
             scaffoldState = scaffoldState,
-            navController = navController
+            navController = navController,
         )
     }
 }
@@ -81,7 +81,7 @@ fun FavoriteScreen(
                         FavoriteItem(
                             character = it,
                             onClickFavorite = viewModel::onClickFavorite,
-                            navController = navController
+                            navController = navController,
                         )
                         Divider()
                     }
@@ -104,13 +104,13 @@ fun FavoriteItem(
             .clickable {
                 navController.navigate(
                     Routes.DetailCharacter.createRoute(
-                        character.id
-                    )
+                        character.id,
+                    ),
                 )
             }
             .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Start,
     ) {
         TrainAppImage(url = character.image)
         Text(
@@ -143,14 +143,14 @@ fun FavoriteCountItem(favoriteSize: Int) {
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = LocalContext.current.getString(
                 R.string.num_favorite_items,
-                favoriteSize
+                favoriteSize,
             ),
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
         )
     }
 }
@@ -159,7 +159,7 @@ fun FavoriteCountItem(favoriteSize: Int) {
 fun EmptyView() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(text = LocalContext.current.getString(R.string.no_favorite_items))
     }

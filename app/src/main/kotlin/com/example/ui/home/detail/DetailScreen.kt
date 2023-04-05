@@ -41,8 +41,8 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
             navArgument("id") {
                 type = NavType.IntType
                 nullable = false
-            }
-        )
+            },
+        ),
     ) { backStackEntry ->
         DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
@@ -70,7 +70,7 @@ fun DetailScreen(
                 requireNotNull(uiState.error).message ?: "error",
                 "retry",
                 characterId,
-                viewModel::getDetail
+                viewModel::getDetail,
             )
         }
     } else {
@@ -83,10 +83,10 @@ fun DetailScreen(
                     brush = Brush.verticalGradient(
                         colors = listOf(
                             data.backgroundColor,
-                            MaterialTheme.colors.background
-                        )
-                    )
-                )
+                            MaterialTheme.colors.background,
+                        ),
+                    ),
+                ),
         ) {
             Spacer(modifier = Modifier.height(30.dp))
             Box {
@@ -96,7 +96,7 @@ fun DetailScreen(
                     modifier = Modifier
                         .size(240.dp)
                         .clip(CircleShape)
-                        .align(Alignment.Center)
+                        .align(Alignment.Center),
                 )
                 ToggleButton(
                     isClicked = data.isFavorite,
@@ -104,7 +104,7 @@ fun DetailScreen(
                     iconColor = Color(0xFFFE4E98),
                     clickedIconVector = Icons.Default.Favorite,
                     notClickedIconVector = Icons.Default.FavoriteBorder,
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
                 ) {
                     viewModel.onClickFavorite(it, CharacterDetail.convertToCharacter(data))
                 }
@@ -125,11 +125,11 @@ fun AtrItem(title: String, content: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Start,
         ) {
             Text(text = title, style = MaterialTheme.typography.h6)
         }

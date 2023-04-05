@@ -37,7 +37,7 @@ class RickMortyViewModel @Inject constructor(
     val characterDetail: StateFlow<CharacterDetailUiState> = combine(
         _character,
         _isFavorite,
-        _backgroundColor
+        _backgroundColor,
     ) { c, f, b ->
         val isLoading = c.isLoading || f.isLoading
         val error = c.error ?: f.error
@@ -51,15 +51,15 @@ class RickMortyViewModel @Inject constructor(
                 detail = CharacterDetail.convertToDetail(
                     character = c.character,
                     isFavorite = f.isFavorite,
-                    backgroundColor = b
+                    backgroundColor = b,
                 ),
-                error = null
+                error = null,
             )
         }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = CharacterDetailUiState()
+        initialValue = CharacterDetailUiState(),
     )
 
     fun getCharacters(isRefreshing: Boolean = false) {
@@ -132,7 +132,7 @@ class RickMortyViewModel @Inject constructor(
     fun onClickFavorite(
         isClicked: Boolean,
         character: Character,
-        isFavoriteScreen: Boolean = false
+        isFavoriteScreen: Boolean = false,
     ) {
         viewModelScope.launch {
             if (isClicked) {
@@ -177,35 +177,35 @@ data class CharactersUiState(
     val characters: List<Character> = emptyList(),
     val isRefreshing: Boolean = false,
     override val isLoading: Boolean = false,
-    override val error: Throwable? = null
+    override val error: Throwable? = null,
 ) : UiState
 
 @Stable
 data class CharacterUiState(
     val character: Character? = null,
     override val isLoading: Boolean = false,
-    override val error: Throwable? = null
+    override val error: Throwable? = null,
 ) : UiState
 
 @Stable
 data class FavoriteCharactersUiState(
     val characters: List<Character> = emptyList(),
     override val isLoading: Boolean = false,
-    override val error: Throwable? = null
+    override val error: Throwable? = null,
 ) : UiState
 
 @Stable
 data class FavoriteCharacterUiState(
     val isFavorite: Boolean = false,
     override val isLoading: Boolean = false,
-    override val error: Throwable? = null
+    override val error: Throwable? = null,
 ) : UiState
 
 @Stable
 data class CharacterDetailUiState(
     val detail: CharacterDetail? = null,
     override val isLoading: Boolean = true,
-    override val error: Throwable? = null
+    override val error: Throwable? = null,
 ) : UiState
 
 @Stable
