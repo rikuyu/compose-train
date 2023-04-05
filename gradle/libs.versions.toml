@@ -1,5 +1,5 @@
 [versions]
-ktor = "2.0.1"
+ktor = "2.2.4"
 accompanist = "0.27.1"
 lifecycle = "2.6.1"
 activity = "1.7.0"
