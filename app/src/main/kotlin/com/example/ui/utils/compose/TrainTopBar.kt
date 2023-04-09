@@ -4,12 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.material.Divider
+import androidx.compose.material3.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
@@ -58,7 +58,7 @@ fun TrainTopBar(
         it.route.isHome || it.route.isAddOrUpdateTodo
     } ?: false
     val isShowArrowBack = currentDestination?.hierarchy?.any {
-        it.route == Routes.DetailCharacter.route || it.route.isAddOrUpdateTodo
+        it.route?.startsWith(Routes.DetailCharacter.route) ?: false || it.route.isAddOrUpdateTodo
     } ?: false
 
     AnimatedVisibility(

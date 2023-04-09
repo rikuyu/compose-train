@@ -5,7 +5,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -77,23 +77,23 @@ fun GridScreen(
         } else if (uiState.error != null) {
             FullScreenErrorView { viewModel.getCharacters() }
         } else {
-            Column(verticalArrangement = Arrangement.Top) {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(2),
-                    modifier = modifier.height(150.dp),
-                    contentPadding = PaddingValues(
-                        start = 8.dp,
-                        end = 4.dp,
-                        top = 12.dp,
-                        bottom = 0.dp,
-                    ),
-                ) {
-                    items(uiState.characters.take(6), key = { it.id }) {
-                        HorizontalCharacterItem(character = it, onClickItem = onClickItem)
+            Box(modifier = Modifier.pullRefresh(state)) {
+                Column(verticalArrangement = Arrangement.Top) {
+                    LazyHorizontalGrid(
+                        rows = GridCells.Fixed(2),
+                        modifier = modifier.height(150.dp),
+                        contentPadding = PaddingValues(
+                            start = 8.dp,
+                            end = 4.dp,
+                            top = 12.dp,
+                            bottom = 0.dp,
+                        ),
+                    ) {
+                        items(uiState.characters.take(6), key = { it.id }) {
+                            HorizontalCharacterItem(character = it, onClickItem = onClickItem)
+                        }
                     }
-                }
-                Spacer(modifier = modifier.height(10.dp))
-                Box(modifier = Modifier.pullRefresh(state)) {
+                    Spacer(modifier = modifier.height(10.dp))
                     LazyVerticalGrid(
                         state = listState,
                         columns = GridCells.Fixed(2),
@@ -114,15 +114,15 @@ fun GridScreen(
                             VerticalCharacterItem(character = c, onClickItem = onClickItem)
                         }
                     }
-                    PullRefreshIndicator(
-                        refreshing = uiState.isRefreshing,
-                        state = state,
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        backgroundColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.primary
-                    )
                 }
             }
+            PullRefreshIndicator(
+                refreshing = uiState.isRefreshing,
+                state = state,
+                modifier = Modifier.align(Alignment.TopCenter),
+                backgroundColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.primary,
+            )
         }
     }
 }

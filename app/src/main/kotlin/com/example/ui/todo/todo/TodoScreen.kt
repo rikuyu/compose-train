@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -107,7 +107,7 @@ fun TodoContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedButton(
-                    border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                     onClick = { navController.navigate(Routes.CreateTodo.route) },
                 ) {
                     Text(text = "Add")

@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Divider
+import androidx.compose.material3.Divider
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.MaterialTheme
@@ -112,11 +112,10 @@ fun FavoriteItem(
         horizontalArrangement = Arrangement.Start,
     ) {
         TrainAppImage(url = character.image, modifier = Modifier.size(64.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = character.name,
-            modifier = Modifier
-                .weight(weight = 1f)
-                .padding(start = 12.dp),
+            modifier = Modifier.weight(weight = 1f),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             maxLines = 1,

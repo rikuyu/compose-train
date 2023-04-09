@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
         val currentUser = todoViewModel.firebaseUser.value
 
         setContent {
-            M3TrainAppTheme(darkTheme = true) {
+            M3TrainAppTheme {
                 val navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
                 val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
