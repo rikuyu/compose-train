@@ -3,6 +3,7 @@ package com.example.ui.utils.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -12,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -28,12 +30,14 @@ import com.example.ui.utils.Routes
 
 private val String?.isHome
     get() = this == Routes.Grid.route ||
-        this == Routes.Favorite.route ||
-        this?.startsWith(Routes.DetailCharacter.route) ?: false
+            this == Routes.Favorite.route ||
+            this?.startsWith(Routes.DetailCharacter.route) ?: false
 
 private val String?.isAddOrUpdateTodo
     get() = this == Routes.CreateTodo.route ||
-        this == Routes.UpdateTodo.route
+            this == Routes.UpdateTodo.route ||
+            this == Routes.LogIn.route ||
+            this == Routes.SignUp.route
 
 private val String?.topBarTitle
     get() = this?.split("/")?.let {
@@ -63,19 +67,33 @@ fun TrainTopBar(
         exit = fadeOut(),
     ) {
         TopAppBar(
-            title = { Text(text = currentDestination?.route.topBarTitle) },
+            title = {
+                Text(
+                    text = currentDestination?.route.topBarTitle,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            },
             navigationIcon = {
                 if (isShowArrowBack) {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 } else {
                     IconButton(onClick = { expanded = true }) {
-                        Icon(Icons.Filled.Menu, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                     DropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
                     ) {
                         DropdownMenuItem(onClick = {
                             expanded = false
@@ -87,7 +105,7 @@ fun TrainTopBar(
                                 navController.navigate(Routes.Grid.route)
                             }
                         }) {
-                            Text(text = "Grid")
+                            Text(text = "Grid", color = MaterialTheme.colorScheme.primary)
                         }
                         Divider()
                         DropdownMenuItem(onClick = {
@@ -100,7 +118,7 @@ fun TrainTopBar(
                                 navController.navigate(Routes.Favorite.route)
                             }
                         }) {
-                            Text(text = "Favorite")
+                            Text(text = "Favorite", color = MaterialTheme.colorScheme.primary)
                         }
                     }
                 }

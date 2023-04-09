@@ -13,6 +13,9 @@ dependencies {
     implementation(project(path = ":data"))
     implementation(project(path = ":testing-utils"))
 
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.core.splashscreen)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 

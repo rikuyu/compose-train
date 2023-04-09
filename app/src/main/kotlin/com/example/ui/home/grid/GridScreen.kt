@@ -4,12 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -118,6 +118,8 @@ fun GridScreen(
                         refreshing = uiState.isRefreshing,
                         state = state,
                         modifier = Modifier.align(Alignment.TopCenter),
+                        backgroundColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -151,7 +153,8 @@ fun HorizontalCharacterItem(
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -164,7 +167,6 @@ fun VerticalCharacterItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp)
             .clickable { onClickItem(character) },
         verticalArrangement = Arrangement.Center,
     ) {
@@ -175,7 +177,8 @@ fun VerticalCharacterItem(
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

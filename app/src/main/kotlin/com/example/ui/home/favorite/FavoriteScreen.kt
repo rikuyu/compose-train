@@ -6,12 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -100,7 +100,6 @@ fun FavoriteItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(86.dp)
             .clickable {
                 navController.navigate(
                     Routes.DetailCharacter.createRoute(
@@ -112,13 +111,14 @@ fun FavoriteItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
-        TrainAppImage(url = character.image)
+        TrainAppImage(url = character.image, modifier = Modifier.size(64.dp))
         Text(
             text = character.name,
             modifier = Modifier
                 .weight(weight = 1f)
                 .padding(start = 12.dp),
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -150,7 +150,8 @@ fun FavoriteCountItem(favoriteSize: Int) {
                 R.string.num_favorite_items,
                 favoriteSize,
             ),
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -161,6 +162,9 @@ fun EmptyView() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = LocalContext.current.getString(R.string.no_favorite_items))
+        Text(
+            text = LocalContext.current.getString(R.string.no_favorite_items),
+            color = MaterialTheme.colorScheme.background,
+        )
     }
 }

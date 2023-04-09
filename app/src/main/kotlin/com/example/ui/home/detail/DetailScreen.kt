@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -78,12 +78,12 @@ fun DetailScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
                             data.backgroundColor,
-                            MaterialTheme.colors.background,
+                            MaterialTheme.colorScheme.background,
                         ),
                     ),
                 ),
@@ -131,9 +131,17 @@ fun AtrItem(title: String, content: String) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
         ) {
-            Text(text = title, style = MaterialTheme.typography.h6)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary,
+            )
         }
         Divider()
-        Text(text = content, style = MaterialTheme.typography.body1)
+        Text(
+            text = content,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.primary,
+        )
     }
 }

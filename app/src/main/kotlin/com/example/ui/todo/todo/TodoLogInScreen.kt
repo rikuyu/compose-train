@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -112,6 +112,7 @@ fun TodoLogInContent(
         ) {
             Text(
                 text = "Log In",
+                color = MaterialTheme.colorScheme.primary,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     // letterSpacing = TextUnit.Companion.Sp(2)
@@ -156,7 +157,7 @@ fun TodoLogInContent(
                 }
                 Spacer(modifier = Modifier.padding(4.dp))
                 TextButton(onClick = { navController.navigate(Routes.SignUp.route) }) {
-                    Text(text = "Sign Up", fontSize = 20.sp, color = MaterialTheme.colors.primary)
+                    Text(text = "Sign Up", fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
                 }
             }
         }

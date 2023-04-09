@@ -8,9 +8,9 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -40,7 +40,7 @@ fun ColumnScope.ErrorMessage(text: String, flag: Boolean) {
             Text(
                 text = text,
                 fontSize = 14.sp,
-                color = MaterialTheme.colors.error,
+                color = MaterialTheme.colorScheme.error,
             )
         }
     }
@@ -60,11 +60,11 @@ fun NameForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_account),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F),
+                tint = MaterialTheme.colorScheme.primary,
             )
         },
-        label = { Text(text = "UserName") },
-        placeholder = { Text(text = "UserName") },
+        label = { Text(text = "UserName", color = MaterialTheme.colorScheme.primary) },
+        placeholder = { Text(text = "UserName", color = MaterialTheme.colorScheme.primary) },
         singleLine = true,
         isError = isError,
         modifier = Modifier.fillMaxWidth(0.8f),
@@ -92,11 +92,11 @@ fun EmailForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_mail),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.6F),
+                tint = MaterialTheme.colorScheme.primary,
             )
         },
-        label = { Text(text = "Email") },
-        placeholder = { Text(text = "Email") },
+        label = { Text(text = "Email", color = MaterialTheme.colorScheme.primary) },
+        placeholder = { Text(text = "Email", color = MaterialTheme.colorScheme.primary) },
         singleLine = true,
         isError = isError,
         modifier = Modifier.fillMaxWidth(0.8f),
@@ -128,7 +128,7 @@ fun PasswordForm(
             Icon(
                 painter = painterResource(id = R.drawable.ic_key),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary.copy(alpha = 0.5F),
+                tint = MaterialTheme.colorScheme.primary,
             )
         },
         trailingIcon = {
@@ -145,9 +145,7 @@ fun PasswordForm(
                         )
                     },
                     tint = if (visibility) {
-                        MaterialTheme.colors.primary.copy(
-                            alpha = 0.5F,
-                        )
+                        MaterialTheme.colorScheme.primary
                     } else {
                         Color.Gray
                     },
@@ -155,8 +153,8 @@ fun PasswordForm(
                 )
             }
         },
-        label = { Text(label) },
-        placeholder = { Text(text = label) },
+        label = { Text(text = label, color = MaterialTheme.colorScheme.primary) },
+        placeholder = { Text(text = label, color = MaterialTheme.colorScheme.primary) },
         singleLine = true,
         visualTransformation =
         if (visibility) {

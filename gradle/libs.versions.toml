@@ -1,4 +1,6 @@
 [versions]
+core-version = "1.9.0"
+core-splashscreen = "1.0.0"
 ktor = "2.2.4"
 accompanist = "0.27.1"
 lifecycle = "2.6.1"
@@ -17,6 +19,9 @@ target-sdk = "33"
 min-sdk = "26"
 
 [libraries]
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "core-version" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
+
 coroutine-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
 coroutine-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutine" }
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }

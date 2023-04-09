@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,8 +30,10 @@ import com.google.firebase.auth.FirebaseUser
 
 private val String?.isTop
     get() = this == Routes.Grid.route ||
-        this == Routes.Todo.route ||
-        this == Routes.MyPage.route
+            this == Routes.Todo.route ||
+            this == Routes.MyPage.route ||
+            this == Routes.LogIn.route ||
+            this == Routes.SignUp.route
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController, currentUser: FirebaseUser?) {
@@ -47,7 +49,7 @@ fun CustomBottomNavigationBar(navController: NavController, currentUser: Firebas
     ) {
         Row(
             modifier = Modifier
-                .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -78,12 +80,12 @@ fun CustomBottomNavigationItem(
     onClick: () -> Unit,
 ) {
     val backgroundColor =
-        if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Transparent
+        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else Color.Transparent
     val contentColor =
         if (isSelected) {
-            MaterialTheme.colors.background
+            MaterialTheme.colorScheme.onPrimary
         } else {
-            MaterialTheme.colors.primary.copy(alpha = 0.8f)
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
         }
 
     Box(

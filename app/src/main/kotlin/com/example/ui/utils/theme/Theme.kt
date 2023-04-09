@@ -1,6 +1,7 @@
 package com.example.ui.utils.theme
 
 import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -69,7 +70,10 @@ private val LightColorPalette = lightColorScheme(
 )
 
 @Composable
-fun M3TrainAppTheme(darkTheme: Boolean = false, content: @Composable () -> Unit) {
+fun M3TrainAppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
     val useDynamicColors = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colors = when {
         useDynamicColors && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
