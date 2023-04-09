@@ -30,10 +30,10 @@ import com.google.firebase.auth.FirebaseUser
 
 private val String?.isTop
     get() = this == Routes.Grid.route ||
-            this == Routes.Todo.route ||
-            this == Routes.MyPage.route ||
-            this == Routes.LogIn.route ||
-            this == Routes.SignUp.route
+        this == Routes.Todo.route ||
+        this == Routes.MyPage.route ||
+        this == Routes.LogIn.route ||
+        this == Routes.SignUp.route
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController, currentUser: FirebaseUser?) {
