@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Divider
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -29,7 +30,6 @@ import com.example.composetrainapp.R
 import com.example.model.Character
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.ToggleButton
@@ -43,7 +43,7 @@ fun NavGraphBuilder.addFavorite(
     composable(route = Routes.Favorite.route) {
         FavoriteScreen(
             scaffoldState = scaffoldState,
-            navController = navController
+            navController = navController,
         )
     }
 }
@@ -81,7 +81,7 @@ fun FavoriteScreen(
                         FavoriteItem(
                             character = it,
                             onClickFavorite = viewModel::onClickFavorite,
-                            navController = navController
+                            navController = navController,
                         )
                         Divider()
                     }
@@ -100,25 +100,24 @@ fun FavoriteItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(86.dp)
             .clickable {
                 navController.navigate(
                     Routes.DetailCharacter.createRoute(
-                        character.id
-                    )
+                        character.id,
+                    ),
                 )
             }
             .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.Start,
     ) {
-        TrainAppImage(url = character.image)
+        TrainAppImage(url = character.image, modifier = Modifier.size(64.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = character.name,
-            modifier = Modifier
-                .weight(weight = 1f)
-                .padding(start = 12.dp),
-            style = MaterialTheme.typography.subtitle1,
+            modifier = Modifier.weight(weight = 1f),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -143,14 +142,15 @@ fun FavoriteCountItem(favoriteSize: Int) {
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = LocalContext.current.getString(
                 R.string.num_favorite_items,
-                favoriteSize
+                favoriteSize,
             ),
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -159,8 +159,11 @@ fun FavoriteCountItem(favoriteSize: Int) {
 fun EmptyView() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
-        Text(text = LocalContext.current.getString(R.string.no_favorite_items))
+        Text(
+            text = LocalContext.current.getString(R.string.no_favorite_items),
+            color = MaterialTheme.colorScheme.background,
+        )
     }
 }

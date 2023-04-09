@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,6 +25,7 @@ import com.example.data.utils.Result
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,7 +34,6 @@ import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addTodo(
@@ -49,7 +49,7 @@ fun NavGraphBuilder.addTodo(
 fun TodoScreen(
     navController: NavController,
     firebaseUser: FirebaseUser?,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(Unit) {
         viewModel.getAllTodo()
@@ -66,7 +66,7 @@ fun TodoScreen(
                 navController = navController,
                 filter = viewModel::getFilteredList,
                 delete = viewModel::deleteTodo,
-                todosData = (todosData as Result.Success<TodoData>).data
+                todosData = (todosData as Result.Success<TodoData>).data,
             )
     }
 }
@@ -89,7 +89,7 @@ fun TodoContent(
             .fillMaxSize()
             .padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         TopSearchBar(query = query) { query = it }
         Spacer(modifier = Modifier.height(10.dp))
@@ -97,18 +97,18 @@ fun TodoContent(
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = buildAnnotatedString {
                         append("Todoがありません\n")
                         append("追加してください")
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedButton(
-                    border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                    onClick = { navController.navigate(Routes.CreateTodo.route) }
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                    onClick = { navController.navigate(Routes.CreateTodo.route) },
                 ) {
                     Text(text = "Add")
                 }
@@ -118,7 +118,7 @@ fun TodoContent(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp)
+                    .padding(4.dp),
             ) {
                 items(todosData.todos, key = { it.id }) {
                     TodoListItem(it, todosData.user, navController) { id ->

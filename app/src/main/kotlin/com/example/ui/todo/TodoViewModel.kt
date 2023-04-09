@@ -57,7 +57,8 @@ class TodoViewModel @Inject constructor(
         private set
 
     val todosData: StateFlow<Result<TodoData>> = combine(
-        _user, _todos
+        _user,
+        _todos,
     ) { user, todos ->
         val data = if (user is Result.LoadingState || todos is Result.LoadingState) {
             Result.LoadingState.Loading
@@ -74,7 +75,7 @@ class TodoViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = Result.LoadingState.Loading
+        initialValue = Result.LoadingState.Loading,
     )
 
     init {
@@ -150,7 +151,7 @@ class TodoViewModel @Inject constructor(
         val newTodo = oldTodo.copy(
             title = title,
             body = body,
-            isImportant = isImportant
+            isImportant = isImportant,
         )
         viewModelScope.launch {
             repository.updateTodo(id, newTodo.toFirebaseObject())
@@ -175,7 +176,7 @@ class TodoViewModel @Inject constructor(
 
     fun toggleLoginPasswordVisibility() {
         logInValueState.value = logInValueState.value.copy(
-            passwordVisibility = !logInValueState.value.passwordVisibility
+            passwordVisibility = !logInValueState.value.passwordVisibility,
         )
     }
 
@@ -186,7 +187,7 @@ class TodoViewModel @Inject constructor(
             emailValid = getInputState(checkIsEmailValid(email)),
             canRequestLogIn =
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
-                state.passwordValid == InputState.Valid
+                state.passwordValid == InputState.Valid,
         )
     }
 
@@ -196,7 +197,7 @@ class TodoViewModel @Inject constructor(
             password = password,
             passwordValid = getInputState(checkIsPasswordValid(password)),
             canRequestLogIn =
-            state.emailValid == InputState.Valid && getInputState(checkIsPasswordValid(password)) == InputState.Valid
+            state.emailValid == InputState.Valid && getInputState(checkIsPasswordValid(password)) == InputState.Valid,
         )
     }
 
@@ -210,7 +211,7 @@ class TodoViewModel @Inject constructor(
 
     fun toggleSignUpPasswordVisibility() {
         signUpValueState.value = signUpValueState.value.copy(
-            passwordVisibility = !signUpValueState.value.passwordVisibility
+            passwordVisibility = !signUpValueState.value.passwordVisibility,
         )
     }
 
@@ -229,7 +230,7 @@ class TodoViewModel @Inject constructor(
             getInputState(checkIsNameValid(name)) == InputState.Valid &&
                 state.emailValid == InputState.Valid &&
                 state.passwordValid == InputState.Valid &&
-                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid,
         )
     }
 
@@ -242,7 +243,7 @@ class TodoViewModel @Inject constructor(
             getInputState(checkIsEmailValid(email)) == InputState.Valid &&
                 state.passwordValid == InputState.Valid &&
                 state.nameValid == InputState.Valid &&
-                getInputState(state.password == state.confirmationPassword) == InputState.Valid
+                getInputState(state.password == state.confirmationPassword) == InputState.Valid,
         )
     }
 
@@ -255,7 +256,7 @@ class TodoViewModel @Inject constructor(
             state.emailValid == InputState.Valid &&
                 getInputState(checkIsPasswordValid(password)) == InputState.Valid &&
                 state.nameValid == InputState.Valid &&
-                getInputState(password == state.confirmationPassword) == InputState.Valid
+                getInputState(password == state.confirmationPassword) == InputState.Valid,
         )
     }
 
@@ -268,7 +269,7 @@ class TodoViewModel @Inject constructor(
             state.emailValid == InputState.Valid &&
                 getInputState(state.password == confirmationPassword) == InputState.Valid &&
                 state.nameValid == InputState.Valid &&
-                state.passwordValid == InputState.Valid
+                state.passwordValid == InputState.Valid,
         )
     }
 
@@ -309,14 +310,14 @@ fun <T> MutableStateFlow<TodoUiState<T>>.handleData(data: T) {
     value = value.copy(
         isLoading = LoadingState.NOT_LOADING,
         data = data,
-        error = null
+        error = null,
     )
 }
 
 fun <T> MutableStateFlow<TodoUiState<T>>.handleError(error: Throwable) {
     value = value.copy(
         isLoading = LoadingState.NOT_LOADING,
-        error = error
+        error = error,
     )
 }
 

@@ -1,32 +1,16 @@
 package com.example.ui.todo.todo
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -37,7 +21,6 @@ import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.Routes
 import com.example.ui.utils.checkIsTodoBodyValid
 import com.example.ui.utils.checkIsTodoTitleValid
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 
@@ -48,13 +31,13 @@ fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
             navArgument("id") {
                 type = NavType.StringType
                 nullable = false
-            }
-        )
+            },
+        ),
     ) {
         UpdateTodoScreen(
             modifier = Modifier.padding(4.dp),
             navController = navController,
-            id = it.arguments?.getString("id")
+            id = it.arguments?.getString("id"),
         )
     }
 }
@@ -64,7 +47,7 @@ fun UpdateTodoScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     id: String?,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     if (id == null) {
         FullScreenErrorView()
@@ -78,7 +61,7 @@ fun UpdateTodoScreen(
         oldTodo.StateView(
             loadingView = { FullScreenLoadingIndicator() },
             errorView = { FullScreenErrorView() },
-            successView = { UpdateContent(modifier, navController, it, viewModel) }
+            successView = { UpdateContent(modifier, navController, it, viewModel) },
         )
     }
 }
@@ -88,7 +71,7 @@ fun UpdateContent(
     modifier: Modifier = Modifier,
     navController: NavController,
     todo: Todo,
-    viewModel: TodoViewModel
+    viewModel: TodoViewModel,
 ) {
     var title by remember { mutableStateOf(todo.title) }
 
@@ -104,7 +87,7 @@ fun UpdateContent(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
         ) {
             OutlinedTextField(
                 value = title,
@@ -115,12 +98,12 @@ fun UpdateContent(
                 label = {
                     Text(
                         text = "New Todo Title",
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 },
                 singleLine = true,
                 modifier = modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.body1,
+                textStyle = MaterialTheme.typography.bodyLarge,
                 isError = !isTodoTitleValid,
             )
             OutlinedTextField(
@@ -132,12 +115,12 @@ fun UpdateContent(
                 label = {
                     Text(
                         text = "New Todo Body",
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 },
                 singleLine = true,
                 modifier = modifier.fillMaxWidth(),
-                textStyle = MaterialTheme.typography.body1,
+                textStyle = MaterialTheme.typography.bodyLarge,
                 isError = !isTodoBodyValid,
             )
             Row(
@@ -145,25 +128,25 @@ fun UpdateContent(
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "Important"
+                    text = "Important",
                 )
                 Checkbox(
                     checked = isImportant,
                     onCheckedChange = { isImportant = it },
-                    colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+                    colors = CheckboxDefaults.colors(MaterialTheme.colorScheme.primary),
                 )
             }
         }
         Row(
             modifier = modifier
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Button(
                 onClick = {
@@ -171,20 +154,13 @@ fun UpdateContent(
                     navController.navigate(Routes.Todo.route)
                 },
                 enabled = isTodoTitleValid && isTodoBodyValid,
-                colors = if (isTodoTitleValid && isTodoBodyValid) ButtonDefaults.textButtonColors(
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = Color.White,
-                ) else ButtonDefaults.textButtonColors(
-                    backgroundColor = Color.LightGray,
-                    contentColor = Color.DarkGray,
-                ),
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20)
+                shape = RoundedCornerShape(20),
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 4.dp),
                     text = "Update",
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
                 )
             }
         }

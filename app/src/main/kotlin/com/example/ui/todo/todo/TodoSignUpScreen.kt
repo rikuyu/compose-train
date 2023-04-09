@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -39,7 +40,6 @@ import com.example.ui.todo.PasswordForm
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.showToast
 
 fun NavGraphBuilder.addSignUp(navController: NavHostController) {
@@ -51,7 +51,7 @@ fun NavGraphBuilder.addSignUp(navController: NavHostController) {
 @Composable
 fun TodoSignUpScreen(
     navController: NavHostController,
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
 ) {
     val user by viewModel.user.collectAsStateWithLifecycle()
 
@@ -92,18 +92,18 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Image(
             painter = painterResource(id = R.drawable.image_signup),
             contentDescription = null,
-            modifier = Modifier.fillMaxHeight(0.2F)
+            modifier = Modifier.fillMaxHeight(0.2F),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = "Sign Up",
@@ -111,7 +111,7 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
                     fontWeight = FontWeight.Bold,
                     // letterSpacing = TextUnit.Companion.Sp(2)
                 ),
-                fontSize = 26.sp
+                fontSize = 26.sp,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -119,7 +119,7 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
                     name = signUpValueState.name,
                     isError = signUpValueState.nameValid == InputState.NotValid,
                     onNext = { focusManager.moveFocus(FocusDirection.Down) },
-                    onNameChange = { viewModel.updateSignUpName(it) }
+                    onNameChange = { viewModel.updateSignUpName(it) },
                 )
                 ErrorMessage(text = "名前は2文字～5文字", flag = signUpValueState.nameValid == InputState.NotValid)
                 EmailForm(
@@ -140,7 +140,7 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
                 )
                 ErrorMessage(
                     text = "パスワードは半角数字英小文字で6～10文字",
-                    flag = signUpValueState.passwordValid == InputState.NotValid
+                    flag = signUpValueState.passwordValid == InputState.NotValid,
                 )
                 PasswordForm(
                     label = "Confirmation Password",
@@ -154,7 +154,7 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
                 )
                 ErrorMessage(
                     text = "パスワードが等しくありません",
-                    flag = signUpValueState.confirmationPasswordValid == InputState.NotValid
+                    flag = signUpValueState.confirmationPasswordValid == InputState.NotValid,
                 )
                 Spacer(modifier = Modifier.padding(10.dp))
                 Button(
@@ -163,7 +163,7 @@ fun TodoSignUpContent(viewModel: TodoViewModel = hiltViewModel()) {
                     shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
-                        .height(50.dp)
+                        .height(50.dp),
                 ) {
                     Text(text = "Sign Up", fontSize = 20.sp)
                 }

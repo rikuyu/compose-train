@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,11 +31,12 @@ import com.google.firebase.auth.FirebaseUser
 private val String?.isTop
     get() = this == Routes.Grid.route ||
         this == Routes.Todo.route ||
-        this == Routes.MyPage.route
+        this == Routes.MyPage.route ||
+        this == Routes.LogIn.route ||
+        this == Routes.SignUp.route
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController, currentUser: FirebaseUser?) {
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -48,18 +49,18 @@ fun CustomBottomNavigationBar(navController: NavController, currentUser: Firebas
     ) {
         Row(
             modifier = Modifier
-                .background(MaterialTheme.colors.primary.copy(alpha = 0.3f))
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             BottomNavigationItem.values().forEachIndexed { _, item ->
                 CustomBottomNavigationItem(
                     bottomNavigationItem = item,
                     isSelected = currentDestination?.hierarchy?.any {
                         it.route == item.label.lowercase()
-                    } == true
+                    } == true,
                 ) {
                     if (item == BottomNavigationItem.TODO && currentUser == null) {
                         navController.navigate(Routes.LogIn.route)
@@ -79,33 +80,34 @@ fun CustomBottomNavigationItem(
     onClick: () -> Unit,
 ) {
     val backgroundColor =
-        if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Transparent
+        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else Color.Transparent
     val contentColor =
-        if (isSelected)
-            MaterialTheme.colors.background
-        else
-            MaterialTheme.colors.primary.copy(alpha = 0.8f)
+        if (isSelected) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+        }
 
     Box(
         modifier = Modifier
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable(onClick = onClick)
+            .clickable(onClick = onClick),
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Icon(
                 imageVector = bottomNavigationItem.icon,
                 contentDescription = null,
-                tint = contentColor
+                tint = contentColor,
             )
             AnimatedVisibility(visible = isSelected) {
                 Text(
                     text = bottomNavigationItem.label,
-                    color = contentColor
+                    color = contentColor,
                 )
             }
         }

@@ -4,12 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,6 +19,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -26,7 +27,6 @@ import com.example.model.Character
 import com.example.ui.home.CharactersUiState
 import com.example.ui.home.RickMortyViewModel
 import com.example.ui.utils.Routes
-import com.example.ui.utils.collectAsStateWithLifecycle
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.TrainAppImage
@@ -41,9 +41,9 @@ fun NavGraphBuilder.addGrid(
             scaffoldState = scaffoldState,
             onClickItem = {
                 navController.navigate(
-                    Routes.DetailCharacter.createRoute(it.id)
+                    Routes.DetailCharacter.createRoute(it.id),
                 )
-            }
+            },
         )
     }
 }
@@ -68,7 +68,7 @@ fun GridScreen(
 
     val state = rememberPullRefreshState(
         refreshing = uiState.isRefreshing,
-        onRefresh = { viewModel.refreshCharacters() }
+        onRefresh = { viewModel.refreshCharacters() },
     )
 
     Box {
@@ -77,23 +77,23 @@ fun GridScreen(
         } else if (uiState.error != null) {
             FullScreenErrorView { viewModel.getCharacters() }
         } else {
-            Column(verticalArrangement = Arrangement.Top) {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(2),
-                    modifier = modifier.height(150.dp),
-                    contentPadding = PaddingValues(
-                        start = 8.dp,
-                        end = 4.dp,
-                        top = 12.dp,
-                        bottom = 0.dp
-                    )
-                ) {
-                    items(uiState.characters.take(6), key = { it.id }) {
-                        HorizontalCharacterItem(character = it, onClickItem = onClickItem)
+            Box(modifier = Modifier.pullRefresh(state)) {
+                Column(verticalArrangement = Arrangement.Top) {
+                    LazyHorizontalGrid(
+                        rows = GridCells.Fixed(2),
+                        modifier = modifier.height(150.dp),
+                        contentPadding = PaddingValues(
+                            start = 8.dp,
+                            end = 4.dp,
+                            top = 12.dp,
+                            bottom = 0.dp,
+                        ),
+                    ) {
+                        items(uiState.characters.take(6), key = { it.id }) {
+                            HorizontalCharacterItem(character = it, onClickItem = onClickItem)
+                        }
                     }
-                }
-                Spacer(modifier = modifier.height(10.dp))
-                Box(modifier = Modifier.pullRefresh(state)) {
+                    Spacer(modifier = modifier.height(10.dp))
                     LazyVerticalGrid(
                         state = listState,
                         columns = GridCells.Fixed(2),
@@ -101,7 +101,7 @@ fun GridScreen(
                             start = 16.dp,
                             end = 16.dp,
                             top = 12.dp,
-                            bottom = 24.dp
+                            bottom = 24.dp,
                         ),
                         modifier = modifier,
                         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -114,13 +114,15 @@ fun GridScreen(
                             VerticalCharacterItem(character = c, onClickItem = onClickItem)
                         }
                     }
-                    PullRefreshIndicator(
-                        refreshing = uiState.isRefreshing,
-                        state = state,
-                        modifier = Modifier.align(Alignment.TopCenter)
-                    )
                 }
             }
+            PullRefreshIndicator(
+                refreshing = uiState.isRefreshing,
+                state = state,
+                modifier = Modifier.align(Alignment.TopCenter),
+                backgroundColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.primary,
+            )
         }
     }
 }
@@ -143,15 +145,16 @@ fun HorizontalCharacterItem(
                     onLongPress = { /* Called on Long Press */ },
                     onTap = { onClickItem(character) },
                 )
-            }
+            },
     ) {
         TrainAppImage(
             modifier = Modifier.padding(end = 4.dp),
-            url = character.image
+            url = character.image,
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
@@ -164,18 +167,18 @@ fun VerticalCharacterItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp)
             .clickable { onClickItem(character) },
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         TrainAppImage(
             modifier = Modifier.fillMaxWidth(),
             url = character.image,
-            contentScale = ContentScale.FillWidth
+            contentScale = ContentScale.FillWidth,
         )
         Text(
             text = character.name,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

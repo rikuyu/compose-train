@@ -1,9 +1,9 @@
 package com.example.ui.todo.todo
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -21,11 +21,11 @@ fun TopSearchBar(
         label = {
             Text(
                 text = "search todo",
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.bodyMedium,
             )
         },
         singleLine = true,
         modifier = modifier.fillMaxWidth(),
-        textStyle = MaterialTheme.typography.body1
+        textStyle = MaterialTheme.typography.bodyLarge,
     )
 }

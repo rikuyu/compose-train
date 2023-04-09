@@ -40,15 +40,15 @@ fun TodoListItem(
     todo: Todo,
     user: User?,
     navController: NavController,
-    delete: (String) -> Unit
+    delete: (String) -> Unit,
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 16.dp)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
         ) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Image(
@@ -62,36 +62,37 @@ fun TodoListItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 12.dp, vertical = 4.dp),
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = user?.name ?: "unknown",
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
                     )
                     Text(
                         text = todo.createdAt,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline
+                        color = MaterialTheme.colorScheme.outline,
                     )
                 }
-                if (todo.isImportant)
+                if (todo.isImportant) {
                     Icon(
                         modifier = Modifier.size(28.dp),
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
-                        tint = Color.Red
+                        tint = Color.Red,
                     )
+                }
                 Spacer(modifier = Modifier.width(10.dp))
                 IconButton(
                     onClick = { navController.navigate(Routes.UpdateTodo.createRoute(todo.id)) },
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.surface),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = null,
-                        tint = Color(0xFF23DC73)
+                        tint = Color(0xFF23DC73),
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
@@ -99,12 +100,12 @@ fun TodoListItem(
                     onClick = { delete(todo.id) },
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.surface),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null,
-                        tint = Color(0xFFFF8095)
+                        tint = Color(0xFFFF8095),
                     )
                 }
             }
@@ -119,7 +120,7 @@ fun TodoListItem(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 2,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

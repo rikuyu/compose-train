@@ -8,10 +8,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +39,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val currentUser = todoViewModel.firebaseUser.value
 
         setContent {
@@ -52,19 +52,22 @@ class MainActivity : ComponentActivity() {
 
                 systemUiController.setSystemBarsColor(
                     color = Color.Transparent,
-                    darkIcons = useDarkIcons
+                    darkIcons = useDarkIcons,
                 )
 
                 Scaffold(
                     topBar = { TrainTopBar(navController, scrollBehavior) },
                     scaffoldState = scaffoldState,
                     bottomBar = { CustomBottomNavigationBar(navController, currentUser) },
-                    floatingActionButton = { TrainFloatingActionButton(navController) }
+                    floatingActionButton = { TrainFloatingActionButton(navController) },
                 ) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
+                    Surface(
+                        modifier = Modifier.padding(innerPadding),
+                        color = MaterialTheme.colorScheme.background,
+                    ) {
                         NavHost(
                             navController = navController,
-                            startDestination = Routes.Grid.route
+                            startDestination = Routes.Grid.route,
                         ) {
                             addGrid(scaffoldState, navController)
                             addFavorite(scaffoldState, navController)

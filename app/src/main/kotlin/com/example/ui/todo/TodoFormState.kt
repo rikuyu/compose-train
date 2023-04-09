@@ -9,7 +9,7 @@ data class LogInValueState(
     val password: String = "",
     val passwordValid: InputState = InputState.Initial,
     val passwordVisibility: Boolean = false,
-    val canRequestLogIn: Boolean = false
+    val canRequestLogIn: Boolean = false,
 )
 
 @Stable
@@ -24,7 +24,7 @@ data class SignUpValueState(
     val confirmationPassword: String = "",
     val confirmationPasswordValid: InputState = InputState.Initial,
     val confirmationPasswordVisibility: Boolean = false,
-    val canRequestSignUp: Boolean = false
+    val canRequestSignUp: Boolean = false,
 )
 
 enum class InputState {

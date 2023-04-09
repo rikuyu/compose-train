@@ -16,7 +16,7 @@ fun TrainAppImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.FillHeight,
     description: String? = null,
-    @DrawableRes placeholder: Int = R.drawable.place_holder
+    @DrawableRes placeholder: Int = R.drawable.place_holder,
 ) {
     AsyncImage(
         modifier = modifier,
@@ -26,6 +26,6 @@ fun TrainAppImage(
             .build(),
         contentDescription = description,
         contentScale = contentScale,
-        placeholder = painterResource(id = placeholder)
+        placeholder = painterResource(id = placeholder),
     )
 }
