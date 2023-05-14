@@ -6,7 +6,7 @@ accompanist = "0.27.1"
 lifecycle = "2.6.1"
 activity = "1.7.0"
 navigation = "2.5.3"
-room = "2.4.3"
+room = "2.5.1"
 coroutine = "1.6.4"
 compose-compiler = "1.4.1"
 
