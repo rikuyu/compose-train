@@ -2,7 +2,7 @@
 core-version = "1.10.0"
 core-splashscreen = "1.0.0"
 ktor = "2.3.0"
-accompanist = "0.27.1"
+accompanist = "0.30.1"
 lifecycle = "2.6.1"
 activity = "1.7.0"
 navigation = "2.5.3"
