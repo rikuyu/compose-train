@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ui.home.detail.addDetail
 import com.example.ui.home.favorite.addFavorite
 import com.example.ui.home.grid.addGrid
-import com.example.ui.mypage.addMyPage
+import com.example.ui.catalog.addCatalog
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.todo.*
 import com.example.ui.utils.Routes
@@ -50,10 +50,16 @@ class MainActivity : ComponentActivity() {
                 val systemUiController = rememberSystemUiController()
                 val useDarkIcons = !isSystemInDarkTheme()
 
-                systemUiController.setSystemBarsColor(
-                    color = Color.Transparent,
-                    darkIcons = useDarkIcons,
-                )
+                systemUiController.apply {
+                    setStatusBarColor(
+                        color = if (useDarkIcons) Color.White else Color.Black,
+                        darkIcons = useDarkIcons,
+                    )
+                    setNavigationBarColor(
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                        darkIcons = useDarkIcons,
+                    )
+                }
 
                 Scaffold(
                     topBar = { TrainTopBar(navController, scrollBehavior) },
@@ -77,7 +83,7 @@ class MainActivity : ComponentActivity() {
                             addTodo(navController, currentUser)
                             addAddTodo(navController)
                             addUpdateTodo(navController)
-                            addMyPage()
+                            addCatalog()
                         }
                     }
                 }
