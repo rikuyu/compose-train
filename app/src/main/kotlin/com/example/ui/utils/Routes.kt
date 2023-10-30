@@ -2,7 +2,7 @@ package com.example.ui.utils
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -12,7 +12,7 @@ sealed class Routes(val route: String) {
 
     object Favorite : Routes("favorite")
 
-    object MyPage : Routes("mypage")
+    object Catalog : Routes("catalog")
 
     object DetailCharacter : Routes("detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
@@ -34,5 +34,5 @@ sealed class Routes(val route: String) {
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
     GRID("Grid", Icons.Filled.Home),
     TODO("Todo", Icons.Outlined.Add),
-    MYPAGE("MyPage", Icons.Filled.Person),
+    CATALOG("Catalog", Icons.Filled.Search),
 }

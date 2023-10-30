@@ -163,7 +163,7 @@ fun EmptyView() {
     ) {
         Text(
             text = LocalContext.current.getString(R.string.no_favorite_items),
-            color = MaterialTheme.colorScheme.background,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

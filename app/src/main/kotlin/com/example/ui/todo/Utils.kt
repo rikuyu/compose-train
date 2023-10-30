@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -75,6 +76,9 @@ fun NameForm(
         keyboardActions = KeyboardActions(
             onNext = { onNext() },
         ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = MaterialTheme.colorScheme.onBackground,
+        )
     )
 }
 
@@ -107,6 +111,9 @@ fun EmailForm(
         keyboardActions = KeyboardActions(
             onNext = { onNext() },
         ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = MaterialTheme.colorScheme.onBackground,
+        )
     )
 }
 
@@ -172,5 +179,8 @@ fun PasswordForm(
             onNext = { onNext?.invoke() },
             onDone = { onDone?.invoke() },
         ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = MaterialTheme.colorScheme.onBackground,
+        )
     )
 }
