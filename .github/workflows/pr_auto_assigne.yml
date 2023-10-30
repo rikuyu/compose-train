@@ -15,5 +15,5 @@ jobs:
     steps:
       - name: Set GitHub assignees
         env:
-          access_token: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: gh pr edit ${{ github.event.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
