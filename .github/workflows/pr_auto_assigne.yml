@@ -1,4 +1,4 @@
-name: Assign
+name: assign
 
 on:
   pull_request:
