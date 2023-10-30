@@ -12,6 +12,7 @@ dependencies {
     implementation(project(path = ":model"))
     implementation(project(path = ":data"))
     implementation(project(path = ":testing-utils"))
+    implementation(project(path = ":feature:catalog"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)

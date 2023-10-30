@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.example.composetrainapp.R
+import java.util.regex.Pattern
 
 @Stable
 interface UiState {
@@ -184,3 +185,19 @@ fun PasswordForm(
         )
     )
 }
+
+private const val EMAIL_VALIDATION_REGEX = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+$"
+
+private const val PASSWORD_VALIDATION_REGEX = "[a-z0-9]{6,10}"
+
+fun checkIsEmailValid(email: String) = Pattern.matches(EMAIL_VALIDATION_REGEX, email)
+
+fun checkIsPasswordValid(password: String) = Pattern.matches(PASSWORD_VALIDATION_REGEX, password)
+
+fun getInputState(isValid: Boolean) = if (isValid) InputState.Valid else InputState.NotValid
+
+fun checkIsNameValid(name: String) = name.length in 2..5
+
+fun checkIsTodoTitleValid(title: String) = title.length in 2..10
+
+fun checkIsTodoBodyValid(body: String) = body.length in 3..50

@@ -1,7 +1,6 @@
-package com.example.ui.catalog
+package com.example.feature.catalog
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ui.utils.compose.debounceClickable
+import com.example.shared.compose.debounceClickable
 
 fun LazyListScope.catalogItem(
     label: String,

@@ -1,4 +1,4 @@
-package com.example.ui.utils.compose
+package com.example.shared.compose
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ fun Modifier.debounceClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) = composed(
     inspectorInfo = debugInspectorInfo {
         name = "debounceClickable"
@@ -23,7 +23,7 @@ fun Modifier.debounceClickable(
         properties["onClickLabel"] = onClickLabel
         properties["role"] = role
         properties["onClick"] = onClick
-    }
+    },
 ) {
     val throttle = remember(onClick) {
         ComposeThrottle(onClick)
@@ -35,14 +35,12 @@ fun Modifier.debounceClickable(
         enabled = enabled,
         onClickLabel = onClickLabel,
         role = role,
-        onClick = throttle
+        onClick = throttle,
     )
 }
 
 @OptIn(ExperimentalTime::class)
-internal class ComposeThrottle(
-    private val event: () -> Unit
-) : () -> Unit {
+internal class ComposeThrottle(private val event: () -> Unit) : () -> Unit {
     companion object {
         private var lastClickTime: TimeSource.Monotonic.ValueTimeMark? = null
     }
@@ -60,4 +58,3 @@ internal class ComposeThrottle(
         event()
     }
 }
-
