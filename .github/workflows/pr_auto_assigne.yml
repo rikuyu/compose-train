@@ -10,10 +10,10 @@ permissions:
 
 jobs:
   assign:
-    name: Assign yourself
+    name: assign yourself
     runs-on: ubuntu-latest
     steps:
       - name: Set GitHub assignees
         env:
-          GH_TOKEN: ${{ github.token }}
+          access_token: ${{ github.token }}
         run: gh pr edit ${{ github.event.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
