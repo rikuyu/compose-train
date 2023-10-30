@@ -1,4 +1,4 @@
-name: Assign
+name: assign
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   assign:
-    name: Assign yourself
+    name: assign yourself
     runs-on: ubuntu-latest
     steps:
       - name: Set GitHub assignees
