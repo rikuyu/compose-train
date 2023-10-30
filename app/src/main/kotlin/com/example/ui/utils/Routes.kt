@@ -34,5 +34,9 @@ sealed class Routes(val route: String) {
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
     GRID("Grid", Icons.Filled.Home),
     TODO("Todo", Icons.Outlined.Add),
+<<<<<<< HEAD
     CATALOG("Catalog", Icons.Filled.Search),
+=======
+    MYPAGE("MyPage", Icons.Filled.Person),
+>>>>>>> main
 }

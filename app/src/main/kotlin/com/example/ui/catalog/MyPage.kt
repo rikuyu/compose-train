@@ -12,5 +12,9 @@ fun NavGraphBuilder.addCatalog() {
 }
 
 @Composable
+<<<<<<< HEAD:app/src/main/kotlin/com/example/ui/catalog/MyPage.kt
 fun Catalog() {
+=======
+fun MyPage() {
+>>>>>>> main:app/src/main/kotlin/com/example/ui/mypage/MyPage.kt
 }
