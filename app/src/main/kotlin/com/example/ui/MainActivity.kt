@@ -29,7 +29,7 @@ import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.todo.*
-import com.example.ui.utils.Routes
+import Routes
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar

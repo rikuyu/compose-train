@@ -11,15 +11,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.feature.catalog.CatalogScreen
-import com.example.ui.home.detail.DetailScreen
-import com.example.ui.home.favorite.FavoriteScreen
-import com.example.ui.home.grid.GridScreen
+import com.example.rickandmorty.grid.GridScreen
 import com.example.ui.todo.todo.AddTodoScreen
 import com.example.ui.todo.todo.TodoLogInScreen
 import com.example.ui.todo.todo.TodoScreen
 import com.example.ui.todo.todo.TodoSignUpScreen
 import com.example.ui.todo.todo.UpdateTodoScreen
-import com.example.ui.utils.Routes
+import Routes
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(
@@ -43,7 +41,7 @@ fun NavGraphBuilder.addFavorite(
     navController: NavHostController,
 ) {
     composable(route = Routes.Favorite.route) {
-        FavoriteScreen(
+        com.example.rickandmorty.favorite.FavoriteScreen(
             scaffoldState = scaffoldState,
             navController = navController,
         )
@@ -60,7 +58,7 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
             },
         ),
     ) { backStackEntry ->
-        DetailScreen(
+        com.example.rickandmorty.detail.DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
             scaffoldState,
         )

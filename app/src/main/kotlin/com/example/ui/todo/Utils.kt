@@ -13,7 +13,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,12 +24,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.example.composetrainapp.R
 import java.util.regex.Pattern
-
-@Stable
-interface UiState {
-    val isLoading: Boolean
-    val error: Throwable?
-}
 
 @Composable
 fun ColumnScope.ErrorMessage(text: String, flag: Boolean) {

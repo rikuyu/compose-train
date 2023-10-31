@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.example.composetrainapp.R
 import com.example.model.Todo
 import com.example.model.User
-import com.example.ui.utils.Routes
+import Routes
 
 @Composable
 fun TodoListItem(

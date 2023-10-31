@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.example.data.utils.Result
 import com.example.model.TodoData
 import com.example.ui.todo.TodoViewModel
-import com.example.ui.utils.Routes
+import Routes
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.google.firebase.auth.FirebaseUser

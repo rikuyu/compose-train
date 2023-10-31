@@ -13,7 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.ui.utils.Routes
+import Routes
 
 @Composable
 fun TrainFloatingActionButton(navController: NavController) {

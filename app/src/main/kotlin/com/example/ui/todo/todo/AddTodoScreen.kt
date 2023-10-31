@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.checkIsTodoBodyValid
 import com.example.ui.todo.checkIsTodoTitleValid
-import com.example.ui.utils.Routes
+import Routes
 
 @Composable
 fun AddTodoScreen(

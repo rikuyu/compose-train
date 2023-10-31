@@ -26,7 +26,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.ui.utils.Routes
+import Routes
 
 private val String?.isHome
     get() = this == Routes.Grid.route ||
