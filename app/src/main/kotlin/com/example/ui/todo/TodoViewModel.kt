@@ -12,10 +12,6 @@ import com.example.model.Todo
 import com.example.model.Todo.Companion.toFirebaseObject
 import com.example.model.TodoData
 import com.example.model.User
-import com.example.ui.utils.checkIsEmailValid
-import com.example.ui.utils.checkIsNameValid
-import com.example.ui.utils.checkIsPasswordValid
-import com.example.ui.utils.getInputState
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
