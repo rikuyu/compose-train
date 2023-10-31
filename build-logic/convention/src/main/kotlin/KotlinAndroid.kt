@@ -21,21 +21,19 @@ internal fun Project.configureKotlinAndroid(
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_17.toString()
 
-            if(this@with is ApplicationExtension) {
+            if (this@with is ApplicationExtension) {
                 freeCompilerArgs = listOf(
                     "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-                    "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
+                    "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
                 )
             }
         }
 
-        if(this@with is ApplicationExtension) {
-            buildFeatures {
-                compose = true
-            }
-            composeOptions {
-                kotlinCompilerExtensionVersion = libs.version("compose-compiler")
-            }
+        buildFeatures {
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.version("compose-compiler")
         }
     }
 }

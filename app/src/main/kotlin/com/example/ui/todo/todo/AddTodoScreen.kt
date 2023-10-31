@@ -14,9 +14,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.ui.todo.TodoViewModel
+import com.example.ui.todo.checkIsTodoBodyValid
+import com.example.ui.todo.checkIsTodoTitleValid
 import com.example.ui.utils.Routes
-import com.example.ui.utils.checkIsTodoBodyValid
-import com.example.ui.utils.checkIsTodoTitleValid
 
 fun NavGraphBuilder.addAddTodo(navController: NavController) {
     composable(route = Routes.CreateTodo.route) {

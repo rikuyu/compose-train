@@ -18,9 +18,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.model.Todo
 import com.example.ui.todo.TodoViewModel
+import com.example.ui.todo.checkIsTodoBodyValid
+import com.example.ui.todo.checkIsTodoTitleValid
 import com.example.ui.utils.Routes
-import com.example.ui.utils.checkIsTodoBodyValid
-import com.example.ui.utils.checkIsTodoTitleValid
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 

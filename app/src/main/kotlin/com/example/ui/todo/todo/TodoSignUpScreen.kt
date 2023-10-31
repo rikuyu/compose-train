@@ -40,7 +40,7 @@ import com.example.ui.todo.PasswordForm
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.Routes
-import com.example.ui.utils.showToast
+import showToast
 
 fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     composable(route = Routes.SignUp.route) {
