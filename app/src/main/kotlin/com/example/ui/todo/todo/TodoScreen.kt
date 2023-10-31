@@ -21,29 +21,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.data.utils.Result
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import com.example.data.utils.Result
 import com.example.model.TodoData
 import com.example.ui.todo.TodoViewModel
+import com.example.ui.utils.Routes
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
-import com.example.ui.utils.Routes
 import com.google.firebase.auth.FirebaseUser
-
-fun NavGraphBuilder.addTodo(
-    navController: NavController,
-    firebaseUser: FirebaseUser?,
-) {
-    composable(route = Routes.Todo.route) {
-        TodoScreen(navController, firebaseUser)
-    }
-}
 
 @Composable
 fun TodoScreen(

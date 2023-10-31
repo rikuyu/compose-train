@@ -2,14 +2,28 @@ package com.example.ui.home.grid
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material3.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,33 +34,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import com.example.model.Character
 import com.example.ui.home.CharactersUiState
 import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.Routes
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBar
-
-fun NavGraphBuilder.addGrid(
-    scaffoldState: ScaffoldState,
-    navController: NavHostController,
-) {
-    composable(route = Routes.Grid.route) {
-        GridScreen(
-            scaffoldState = scaffoldState,
-            onClickItem = {
-                navController.navigate(
-                    Routes.DetailCharacter.createRoute(it.id),
-                )
-            },
-        )
-    }
-}
 
 @Composable
 fun GridScreen(

@@ -26,9 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import com.example.composetrainapp.R
 import com.example.data.utils.Result
 import com.example.model.User
@@ -39,14 +37,7 @@ import com.example.ui.todo.NameForm
 import com.example.ui.todo.PasswordForm
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
-import com.example.ui.utils.Routes
 import showToast
-
-fun NavGraphBuilder.addSignUp(navController: NavHostController) {
-    composable(route = Routes.SignUp.route) {
-        TodoSignUpScreen(navController)
-    }
-}
 
 @Composable
 fun TodoSignUpScreen(

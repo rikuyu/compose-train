@@ -1,10 +1,25 @@
 package com.example.ui.todo.todo
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -12,10 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.model.Todo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.checkIsTodoBodyValid
@@ -23,24 +34,6 @@ import com.example.ui.todo.checkIsTodoTitleValid
 import com.example.ui.utils.Routes
 import com.example.ui.utils.compose.FullScreenErrorView
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
-
-fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
-    composable(
-        route = "${Routes.UpdateTodo.route}/{id}",
-        arguments = listOf(
-            navArgument("id") {
-                type = NavType.StringType
-                nullable = false
-            },
-        ),
-    ) {
-        UpdateTodoScreen(
-            modifier = Modifier.padding(4.dp),
-            navController = navController,
-            id = it.arguments?.getString("id"),
-        )
-    }
-}
 
 @Composable
 fun UpdateTodoScreen(

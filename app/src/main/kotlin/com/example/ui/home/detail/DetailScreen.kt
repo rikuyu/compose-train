@@ -1,15 +1,24 @@
 package com.example.ui.home.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Divider
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,34 +31,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.model.CharacterDetail
 import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.Routes
 import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.example.ui.utils.compose.ToggleButton
 import com.example.ui.utils.compose.TrainAppImage
 import com.example.ui.utils.showSnackBarWithArg
-
-fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
-    composable(
-        route = "${Routes.DetailCharacter.route}/{id}",
-        arguments = listOf(
-            navArgument("id") {
-                type = NavType.IntType
-                nullable = false
-            },
-        ),
-    ) { backStackEntry ->
-        DetailScreen(
-            backStackEntry.arguments?.getInt("id") ?: 0,
-            scaffoldState,
-        )
-    }
-}
 
 @Composable
 fun DetailScreen(

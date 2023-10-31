@@ -3,18 +3,20 @@ package com.example.shared.compose
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
-import kotlin.time.ExperimentalTime
-import kotlin.time.TimeSource
 
 fun Modifier.debounceClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null,
+    debounceInterval: Long = 500,
     onClick: () -> Unit,
 ) = composed(
     inspectorInfo = debugInspectorInfo {
@@ -25,9 +27,7 @@ fun Modifier.debounceClickable(
         properties["onClick"] = onClick
     },
 ) {
-    val throttle = remember(onClick) {
-        ComposeThrottle(onClick)
-    }
+    var lastClickTime by remember { mutableStateOf(0L) }
 
     Modifier.clickable(
         interactionSource = remember { MutableInteractionSource() },
@@ -35,26 +35,10 @@ fun Modifier.debounceClickable(
         enabled = enabled,
         onClickLabel = onClickLabel,
         role = role,
-        onClick = throttle,
-    )
-}
-
-@OptIn(ExperimentalTime::class)
-internal class ComposeThrottle(private val event: () -> Unit) : () -> Unit {
-    companion object {
-        private var lastClickTime: TimeSource.Monotonic.ValueTimeMark? = null
-    }
-
-    override fun invoke() {
-        val currentTime = TimeSource.Monotonic.markNow()
-        val prevClickTime = lastClickTime
-        if (prevClickTime != null) {
-            if ((currentTime - prevClickTime).inWholeMilliseconds < 500) {
-                return
-            }
-        }
-
+    ) {
+        val currentTime = System.currentTimeMillis()
+        if ((currentTime - lastClickTime) < debounceInterval) return@clickable
         lastClickTime = currentTime
-        event()
+        onClick()
     }
 }
