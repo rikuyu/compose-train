@@ -18,6 +18,7 @@ import com.example.ui.todo.todo.TodoScreen
 import com.example.ui.todo.todo.TodoSignUpScreen
 import com.example.ui.todo.todo.UpdateTodoScreen
 import Routes
+import android.app.Activity
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(
@@ -65,12 +66,6 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
     }
 }
 
-fun NavGraphBuilder.addCatalog() {
-    composable(route = Routes.Catalog.route) {
-        CatalogScreen()
-    }
-}
-
 fun NavGraphBuilder.addLogIn(navController: NavHostController) {
     composable(route = Routes.LogIn.route) {
         TodoLogInScreen(navController)
@@ -113,5 +108,15 @@ fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
 fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     composable(route = Routes.SignUp.route) {
         TodoSignUpScreen(navController)
+    }
+}
+
+fun NavGraphBuilder.addCatalog(
+    openScoreBoard: () -> Unit,
+) {
+    composable(route = Routes.Catalog.route) {
+        CatalogScreen(
+            openScoreBoard = openScoreBoard,
+        )
     }
 }
