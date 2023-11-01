@@ -110,7 +110,6 @@ fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
     }
 }
 
-
 fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     composable(route = Routes.SignUp.route) {
         TodoSignUpScreen(navController)
