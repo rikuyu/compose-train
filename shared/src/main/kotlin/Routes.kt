@@ -6,25 +6,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Routes(val route: String) {
 
-    object Grid : Routes("grid")
+   data object Grid : Routes("grid")
 
-    object Favorite : Routes("favorite")
+   data object Favorite : Routes("favorite")
 
-    object Catalog : Routes("catalog")
+   data object Catalog : Routes("catalog")
 
-    object DetailCharacter : Routes("detail") {
+   data object DetailCharacter : Routes("detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
     }
 
-    object LogIn : Routes("login")
+   data object LogIn : Routes("login")
 
-    object SignUp : Routes("signup")
+   data object SignUp : Routes("signup")
 
-    object Todo : Routes("todo")
+   data object Todo : Routes("todo")
 
-    object CreateTodo : Routes("create")
+   data object CreateTodo : Routes("create")
 
-    object UpdateTodo : Routes("update") {
+   data object UpdateTodo : Routes("update") {
         fun createRoute(id: String) = "${this.route}/$id"
     }
 }
