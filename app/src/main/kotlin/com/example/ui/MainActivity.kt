@@ -30,6 +30,7 @@ import com.example.addUpdateTodo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.todo.*
 import Routes
+import com.example.feature.catalog.draggablebox.DraggableBoxActivity
 import com.example.feature.catalog.score.ScoreBoardActivity
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
@@ -91,6 +92,7 @@ class MainActivity : ComponentActivity() {
                             addUpdateTodo(navController)
                             addCatalog(
                                 openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
+                                openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

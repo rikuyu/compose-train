@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".draggablebox.DraggableBoxActivity"
+            android:exported="false" />
+        <activity
             android:name=".score.ScoreBoardActivity"
             android:exported="false" />
     </application>

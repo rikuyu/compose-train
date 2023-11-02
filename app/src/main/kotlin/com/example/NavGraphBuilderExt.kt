@@ -113,10 +113,12 @@ fun NavGraphBuilder.addSignUp(navController: NavHostController) {
 
 fun NavGraphBuilder.addCatalog(
     openScoreBoard: () -> Unit,
+    openDraggableBox: () -> Unit,
 ) {
     composable(route = Routes.Catalog.route) {
         CatalogScreen(
             openScoreBoard = openScoreBoard,
+            openDraggableBox = openDraggableBox,
         )
     }
 }

@@ -22,6 +22,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.10.0"
+compose-bom = "2023.03.00"
 
 [libraries]
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core-version" }
@@ -98,6 +99,7 @@ ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

@@ -11,13 +11,14 @@ import androidx.compose.ui.Modifier
 @Composable
 fun CatalogScreen(
     openScoreBoard: () -> Unit,
+    openDraggableBox: () -> Unit,
 ) {
     CatalogContent {
-        catalogItem(label = "label 1") {
+        catalogItem(label = "ScoreBoard") {
             openScoreBoard()
         }
-        catalogItem(label = "label 2") {
-
+        catalogItem(label = "Draggable Box") {
+            openDraggableBox()
         }
         catalogItem(label = "label 3") {
 
