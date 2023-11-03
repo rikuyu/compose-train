@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScoreBoard() {
-
     var displayNumber by remember { mutableStateOf(10) }
 
     Row(
@@ -59,12 +58,12 @@ fun ScoreBoard() {
                 if (targetState > initialState) {
                     ContentTransform(
                         targetContentEnter = slideInVertically { height -> height } + fadeIn(),
-                        initialContentExit = slideOutVertically { height -> -height } + fadeOut()
+                        initialContentExit = slideOutVertically { height -> -height } + fadeOut(),
                     )
                 } else {
                     ContentTransform(
                         targetContentEnter = slideInVertically { height -> -height } + fadeIn(),
-                        initialContentExit = slideOutVertically { height -> height } + fadeOut()
+                        initialContentExit = slideOutVertically { height -> height } + fadeOut(),
                     )
                 }
             },
@@ -75,14 +74,14 @@ fun ScoreBoard() {
                     text = "$number",
                     fontSize = 32.sp,
                     color = Color.Black,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         }
         Spacer(modifier = Modifier.width(24.dp))
         CircleButton(
             imageVector = Icons.Default.KeyboardArrowUp,
-            contentDescription = "Add"
+            contentDescription = "Add",
         ) { displayNumber++ }
     }
 }
@@ -92,7 +91,7 @@ fun CircleButton(
     imageVector: ImageVector,
     contentDescription: String = "",
     clickable: Boolean = true,
-    click: () -> Unit
+    click: () -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -100,13 +99,13 @@ fun CircleButton(
             .clip(RoundedCornerShape(20.dp))
             .size(40.dp)
             .background(Color.Blue.copy(alpha = 0.1f))
-            .clickable(enabled = clickable, onClick = click)
+            .clickable(enabled = clickable, onClick = click),
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = contentDescription,
             tint = Color.Blue,
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(20.dp),
         )
     }
 }

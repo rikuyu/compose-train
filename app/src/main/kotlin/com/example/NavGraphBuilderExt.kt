@@ -1,5 +1,6 @@
 package com.example
 
+import Routes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ScaffoldState
 import androidx.compose.ui.Modifier
@@ -17,8 +18,6 @@ import com.example.ui.todo.todo.TodoLogInScreen
 import com.example.ui.todo.todo.TodoScreen
 import com.example.ui.todo.todo.TodoSignUpScreen
 import com.example.ui.todo.todo.UpdateTodoScreen
-import Routes
-import android.app.Activity
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(

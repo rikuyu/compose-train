@@ -32,7 +32,6 @@ private const val BOX_HEIGHT = 80
 
 @Composable
 fun DraggableText() {
-
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
@@ -62,7 +61,7 @@ fun DraggableText() {
                 .clip(RoundedCornerShape(12))
                 .background(Color.Blue)
                 .padding(12.dp),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = "x: ${offsetX.toString().take(10)}",

@@ -32,7 +32,7 @@ class RickMortyViewModel @Inject constructor(
     private val _backgroundColor: MutableStateFlow<Color> = MutableStateFlow(getBackgroundColor(null))
     private val _character: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState())
     private val _isFavorite: MutableStateFlow<FavoriteCharacterUiState> = MutableStateFlow(
-        FavoriteCharacterUiState()
+        FavoriteCharacterUiState(),
     )
 
     val characterDetail: StateFlow<CharacterDetailUiState> = combine(

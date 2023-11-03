@@ -72,7 +72,7 @@ fun NameForm(
         ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onBackground,
-        )
+        ),
     )
 }
 
@@ -108,7 +108,7 @@ fun EmailForm(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onBackground,
         )
-    )
+    ),
 }
 
 @Composable
@@ -175,7 +175,7 @@ fun PasswordForm(
         ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onBackground,
-        )
+        ),
     )
 }
 

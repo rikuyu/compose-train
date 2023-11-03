@@ -21,7 +21,7 @@ fun CatalogScreen(
             openDraggableBox()
         }
         catalogItem(label = "label 3") {
-
+            // TODO
         }
     }
 }
