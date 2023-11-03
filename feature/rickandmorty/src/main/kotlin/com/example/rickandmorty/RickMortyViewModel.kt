@@ -1,4 +1,4 @@
-package com.example.ui.home
+package com.example.rickandmorty
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.repository.RickMortyRepository
 import com.example.model.Character
 import com.example.model.CharacterDetail
-import com.example.ui.utils.getBackgroundColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +31,9 @@ class RickMortyViewModel @Inject constructor(
 
     private val _backgroundColor: MutableStateFlow<Color> = MutableStateFlow(getBackgroundColor(null))
     private val _character: MutableStateFlow<CharacterUiState> = MutableStateFlow(CharacterUiState())
-    private val _isFavorite: MutableStateFlow<FavoriteCharacterUiState> = MutableStateFlow(FavoriteCharacterUiState())
+    private val _isFavorite: MutableStateFlow<FavoriteCharacterUiState> = MutableStateFlow(
+        FavoriteCharacterUiState()
+    )
 
     val characterDetail: StateFlow<CharacterDetailUiState> = combine(
         _character,
@@ -212,4 +213,10 @@ data class CharacterDetailUiState(
 interface UiState {
     val isLoading: Boolean
     val error: Throwable?
+}
+
+private fun getBackgroundColor(genderType: String?) = when (genderType) {
+    "Male" -> Color(0xFF82BDE9)
+    "Female" -> Color(0xFFE982D2)
+    else -> Color.Gray
 }

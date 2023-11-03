@@ -1,5 +1,8 @@
-package com.example.ui.home.detail
+package com.example.rickandmorty.detail
 
+import FullScreenLoadingIndicator
+import ToggleButton
+import TrainAppImage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,11 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.model.CharacterDetail
-import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
-import com.example.ui.utils.compose.ToggleButton
-import com.example.ui.utils.compose.TrainAppImage
-import com.example.ui.utils.showSnackBarWithArg
+import com.example.rickandmorty.RickMortyViewModel
+import showSnackBarWithArg
 
 @Composable
 fun DetailScreen(

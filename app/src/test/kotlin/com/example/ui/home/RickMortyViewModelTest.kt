@@ -23,14 +23,14 @@ class RickMortyViewModelTest {
     @MockK
     private lateinit var repository: RickMortyRepository
 
-    private lateinit var viewModel: RickMortyViewModel
+    private lateinit var viewModel: com.example.rickandmorty.RickMortyViewModel
     private lateinit var mockCharacter: Character
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        viewModel = RickMortyViewModel(repository)
+        viewModel = com.example.rickandmorty.RickMortyViewModel(repository)
         mockCharacter = mockk()
     }
 

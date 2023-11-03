@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.example.feature.catalog"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.feature.catalog">
+
+    <application>
+        <activity
+            android:name=".score.ScoreBoardActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

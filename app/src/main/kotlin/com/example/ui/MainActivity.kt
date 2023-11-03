@@ -29,11 +29,12 @@ import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.ui.todo.TodoViewModel
 import com.example.ui.todo.todo.*
-import com.example.ui.utils.Routes
+import Routes
+import com.example.feature.catalog.score.ScoreBoardActivity
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar
-import com.example.ui.utils.theme.M3TrainAppTheme
+import theme.M3TrainAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -88,7 +89,9 @@ class MainActivity : ComponentActivity() {
                             addTodo(navController, currentUser)
                             addAddTodo(navController)
                             addUpdateTodo(navController)
-                            addCatalog()
+                            addCatalog(
+                                openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
+                            )
                         }
                     }
                 }

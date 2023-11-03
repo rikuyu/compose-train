@@ -1,5 +1,10 @@
-package com.example.ui.home.favorite
+package com.example.rickandmorty.favorite
 
+import FullScreenErrorView
+import FullScreenLoadingIndicator
+import Routes
+import ToggleButton
+import TrainAppImage
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,15 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.composetrainapp.R
+import com.example.feature.rickandmorty.R
 import com.example.model.Character
-import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.Routes
-import com.example.ui.utils.compose.FullScreenErrorView
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
-import com.example.ui.utils.compose.ToggleButton
-import com.example.ui.utils.compose.TrainAppImage
-import com.example.ui.utils.showSnackBar
+import com.example.rickandmorty.RickMortyViewModel
+import showSnackBar
 
 @Composable
 fun FavoriteScreen(

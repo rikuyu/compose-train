@@ -12,7 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.shared.compose.debounceClickable
+import debounceClickable
 
 fun LazyListScope.catalogItem(
     label: String,

@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.ui.utils.BottomNavigationItem
-import com.example.ui.utils.Routes
+import BottomNavigationItem
+import Routes
 import com.google.firebase.auth.FirebaseUser
 
 private val String?.isTop

@@ -1,5 +1,8 @@
-package com.example.ui.home.grid
+package com.example.rickandmorty.grid
 
+import FullScreenErrorView
+import FullScreenLoadingIndicator
+import TrainAppImage
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -35,13 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.model.Character
-import com.example.ui.home.CharactersUiState
-import com.example.ui.home.RickMortyViewModel
-import com.example.ui.utils.compose.FullScreenErrorView
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
-import com.example.ui.utils.compose.TrainAppImage
-import com.example.ui.utils.showSnackBar
+import com.example.rickandmorty.CharactersUiState
+import com.example.rickandmorty.RickMortyViewModel
+import showSnackBar
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun GridScreen(
     scaffoldState: ScaffoldState,

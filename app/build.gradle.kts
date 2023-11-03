@@ -13,6 +13,7 @@ dependencies {
     implementation(project(path = ":data"))
     implementation(project(path = ":testing-utils"))
     implementation(project(path = ":feature:catalog"))
+    implementation(project(path = ":feature:rickandmorty"))
     implementation(project(path = ":shared"))
 
     implementation(libs.androidx.core)
