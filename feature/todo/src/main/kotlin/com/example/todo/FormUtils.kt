@@ -1,4 +1,4 @@
-package com.example.ui.todo
+package com.example.todo
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
-import com.example.composetrainapp.R
+import com.example.feature.todo.R
 import java.util.regex.Pattern
 
 @Composable
@@ -107,8 +107,8 @@ fun EmailForm(
         ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onBackground,
-        )
-    ),
+        ),
+    )
 }
 
 @Composable

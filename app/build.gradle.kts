@@ -14,6 +14,7 @@ dependencies {
     implementation(project(path = ":testing-utils"))
     implementation(project(path = ":feature:catalog"))
     implementation(project(path = ":feature:rickandmorty"))
+    implementation(project(path = ":feature:todo"))
     implementation(project(path = ":shared"))
 
     implementation(libs.androidx.core)

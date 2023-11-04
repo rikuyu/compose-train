@@ -1,4 +1,4 @@
-package com.example.ui.todo
+package com.example.todo
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

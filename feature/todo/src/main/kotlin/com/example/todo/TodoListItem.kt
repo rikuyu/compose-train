@@ -1,5 +1,6 @@
-package com.example.ui.todo.todo
+package com.example.todo
 
+import Routes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,10 +31,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.composetrainapp.R
+import com.example.feature.todo.R
 import com.example.model.Todo
 import com.example.model.User
-import Routes
 
 @Composable
 fun TodoListItem(

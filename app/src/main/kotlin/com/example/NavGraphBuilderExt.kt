@@ -13,11 +13,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.feature.catalog.CatalogScreen
 import com.example.rickandmorty.grid.GridScreen
-import com.example.ui.todo.todo.AddTodoScreen
-import com.example.ui.todo.todo.TodoLogInScreen
-import com.example.ui.todo.todo.TodoScreen
-import com.example.ui.todo.todo.TodoSignUpScreen
-import com.example.ui.todo.todo.UpdateTodoScreen
+import com.example.todo.AddTodoScreen
+import com.example.todo.TodoLogInScreen
+import com.example.todo.TodoScreen
+import com.example.todo.TodoSignUpScreen
+import com.example.todo.UpdateTodoScreen
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(
@@ -67,13 +67,13 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
 
 fun NavGraphBuilder.addLogIn(navController: NavHostController) {
     composable(route = Routes.LogIn.route) {
-        TodoLogInScreen(navController)
+        com.example.todo.TodoLogInScreen(navController)
     }
 }
 
 fun NavGraphBuilder.addAddTodo(navController: NavController) {
     composable(route = Routes.CreateTodo.route) {
-        AddTodoScreen(modifier = Modifier.padding(4.dp), navController)
+        com.example.todo.AddTodoScreen(modifier = Modifier.padding(4.dp), navController)
     }
 }
 
@@ -82,7 +82,7 @@ fun NavGraphBuilder.addTodo(
     firebaseUser: FirebaseUser?,
 ) {
     composable(route = Routes.Todo.route) {
-        TodoScreen(navController, firebaseUser)
+        com.example.todo.TodoScreen(navController, firebaseUser)
     }
 }
 
@@ -96,7 +96,7 @@ fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
             },
         ),
     ) {
-        UpdateTodoScreen(
+        com.example.todo.UpdateTodoScreen(
             modifier = Modifier.padding(4.dp),
             navController = navController,
             id = it.arguments?.getString("id"),
@@ -106,7 +106,7 @@ fun NavGraphBuilder.addUpdateTodo(navController: NavController) {
 
 fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     composable(route = Routes.SignUp.route) {
-        TodoSignUpScreen(navController)
+        com.example.todo.TodoSignUpScreen(navController)
     }
 }
 

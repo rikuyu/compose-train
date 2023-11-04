@@ -1,5 +1,7 @@
 package com.example.feature.catalog.draggablebox
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,13 @@ fun DraggableText() {
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
+    var isOnDrag by remember { mutableStateOf(false) }
+    val boxColor by animateColorAsState(
+        targetValue = if (isOnDrag) Color.Blue else Color.DarkGray,
+        animationSpec = tween(500),
+        label = "",
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,10 +55,8 @@ fun DraggableText() {
                 .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
                 .pointerInput(Unit) {
                     detectDragGestures(
-                        onDragEnd = {
-                            // offsetX = 0f
-                            // offsetY = 0f
-                        },
+                        onDragStart = { isOnDrag = true },
+                        onDragEnd = { isOnDrag = false },
                         onDrag = { change, dragAmount ->
                             change.consume()
                             offsetX += dragAmount.x
@@ -59,7 +66,7 @@ fun DraggableText() {
                 }
                 .size(BOX_WIDTH.dp, BOX_HEIGHT.dp)
                 .clip(RoundedCornerShape(12))
-                .background(Color.Blue)
+                .background(boxColor)
                 .padding(12.dp),
             verticalArrangement = Arrangement.Center,
         ) {
