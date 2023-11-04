@@ -1,5 +1,6 @@
-package com.example.ui.todo.todo
+package com.example.todo
 
+import FullScreenLoadingIndicator
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,16 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.composetrainapp.R
 import com.example.data.utils.Result
+import com.example.feature.todo.R
 import com.example.model.User
-import com.example.ui.todo.EmailForm
-import com.example.ui.todo.ErrorMessage
-import com.example.ui.todo.InputState
-import com.example.ui.todo.NameForm
-import com.example.ui.todo.PasswordForm
-import com.example.ui.todo.TodoViewModel
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import showToast
 
 @Composable

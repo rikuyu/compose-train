@@ -1,5 +1,6 @@
 package com.example.ui
 
+import Routes
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.Settings
@@ -27,17 +28,15 @@ import com.example.addLogIn
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
-import com.example.ui.todo.TodoViewModel
-import com.example.ui.todo.todo.*
-import Routes
 import com.example.feature.catalog.draggablebox.DraggableBoxActivity
 import com.example.feature.catalog.score.ScoreBoardActivity
+import com.example.todo.TodoViewModel
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar
-import theme.M3TrainAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import theme.M3TrainAppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

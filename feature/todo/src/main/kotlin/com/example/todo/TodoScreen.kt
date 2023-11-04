@@ -1,5 +1,8 @@
-package com.example.ui.todo.todo
+package com.example.todo
 
+import FullScreenErrorView
+import FullScreenLoadingIndicator
+import Routes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,10 +31,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.data.utils.Result
 import com.example.model.TodoData
-import com.example.ui.todo.TodoViewModel
-import Routes
-import com.example.ui.utils.compose.FullScreenErrorView
-import com.example.ui.utils.compose.FullScreenLoadingIndicator
 import com.google.firebase.auth.FirebaseUser
 
 @Composable

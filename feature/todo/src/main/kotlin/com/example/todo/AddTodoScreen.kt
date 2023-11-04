@@ -1,5 +1,6 @@
-package com.example.ui.todo.todo
+package com.example.todo
 
+import Routes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,11 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.ui.todo.TodoViewModel
-import com.example.ui.todo.checkIsTodoBodyValid
-import com.example.ui.todo.checkIsTodoTitleValid
-import Routes
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTodoScreen(
     modifier: Modifier = Modifier,
