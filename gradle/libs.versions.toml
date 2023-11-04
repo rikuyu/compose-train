@@ -7,22 +7,21 @@ lifecycle = "2.6.2"
 activity = "1.7.0"
 navigation = "2.5.3"
 room = "2.5.1"
-coroutine = "1.6.4"
+coroutine = "1.7.3"
 compose-compiler = "1.5.3"
 
 kotlin = "1.9.10"
 android-gradle-plugin = "7.4.2"
 gms-plugin = "4.4.0"
 
-compile-sdk = "33"
-target-sdk = "33"
+compile-sdk = "34"
+target-sdk = "34"
 min-sdk = "26"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.10.0"
-compose-bom = "2023.03.00"
 
 [libraries]
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core-version" }
@@ -37,9 +36,9 @@ compose-bom = "androidx.compose:compose-bom:2023.01.00"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
-compose-runtime = { module = "androidx.compose.runtime:runtime", version = "1.0.0" }
+compose-runtime = { module = "androidx.compose.runtime:runtime" }
 
-coil-compose = { module = "io.coil-kt:coil-compose", version = "2.3.0" }
+coil-compose = { module = "io.coil-kt:coil-compose", version = "2.4.0" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
@@ -47,9 +46,9 @@ accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 
-google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
+google-services = { module = "com.google.gms:google-services", version = "4.4.0" }
 
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.5.0" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.5.0" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 
@@ -99,7 +98,6 @@ ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
