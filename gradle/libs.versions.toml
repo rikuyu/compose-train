@@ -1,6 +1,6 @@
 [versions]
-core-version = "1.10.0"
-core-splashscreen = "1.0.0"
+core-version = "1.12.0"
+core-splashscreen = "1.0.1"
 ktor = "2.3.5"
 accompanist = "0.30.1"
 lifecycle = "2.6.2"
