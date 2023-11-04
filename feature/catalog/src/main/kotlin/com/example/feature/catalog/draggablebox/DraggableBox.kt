@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,15 +28,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import bouncingClickable
 import kotlin.math.roundToInt
 
 private const val BOX_WIDTH = 140
 private const val BOX_HEIGHT = 80
 
 @Composable
-fun DraggableText() {
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+fun DraggableBox() {
+    var offsetX by remember { mutableFloatStateOf(0f) }
+    var offsetY by remember { mutableFloatStateOf(0f) }
 
     var isOnDrag by remember { mutableStateOf(false) }
     val boxColor by animateColorAsState(
@@ -65,6 +67,7 @@ fun DraggableText() {
                     )
                 }
                 .size(BOX_WIDTH.dp, BOX_HEIGHT.dp)
+                .bouncingClickable()
                 .clip(RoundedCornerShape(12))
                 .background(boxColor)
                 .padding(12.dp),

@@ -17,7 +17,7 @@ class DraggableBoxActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             M3TrainAppTheme(darkTheme = false) {
-                DraggableText()
+                DraggableBox()
             }
         }
     }
