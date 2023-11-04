@@ -21,6 +21,7 @@ jobs:
       - name: install danger
         run: |
           gem install bundler
+          bundle update danger
           bundle install
 
       - name: Run ktlint
