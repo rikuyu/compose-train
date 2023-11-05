@@ -9,6 +9,9 @@
         <activity
             android:name=".score.ScoreBoardActivity"
             android:exported="false" />
+        <activity
+            android:name=".threadscard.ThreadsCardActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

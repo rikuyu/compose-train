@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 fun CatalogScreen(
     openScoreBoard: () -> Unit,
     openDraggableBox: () -> Unit,
+    openThreadsCard: () -> Unit,
 ) {
     CatalogContent {
         catalogItem(label = "ScoreBoard") {
@@ -20,8 +21,8 @@ fun CatalogScreen(
         catalogItem(label = "Draggable Box") {
             openDraggableBox()
         }
-        catalogItem(label = "label 3") {
-            // TODO
+        catalogItem(label = "Threads Card") {
+            openThreadsCard()
         }
     }
 }

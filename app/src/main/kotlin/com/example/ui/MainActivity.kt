@@ -30,6 +30,7 @@ import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.feature.catalog.draggablebox.DraggableBoxActivity
 import com.example.feature.catalog.score.ScoreBoardActivity
+import com.example.feature.catalog.threadscard.ThreadsCardActivity
 import com.example.todo.TodoViewModel
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
@@ -92,6 +93,7 @@ class MainActivity : ComponentActivity() {
                             addCatalog(
                                 openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
                                 openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
+                                openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) }
                             )
                         }
                     }
