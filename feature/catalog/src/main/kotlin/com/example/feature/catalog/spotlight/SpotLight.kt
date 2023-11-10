@@ -9,6 +9,7 @@ import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,23 +37,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import showToast
 
 @Composable
 fun SpotLight(
     targetSize: Int,
-    position: Offset,
+    targetObject: Rect,
 ) {
+    val context = LocalContext.current
     var isSpot by remember { mutableStateOf(false) }
     val animatedRadius by animateFloatAsState(
         targetValue = if (isSpot) targetSize * 2f + 16f else 0f,
         animationSpec = tween(500),
-        label = ""
+        label = "",
     )
 
     LaunchedEffect(Unit) {
@@ -63,9 +68,22 @@ fun SpotLight(
         AnimatedVisibility(
             visible = isSpot,
             modifier = Modifier.fillMaxSize(),
+            enter = fadeIn(animationSpec = tween(500)),
         ) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val spotLightPath = Path().apply { addOval(Rect(position, animatedRadius)) }
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onTap = { offset ->
+                                if (targetObject?.contains(offset) == true) {
+                                    context.showToast("${targetIndex + 1}")
+                                }
+                            },
+                        )
+                    },
+            ) {
+                val spotLightPath = Path().apply { addOval(Rect(targetObject.center, animatedRadius)) }
                 clipPath(
                     path = spotLightPath,
                     clipOp = ClipOp.Difference,
@@ -88,7 +106,7 @@ private val targetIndex = (0 until LIST_SIZE).random()
 fun SampleSpotLightScreen() {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val boxSize = (screenWidth - PADDING * 4) / 3
-    var spotLightOffset by remember { mutableStateOf<Offset?>(null) }
+    var targetObject by remember { mutableStateOf<Rect?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
@@ -108,7 +126,7 @@ fun SampleSpotLightScreen() {
                         .onGloballyPositioned { layoutCoordinates ->
                             if (num == targetIndex) {
                                 val rect = layoutCoordinates.boundsInRoot()
-                                spotLightOffset = rect.center
+                                targetObject = rect
                             }
                         },
                 ) {
@@ -121,10 +139,10 @@ fun SampleSpotLightScreen() {
                 }
             }
         }
-        if (spotLightOffset != null) {
+        if (targetObject != null) {
             SpotLight(
                 targetSize = boxSize,
-                position = spotLightOffset!!,
+                targetObject = targetObject!!,
             )
         }
     }
