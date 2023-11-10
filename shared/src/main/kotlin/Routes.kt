@@ -10,7 +10,7 @@ sealed class Routes(val route: String) {
 
    data object Favorite : Routes("favorite")
 
-   data object Catalog : Routes("catalog")
+   data object Museum : Routes("museum")
 
    data object DetailCharacter : Routes("detail") {
         fun createRoute(id: Int) = "${this.route}/$id"

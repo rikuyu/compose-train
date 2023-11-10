@@ -1,4 +1,4 @@
-package com.example.feature.catalog.threadscard
+package com.example.feature.museum.threadscard
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import theme.M3TrainAppTheme

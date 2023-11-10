@@ -1,4 +1,4 @@
-package com.example.feature.catalog.threadscard
+package com.example.feature.museum.threadscard
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing

@@ -1,4 +1,4 @@
-package com.example.feature.catalog.spotlight
+package com.example.feature.museum.draggablebox
 
 import android.content.Context
 import android.content.Intent
@@ -7,17 +7,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import theme.M3TrainAppTheme
 
-class SpotLightActivity : ComponentActivity() {
+class DraggableBoxActivity : ComponentActivity() {
 
     companion object {
-        fun createIntent(context: Context): Intent = Intent(context, SpotLightActivity::class.java)
+        fun createIntent(context: Context) = Intent(context, DraggableBoxActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             M3TrainAppTheme(darkTheme = false) {
-                SampleSpotLightScreen()
+                DraggableBox()
             }
         }
     }

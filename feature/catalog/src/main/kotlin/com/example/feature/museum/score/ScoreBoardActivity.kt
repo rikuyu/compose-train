@@ -1,4 +1,4 @@
-package com.example.feature.catalog.score
+package com.example.feature.museum.score
 
 import android.content.Context
 import android.content.Intent

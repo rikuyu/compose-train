@@ -1,4 +1,4 @@
-package com.example.feature.catalog.threadscard
+package com.example.feature.museum.threadscard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

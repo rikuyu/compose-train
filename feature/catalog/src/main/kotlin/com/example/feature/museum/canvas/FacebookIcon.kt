@@ -1,4 +1,4 @@
-package com.example.feature.catalog.canvas
+package com.example.feature.museum.canvas
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas

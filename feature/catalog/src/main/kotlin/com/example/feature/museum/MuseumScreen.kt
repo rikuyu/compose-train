@@ -1,4 +1,4 @@
-package com.example.feature.catalog
+package com.example.feature.museum
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,24 +9,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CatalogScreen(
+fun MuseumScreen(
     openScoreBoard: () -> Unit,
     openDraggableBox: () -> Unit,
     openThreadsCard: () -> Unit,
     openCanvas: () -> Unit,
     openSpotLight: () -> Unit,
 ) {
-    CatalogContent {
-        catalogItem("ScoreBoard", openScoreBoard)
-        catalogItem("Draggable Box", openDraggableBox)
-        catalogItem("Threads Card", openThreadsCard)
-        catalogItem("Canvas", openCanvas)
-        catalogItem("Spot Light", openSpotLight)
+    MuseumContent {
+        museumItem("ScoreBoard", openScoreBoard)
+        museumItem("Draggable Box", openDraggableBox)
+        museumItem("Threads Card", openThreadsCard)
+        museumItem("Canvas", openCanvas)
+        museumItem("Spot Light", openSpotLight)
     }
 }
 
 @Composable
-fun CatalogContent(content: LazyListScope.() -> Unit) {
+fun MuseumContent(content: LazyListScope.() -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

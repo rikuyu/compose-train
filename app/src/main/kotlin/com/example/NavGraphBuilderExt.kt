@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.feature.catalog.CatalogScreen
+import com.example.feature.museum.MuseumScreen
 import com.example.rickandmorty.detail.DetailScreen
 import com.example.rickandmorty.favorite.FavoriteScreen
 import com.example.rickandmorty.grid.GridScreen
@@ -112,15 +112,15 @@ fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     }
 }
 
-fun NavGraphBuilder.addCatalog(
+fun NavGraphBuilder.addMuseum(
     openScoreBoard: () -> Unit,
     openDraggableBox: () -> Unit,
     openThreadsCard: () -> Unit,
     openCanvas: () -> Unit,
     openSpotLight: () -> Unit,
 ) {
-    composable(route = Routes.Catalog.route) {
-        CatalogScreen(
+    composable(route = Routes.Museum.route) {
+        MuseumScreen(
             openScoreBoard = openScoreBoard,
             openDraggableBox = openDraggableBox,
             openThreadsCard = openThreadsCard,

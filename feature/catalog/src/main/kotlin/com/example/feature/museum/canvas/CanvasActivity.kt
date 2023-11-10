@@ -1,4 +1,4 @@
-package com.example.feature.catalog.canvas
+package com.example.feature.museum.canvas
 
 import android.content.Context
 import android.content.Intent

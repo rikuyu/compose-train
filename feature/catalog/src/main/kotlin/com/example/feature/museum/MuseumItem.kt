@@ -1,4 +1,4 @@
-package com.example.feature.catalog
+package com.example.feature.museum
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import debounceClickable
 
-fun LazyListScope.catalogItem(
+fun LazyListScope.museumItem(
     label: String,
     onClick: () -> Unit,
 ) {

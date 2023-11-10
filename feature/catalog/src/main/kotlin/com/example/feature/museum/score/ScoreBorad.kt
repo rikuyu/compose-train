@@ -1,4 +1,4 @@
-package com.example.feature.catalog.score
+package com.example.feature.museum.score
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform

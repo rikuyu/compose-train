@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.feature.catalog">
+    package="com.example.feature.museum">
 
     <application>
         <activity
-            android:name=".draggablebox.DraggableBoxActivity"
+            android:name="com.example.feature.museum.draggablebox.DraggableBoxActivity"
             android:exported="false" />
         <activity
-            android:name=".score.ScoreBoardActivity"
+            android:name="com.example.feature.museum.score.ScoreBoardActivity"
             android:exported="false" />
         <activity
-            android:name=".threadscard.ThreadsCardActivity"
+            android:name="com.example.feature.museum.threadscard.ThreadsCardActivity"
             android:exported="false" />
         <activity
-            android:name=".canvas.CanvasActivity"
+            android:name="com.example.feature.museum.canvas.CanvasActivity"
             android:exported="false" />
         <activity
-            android:name=".spotlight.SpotLightActivity"
+            android:name="com.example.feature.museum.spotlight.SpotLightActivity"
             android:exported="false" />
     </application>
 

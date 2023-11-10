@@ -1,4 +1,4 @@
-package com.example.feature.catalog.draggablebox
+package com.example.feature.museum.draggablebox
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween

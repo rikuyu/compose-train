@@ -1,4 +1,4 @@
-package com.example.feature.catalog.threadscard
+package com.example.feature.museum.threadscard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.feature.catalog.R
+import com.example.feature.museum.R
 
 @Composable
 fun CardBackSide() {
