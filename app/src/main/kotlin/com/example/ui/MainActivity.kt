@@ -28,6 +28,7 @@ import com.example.addLogIn
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
+import com.example.feature.catalog.canvas.CanvasActivity
 import com.example.feature.catalog.draggablebox.DraggableBoxActivity
 import com.example.feature.catalog.score.ScoreBoardActivity
 import com.example.feature.catalog.threadscard.ThreadsCardActivity
@@ -93,7 +94,8 @@ class MainActivity : ComponentActivity() {
                             addCatalog(
                                 openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
                                 openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
-                                openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) }
+                                openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) },
+                                openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) }
                             )
                         }
                     }

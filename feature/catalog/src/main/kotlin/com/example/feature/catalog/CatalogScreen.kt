@@ -13,17 +13,13 @@ fun CatalogScreen(
     openScoreBoard: () -> Unit,
     openDraggableBox: () -> Unit,
     openThreadsCard: () -> Unit,
+    openCanvas: () -> Unit,
 ) {
     CatalogContent {
-        catalogItem(label = "ScoreBoard") {
-            openScoreBoard()
-        }
-        catalogItem(label = "Draggable Box") {
-            openDraggableBox()
-        }
-        catalogItem(label = "Threads Card") {
-            openThreadsCard()
-        }
+        catalogItem("ScoreBoard", openScoreBoard)
+        catalogItem("Draggable Box", openDraggableBox)
+        catalogItem("Threads Card", openThreadsCard)
+        catalogItem("Canvas", openCanvas)
     }
 }
 
