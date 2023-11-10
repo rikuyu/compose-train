@@ -117,6 +117,7 @@ fun NavGraphBuilder.addCatalog(
     openDraggableBox: () -> Unit,
     openThreadsCard: () -> Unit,
     openCanvas: () -> Unit,
+    openSpotLight: () -> Unit,
 ) {
     composable(route = Routes.Catalog.route) {
         CatalogScreen(
@@ -124,6 +125,7 @@ fun NavGraphBuilder.addCatalog(
             openDraggableBox = openDraggableBox,
             openThreadsCard = openThreadsCard,
             openCanvas = openCanvas,
+            openSpotLight = openSpotLight,
         )
     }
 }

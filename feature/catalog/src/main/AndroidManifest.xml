@@ -15,6 +15,9 @@
         <activity
             android:name=".canvas.CanvasActivity"
             android:exported="false" />
+        <activity
+            android:name=".spotlight.SpotLightActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

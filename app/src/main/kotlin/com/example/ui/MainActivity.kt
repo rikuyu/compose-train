@@ -31,6 +31,7 @@ import com.example.addUpdateTodo
 import com.example.feature.catalog.canvas.CanvasActivity
 import com.example.feature.catalog.draggablebox.DraggableBoxActivity
 import com.example.feature.catalog.score.ScoreBoardActivity
+import com.example.feature.catalog.spotlight.SpotLightActivity
 import com.example.feature.catalog.threadscard.ThreadsCardActivity
 import com.example.todo.TodoViewModel
 import com.example.ui.utils.compose.CustomBottomNavigationBar
@@ -95,7 +96,8 @@ class MainActivity : ComponentActivity() {
                                 openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
                                 openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
                                 openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) },
-                                openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) }
+                                openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) },
+                                openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) }
                             )
                         }
                     }
