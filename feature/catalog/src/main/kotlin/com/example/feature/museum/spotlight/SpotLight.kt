@@ -72,7 +72,7 @@ fun SpotLight(
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = { offset ->
-                                if (targetObject?.contains(offset) == true) {
+                                if (targetObject.contains(offset)) {
                                     context.showToast("${targetIndex + 1}")
                                 }
                             },
@@ -111,7 +111,10 @@ fun SampleSpotLightScreen() {
             horizontalArrangement = Arrangement.spacedBy(PADDING.dp),
             modifier = Modifier.padding(PADDING.dp),
         ) {
-            items(List(LIST_SIZE) { it }) { num ->
+            items(
+                items = List(LIST_SIZE) { it },
+                key = { it.hashCode() },
+            ) { num ->
                 val color = getRandomColor()
                 val isWhite = color.luminance() > 0.5
                 Box(
