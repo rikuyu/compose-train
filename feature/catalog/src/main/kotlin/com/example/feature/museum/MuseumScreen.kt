@@ -15,6 +15,7 @@ fun MuseumScreen(
     openThreadsCard: () -> Unit,
     openCanvas: () -> Unit,
     openSpotLight: () -> Unit,
+    openShare: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -22,6 +23,7 @@ fun MuseumScreen(
         museumItem("Threads Card", openThreadsCard)
         museumItem("Canvas", openCanvas)
         museumItem("Spot Light", openSpotLight)
+        museumItem("Share", openShare)
     }
 }
 

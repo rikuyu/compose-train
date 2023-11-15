@@ -18,6 +18,31 @@
         <activity
             android:name="com.example.feature.museum.spotlight.SpotLightActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.feature.museum.share.ShareActivity"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <!-- 暗黙的Intent  複数の画像を受け取りたい -->
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <!-- 暗黙的Intent これがないと共有シートに表示されない -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.sender.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

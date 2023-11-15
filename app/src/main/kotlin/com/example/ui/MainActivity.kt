@@ -31,6 +31,7 @@ import com.example.addUpdateTodo
 import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.score.ScoreBoardActivity
+import com.example.feature.museum.share.ShareActivity
 import com.example.feature.museum.spotlight.SpotLightActivity
 import com.example.feature.museum.threadscard.ThreadsCardActivity
 import com.example.todo.TodoViewModel
@@ -97,7 +98,8 @@ class MainActivity : ComponentActivity() {
                                 openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
                                 openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) },
                                 openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) },
-                                openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) }
+                                openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) },
+                                openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) }
                             )
                         }
                     }
