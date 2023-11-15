@@ -1,5 +1,6 @@
 package com.example.ui
 
+import Routes
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.Settings
@@ -19,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.addAddTodo
-import com.example.addCatalog
+import com.example.addMuseum
 import com.example.addDetail
 import com.example.addFavorite
 import com.example.addGrid
@@ -27,16 +28,18 @@ import com.example.addLogIn
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
-import com.example.ui.todo.TodoViewModel
-import com.example.ui.todo.todo.*
-import Routes
-import com.example.feature.catalog.score.ScoreBoardActivity
+import com.example.feature.museum.canvas.CanvasActivity
+import com.example.feature.museum.draggablebox.DraggableBoxActivity
+import com.example.feature.museum.score.ScoreBoardActivity
+import com.example.feature.museum.spotlight.SpotLightActivity
+import com.example.feature.museum.threadscard.ThreadsCardActivity
+import com.example.todo.TodoViewModel
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar
-import theme.M3TrainAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import theme.M3TrainAppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -89,8 +92,12 @@ class MainActivity : ComponentActivity() {
                             addTodo(navController, currentUser)
                             addAddTodo(navController)
                             addUpdateTodo(navController)
-                            addCatalog(
+                            addMuseum(
                                 openScoreBoard = { startActivity(ScoreBoardActivity.createIntent(this@MainActivity)) },
+                                openDraggableBox = { startActivity(DraggableBoxActivity.createIntent(this@MainActivity)) },
+                                openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) },
+                                openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) },
+                                openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) }
                             )
                         }
                     }

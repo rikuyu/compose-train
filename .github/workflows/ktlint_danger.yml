@@ -18,13 +18,14 @@ jobs:
         with:
           ruby-version: 3.0.0
 
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
+
       - name: install danger
         run: |
           gem install bundler
+          bundle update danger
           bundle install
-
-      - name: Run ktlint
-        run: ./gradlew ktlintCheck
 
       - name: run danger
         env:

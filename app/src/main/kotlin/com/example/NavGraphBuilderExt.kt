@@ -1,5 +1,6 @@
 package com.example
 
+import Routes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ScaffoldState
 import androidx.compose.ui.Modifier
@@ -10,15 +11,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.feature.catalog.CatalogScreen
+import com.example.feature.museum.MuseumScreen
+import com.example.rickandmorty.detail.DetailScreen
+import com.example.rickandmorty.favorite.FavoriteScreen
 import com.example.rickandmorty.grid.GridScreen
-import com.example.ui.todo.todo.AddTodoScreen
-import com.example.ui.todo.todo.TodoLogInScreen
-import com.example.ui.todo.todo.TodoScreen
-import com.example.ui.todo.todo.TodoSignUpScreen
-import com.example.ui.todo.todo.UpdateTodoScreen
-import Routes
-import android.app.Activity
+import com.example.todo.AddTodoScreen
+import com.example.todo.TodoLogInScreen
+import com.example.todo.TodoScreen
+import com.example.todo.TodoSignUpScreen
+import com.example.todo.UpdateTodoScreen
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(
@@ -42,7 +43,7 @@ fun NavGraphBuilder.addFavorite(
     navController: NavHostController,
 ) {
     composable(route = Routes.Favorite.route) {
-        com.example.rickandmorty.favorite.FavoriteScreen(
+        FavoriteScreen(
             scaffoldState = scaffoldState,
             navController = navController,
         )
@@ -59,7 +60,7 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
             },
         ),
     ) { backStackEntry ->
-        com.example.rickandmorty.detail.DetailScreen(
+        DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
             scaffoldState,
         )
@@ -111,12 +112,20 @@ fun NavGraphBuilder.addSignUp(navController: NavHostController) {
     }
 }
 
-fun NavGraphBuilder.addCatalog(
+fun NavGraphBuilder.addMuseum(
     openScoreBoard: () -> Unit,
+    openDraggableBox: () -> Unit,
+    openThreadsCard: () -> Unit,
+    openCanvas: () -> Unit,
+    openSpotLight: () -> Unit,
 ) {
-    composable(route = Routes.Catalog.route) {
-        CatalogScreen(
+    composable(route = Routes.Museum.route) {
+        MuseumScreen(
             openScoreBoard = openScoreBoard,
+            openDraggableBox = openDraggableBox,
+            openThreadsCard = openThreadsCard,
+            openCanvas = openCanvas,
+            openSpotLight = openSpotLight,
         )
     }
 }

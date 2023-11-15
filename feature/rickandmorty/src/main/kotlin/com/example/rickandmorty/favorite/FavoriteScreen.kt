@@ -71,7 +71,10 @@ fun FavoriteScreen(
                 LazyColumn(state = listState, modifier = Modifier.padding(4.dp)) {
                     item { FavoriteCountItem(uiState.characters.size) }
                     item { Divider() }
-                    items(uiState.characters) {
+                    items(
+                        items = uiState.characters,
+                        key = { it.id },
+                    ) {
                         FavoriteItem(
                             character = it,
                             onClickFavorite = viewModel::onClickFavorite,

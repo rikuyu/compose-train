@@ -47,11 +47,13 @@ private fun JavaExec.ktlintArgs(
     description = "Check Kotlin code style."
     classpath = configuration
     mainClass.set("com.pinterest.ktlint.Main")
-    args = listOf("--android",
+    args = listOf(
+        "--android",
         "--color",
         "--reporter=plain",
         "--reporter=checkstyle,output=${buildDir}/reports/ktlint-result.xml",
-        "src/**/*.kt")
+        "src/**/*.kt",
+    )
     isIgnoreExitValue = true
 }
 

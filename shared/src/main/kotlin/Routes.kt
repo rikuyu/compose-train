@@ -10,7 +10,7 @@ sealed class Routes(val route: String) {
 
    data object Favorite : Routes("favorite")
 
-   data object Catalog : Routes("catalog")
+   data object Museum : Routes("museum")
 
    data object DetailCharacter : Routes("detail") {
         fun createRoute(id: Int) = "${this.route}/$id"
@@ -32,5 +32,5 @@ sealed class Routes(val route: String) {
 enum class BottomNavigationItem(val label: String, val icon: ImageVector) {
     GRID("Grid", Icons.Filled.Home),
     TODO("Todo", Icons.Outlined.Add),
-    CATALOG("Catalog", Icons.Filled.Search),
+    MUSEUM("Museum", Icons.Filled.Search),
 }
