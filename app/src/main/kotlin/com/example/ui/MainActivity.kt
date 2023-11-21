@@ -28,6 +28,7 @@ import com.example.addLogIn
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
+import com.example.feature.museum.autoscroll.AutoScrollActivity
 import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.score.ScoreBoardActivity
@@ -99,7 +100,8 @@ class MainActivity : ComponentActivity() {
                                 openThreadsCard = { startActivity(ThreadsCardActivity.createIntent(this@MainActivity)) },
                                 openCanvas = { startActivity(CanvasActivity.createIntent(this@MainActivity)) },
                                 openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) },
-                                openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) }
+                                openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) },
+                                openAutoScroll = { startActivity(AutoScrollActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

@@ -16,6 +16,7 @@ fun MuseumScreen(
     openCanvas: () -> Unit,
     openSpotLight: () -> Unit,
     openShare: () -> Unit,
+    openAutoScroll: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -24,6 +25,7 @@ fun MuseumScreen(
         museumItem("Canvas", openCanvas)
         museumItem("Spot Light", openSpotLight)
         museumItem("Share", openShare)
+        museumItem("Auto Scroll", openAutoScroll)
     }
 }
 

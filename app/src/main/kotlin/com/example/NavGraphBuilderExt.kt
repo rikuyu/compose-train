@@ -119,6 +119,7 @@ fun NavGraphBuilder.addMuseum(
     openCanvas: () -> Unit,
     openSpotLight: () -> Unit,
     openShare: () -> Unit,
+    openAutoScroll: () -> Unit,
 ) {
     composable(route = Routes.Museum.route) {
         MuseumScreen(
@@ -128,6 +129,7 @@ fun NavGraphBuilder.addMuseum(
             openCanvas = openCanvas,
             openSpotLight = openSpotLight,
             openShare = openShare,
+            openAutoScroll = openAutoScroll,
         )
     }
 }
