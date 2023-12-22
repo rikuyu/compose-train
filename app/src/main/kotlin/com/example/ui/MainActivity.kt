@@ -30,6 +30,7 @@ import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.feature.museum.autoscroll.AutoScrollActivity
 import com.example.feature.museum.canvas.CanvasActivity
+import com.example.feature.museum.circularprogressbar.CircularProgressBarActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.score.ScoreBoardActivity
 import com.example.feature.museum.share.ShareActivity
@@ -102,6 +103,7 @@ class MainActivity : ComponentActivity() {
                                 openSpotLight = { startActivity(SpotLightActivity.createIntent(this@MainActivity)) },
                                 openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) },
                                 openAutoScroll = { startActivity(AutoScrollActivity.createIntent(this@MainActivity)) },
+                                openCircularProgressBar = { startActivity(CircularProgressBarActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

@@ -47,6 +47,9 @@
         <activity
             android:name="com.example.feature.museum.autoscroll.AutoScrollActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.feature.museum.circularprogressbar.CircularProgressBarActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

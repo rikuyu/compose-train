@@ -17,6 +17,7 @@ fun MuseumScreen(
     openSpotLight: () -> Unit,
     openShare: () -> Unit,
     openAutoScroll: () -> Unit,
+    openCircularProgressBar: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -26,6 +27,7 @@ fun MuseumScreen(
         museumItem("Spot Light", openSpotLight)
         museumItem("Share", openShare)
         museumItem("Auto Scroll", openAutoScroll)
+        museumItem("Circular Progress Bar", openCircularProgressBar)
     }
 }
 
