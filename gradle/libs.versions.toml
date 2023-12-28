@@ -21,7 +21,7 @@ junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
-material = "1.10.0"
+material = "1.11.0"
 
 [libraries]
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core-version" }
@@ -68,12 +68,12 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version = "1.0.0" }
+hilt-compiler = { module = "androidx.hilt:hilt-compiler", version = "1.1.0" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.0.0" }
 
-hilt-android = { module = "com.google.dagger:hilt-android", version = "2.48.1" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.48.1" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.48.1" }
+hilt-android = { module = "com.google.dagger:hilt-android", version = "2.50" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.50" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.50" }
 
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
@@ -82,7 +82,7 @@ ktlint = { module = "com.pinterest:ktlint", version = "0.50.0" }
 # test
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.12.5"
-truth = "com.google.truth:truth:1.1.5"
+truth = "com.google.truth:truth:1.2.0"
 turbine = "app.cash.turbine:turbine:0.13.0"
 androidx-test-junit = "androidx.test.ext:junit:1.1.5"
 
