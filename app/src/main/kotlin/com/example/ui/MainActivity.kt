@@ -29,6 +29,7 @@ import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.feature.museum.autoscroll.AutoScrollActivity
+import com.example.feature.museum.bankcard.BankCardActivity
 import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.circularprogressbar.CircularProgressBarActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
@@ -104,6 +105,7 @@ class MainActivity : ComponentActivity() {
                                 openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) },
                                 openAutoScroll = { startActivity(AutoScrollActivity.createIntent(this@MainActivity)) },
                                 openCircularProgressBar = { startActivity(CircularProgressBarActivity.createIntent(this@MainActivity)) },
+                                openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }
