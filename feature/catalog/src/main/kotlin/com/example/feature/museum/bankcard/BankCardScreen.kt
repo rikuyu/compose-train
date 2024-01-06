@@ -89,7 +89,6 @@ fun BankCard(
         Box {
             BankCardBackground(baseColor = baseColor)
             BankCardNumber(cardNumber = cardNumber)
-            // Positioned to corner top left
             SpaceWrapper(
                 modifier = Modifier.align(Alignment.TopStart),
                 space = 32.dp,

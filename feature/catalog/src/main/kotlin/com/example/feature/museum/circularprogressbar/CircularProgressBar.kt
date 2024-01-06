@@ -1,7 +1,6 @@
 package com.example.feature.museum.circularprogressbar
 
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateInt
 import androidx.compose.animation.core.tween
