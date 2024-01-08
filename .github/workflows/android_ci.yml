@@ -35,7 +35,7 @@ jobs:
 
       - name: Report Unit Test Result
         if: cancelled() != true
-        uses: mikepenz/action-junit-report@v3
+        uses: mikepenz/action-junit-report@v4
         with:
           report_paths: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
 
