@@ -4,8 +4,8 @@ core-splashscreen = "1.0.1"
 ktor = "2.3.7"
 accompanist = "0.32.0"
 lifecycle = "2.6.2"
-activity = "1.8.0"
-navigation = "2.7.4"
+activity = "1.8.2"
+navigation = "2.7.6"
 room = "2.6.1"
 coroutine = "1.7.3"
 compose-compiler = "1.5.3"
@@ -77,13 +77,13 @@ hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-p
 
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
-ktlint = { module = "com.pinterest:ktlint", version = "0.50.0" }
+ktlint = { module = "com.pinterest:ktlint", version = "0.51.0-FINAL" }
 
 # test
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.12.5"
 truth = "com.google.truth:truth:1.2.0"
-turbine = "app.cash.turbine:turbine:0.13.0"
+turbine = "app.cash.turbine:turbine:1.0.0"
 androidx-test-junit = "androidx.test.ext:junit:1.1.5"
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
