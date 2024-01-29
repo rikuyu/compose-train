@@ -34,6 +34,7 @@ import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.circularprogressbar.CircularProgressBarActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.score.ScoreBoardActivity
+import com.example.feature.museum.shakeicon.ShakeIconActivity
 import com.example.feature.museum.share.ShareActivity
 import com.example.feature.museum.spotlight.SpotLightActivity
 import com.example.feature.museum.threadscard.ThreadsCardActivity
@@ -106,6 +107,7 @@ class MainActivity : ComponentActivity() {
                                 openAutoScroll = { startActivity(AutoScrollActivity.createIntent(this@MainActivity)) },
                                 openCircularProgressBar = { startActivity(CircularProgressBarActivity.createIntent(this@MainActivity)) },
                                 openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
+                                openShakeIcon = { startActivity(ShakeIconActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

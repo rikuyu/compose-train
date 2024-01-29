@@ -19,6 +19,7 @@ fun MuseumScreen(
     openAutoScroll: () -> Unit,
     openCircularProgressBar: () -> Unit,
     openBankCard: () -> Unit,
+    openShakeIcon: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -30,6 +31,7 @@ fun MuseumScreen(
         museumItem("Auto Scroll", openAutoScroll)
         museumItem("Circular Progress Bar", openCircularProgressBar)
         museumItem("BankCard", openBankCard)
+        museumItem("ShakeIcon", openShakeIcon)
     }
 }
 
