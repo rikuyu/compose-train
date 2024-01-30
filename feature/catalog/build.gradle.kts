@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.library.common.setting)
     alias(libs.plugins.ktlint.setting)
     id("kotlin-kapt")
+
+    id("dev.shreyaspatil.compose-compiler-report-generator") version "1.1.0"
 }
 
 dependencies {

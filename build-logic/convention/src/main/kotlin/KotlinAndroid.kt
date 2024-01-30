@@ -21,12 +21,31 @@ internal fun Project.configureKotlinAndroid(
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_17.toString()
 
-            if (this@with is ApplicationExtension) {
-                freeCompilerArgs = listOf(
-                    "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-                    "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+            val args = buildList {
+                if (this@with is ApplicationExtension) {
+                    addAll(
+                        listOf(
+                            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                            "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+                        ),
+                    )
+                }
+                addAll(
+                    listOf(
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                                project.layout.projectDirectory + "/compose-reports",
+                    ),
+                )
+                addAll(
+                    listOf(
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                                project.layout.projectDirectory + "/compose-reports",
+                    ),
                 )
             }
+            freeCompilerArgs = args
         }
 
         buildFeatures {

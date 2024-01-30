@@ -5,6 +5,8 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+
+    // id("dev.shreyaspatil.compose-compiler-report-generator") version "1.1.0"
 }
 
 dependencies {
