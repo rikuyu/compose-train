@@ -31,7 +31,7 @@ fun MuseumScreen(
         museumItem("Auto Scroll", openAutoScroll)
         museumItem("Circular Progress Bar", openCircularProgressBar)
         museumItem("BankCard", openBankCard)
-        museumItem("ShakeIcon", openShakeIcon)
+        museumItem("Shake Icon", openShakeIcon)
     }
 }
 
