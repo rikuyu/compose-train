@@ -1,6 +1,6 @@
 plugins {
-    id("app-base-setting")
-    id("ktlint-setting")
+    alias(libs.plugins.app.base.setting)
+    alias(libs.plugins.ktlint.setting)
 
     id("com.google.gms.google-services")
     id("kotlin-kapt")

@@ -1,6 +1,6 @@
 plugins {
-    id("library-common-setting")
-    id("ktlint-setting")
+    alias(libs.plugins.library.common.setting)
+    alias(libs.plugins.ktlint.setting)
     id("kotlin-kapt")
 }
 

@@ -1,3 +1,9 @@
+plugins {
+    alias(libs.plugins.app.base.setting) apply false
+    alias(libs.plugins.library.common.setting) apply false
+    alias(libs.plugins.ktlint.setting) apply false
+}
+
 buildscript {
     repositories {
         google()
