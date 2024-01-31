@@ -1,7 +1,7 @@
 plugins {
-    id("library-common-setting")
-    id("ktlint-setting")
-    id("kotlin-kapt")
+    alias(libs.plugins.library.common.setting)
+    alias(libs.plugins.ktlint.setting)
+    alias(libs.plugins.ksp)
 }
 
 dependencies {
@@ -17,12 +17,12 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 }

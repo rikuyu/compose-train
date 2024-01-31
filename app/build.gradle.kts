@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.app.base.setting)
     alias(libs.plugins.ktlint.setting)
+    alias(libs.plugins.ksp)
 
     id("com.google.gms.google-services")
-    id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 
     // id("dev.shreyaspatil.compose-compiler-report-generator") version "1.1.0"
@@ -41,14 +41,14 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.coroutine.android)
     implementation(libs.coroutine.test)

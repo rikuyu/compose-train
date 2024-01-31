@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.library.common.setting)
     alias(libs.plugins.ktlint.setting)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
 
     // id("dev.shreyaspatil.compose-compiler-report-generator") version "1.1.0"
 }
@@ -21,9 +21,9 @@ dependencies {
     implementation(libs.bundles.lifecycle)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.bundles.accompanist)
 
