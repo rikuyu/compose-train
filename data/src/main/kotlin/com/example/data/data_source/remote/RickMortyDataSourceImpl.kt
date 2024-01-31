@@ -13,18 +13,8 @@ class RickMortyDataSourceImpl @Inject constructor(
     private val client: HttpClient,
 ) : RickMortyDataSource {
 
-    private enum class Status { SUCCESS, ERROR }
-
-    private var status = Status.ERROR
-
-    override suspend fun getCharacters(): List<Character> {
-        if (status == Status.ERROR) {
-            status = Status.SUCCESS
-            delay(1000L)
-            throw Exception()
-        }
-        return client.get(Constants.URL_CHARACTER).body<Response>().results.shuffled()
-    }
+    override suspend fun getCharacters(): List<Character> =
+        client.get(Constants.URL_CHARACTER).body<Response>().results.shuffled()
 
     override suspend fun getCharacter(id: Int): Character =
         client.get("${Constants.URL_CHARACTER}/$id").body()
