@@ -30,20 +30,21 @@ internal fun Project.configureKotlinAndroid(
                         ),
                     )
                 }
-                addAll(
-                    listOf(
-                        "-P",
-                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                                project.layout.projectDirectory + "/compose-reports",
-                    ),
-                )
-                addAll(
-                    listOf(
-                        "-P",
-                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                                project.layout.projectDirectory + "/compose-reports",
-                    ),
-                )
+//  compose metrics
+//                addAll(
+//                    listOf(
+//                        "-P",
+//                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+//                                project.layout.projectDirectory + "/compose-reports",
+//                    ),
+//                )
+//                addAll(
+//                    listOf(
+//                        "-P",
+//                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+//                                project.layout.projectDirectory + "/compose-reports",
+//                    ),
+//                )
             }
             freeCompilerArgs = args
         }
