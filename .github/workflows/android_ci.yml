@@ -6,14 +6,12 @@ on:
 
 jobs:
   build:
-    permissions:
-      actions: read
     runs-on: ubuntu-latest
 
     steps:
       - uses: Kesin11/actions-timeline@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v4
       - name: set up JDK 17
