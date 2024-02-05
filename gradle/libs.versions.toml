@@ -82,7 +82,7 @@ ktlint = { module = "com.pinterest:ktlint", version = "0.51.0-FINAL" }
 # test
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.12.5"
-truth = "com.google.truth:truth:1.2.0"
+truth = "com.google.truth:truth:1.4.0"
 turbine = "app.cash.turbine:turbine:1.0.0"
 androidx-test-junit = "androidx.test.ext:junit:1.1.5"
 
