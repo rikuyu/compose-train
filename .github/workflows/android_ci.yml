@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: Kesin11/actions-timeline@v1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v4
       - name: set up JDK 17
@@ -24,7 +24,7 @@ jobs:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
