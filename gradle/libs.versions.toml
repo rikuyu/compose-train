@@ -10,7 +10,7 @@ room = "2.6.1"
 coroutine = "1.7.3"
 compose-compiler = "1.5.3"
 
-kotlin = "1.9.10"
+kotlin = "1.9.22"
 android-gradle-plugin = "7.4.2"
 gms-plugin = "4.4.0"
 
