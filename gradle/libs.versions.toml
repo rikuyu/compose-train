@@ -11,7 +11,7 @@ coroutine = "1.7.3"
 compose-compiler = "1.5.3"
 
 kotlin = "1.9.10"
-android-gradle-plugin = "7.4.2"
+android-gradle-plugin = "8.2.2"
 gms-plugin = "4.4.0"
 
 compile-sdk = "34"
