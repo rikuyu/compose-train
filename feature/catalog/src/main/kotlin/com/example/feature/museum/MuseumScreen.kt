@@ -20,6 +20,7 @@ fun MuseumScreen(
     openCircularProgressBar: () -> Unit,
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
+    openRemember: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -32,6 +33,7 @@ fun MuseumScreen(
         museumItem("Circular Progress Bar", openCircularProgressBar)
         museumItem("BankCard", openBankCard)
         museumItem("Shake Icon", openShakeIcon)
+        museumItem("Remember", openRemember)
     }
 }
 

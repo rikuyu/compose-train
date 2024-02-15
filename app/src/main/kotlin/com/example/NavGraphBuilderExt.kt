@@ -123,6 +123,7 @@ fun NavGraphBuilder.addMuseum(
     openCircularProgressBar: () -> Unit,
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
+    openRemember: () -> Unit,
 ) {
     composable(route = Routes.Museum.route) {
         MuseumScreen(
@@ -136,6 +137,7 @@ fun NavGraphBuilder.addMuseum(
             openCircularProgressBar = openCircularProgressBar,
             openBankCard = openBankCard,
             openShakeIcon = openShakeIcon,
+            openRemember = openRemember,
         )
     }
 }
