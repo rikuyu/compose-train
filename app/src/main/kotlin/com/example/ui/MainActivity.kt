@@ -29,10 +29,13 @@ import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
 import com.example.feature.museum.autoscroll.AutoScrollActivity
+import com.example.feature.museum.bankcard.BankCardActivity
 import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.circularprogressbar.CircularProgressBarActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
+import com.example.feature.museum.remember.RememberActivity
 import com.example.feature.museum.score.ScoreBoardActivity
+import com.example.feature.museum.shakeicon.ShakeIconActivity
 import com.example.feature.museum.share.ShareActivity
 import com.example.feature.museum.spotlight.SpotLightActivity
 import com.example.feature.museum.threadscard.ThreadsCardActivity
@@ -104,6 +107,9 @@ class MainActivity : ComponentActivity() {
                                 openShare = { startActivity(ShareActivity.createIntent(this@MainActivity)) },
                                 openAutoScroll = { startActivity(AutoScrollActivity.createIntent(this@MainActivity)) },
                                 openCircularProgressBar = { startActivity(CircularProgressBarActivity.createIntent(this@MainActivity)) },
+                                openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
+                                openShakeIcon = { startActivity(ShakeIconActivity.createIntent(this@MainActivity)) },
+                                openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

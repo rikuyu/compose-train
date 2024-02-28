@@ -11,13 +11,13 @@ class KtlintPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            val outputDir = "${project.buildDir}/reports/"
+            val outputDir = "${project.layout.projectDirectory}/reports/"
             val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
             val ktlint by configurations.creating
 
             val ktlintCheck by tasks.creating(JavaExec::class) {
-                ktlintArgs(inputFiles, outputDir, ktlint, buildDir)
+                ktlintArgs(inputFiles, outputDir, ktlint)
             }
 
             val ktlintFormat by tasks.creating(JavaExec::class) {
@@ -39,7 +39,6 @@ private fun JavaExec.ktlintArgs(
     inputFiles: ConfigurableFileTree,
     outputPath: String,
     configuration: Configuration,
-    buildDir: File,
 ) {
     inputs.files(inputFiles)
     outputs.dir(outputPath)
@@ -51,7 +50,7 @@ private fun JavaExec.ktlintArgs(
         "--android",
         "--color",
         "--reporter=plain",
-        "--reporter=checkstyle,output=${buildDir}/reports/ktlint-result.xml",
+        "--reporter=checkstyle,output=${outputPath}ktlint-result.xml",
         "src/**/*.kt",
     )
     isIgnoreExitValue = true
