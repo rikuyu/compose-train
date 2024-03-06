@@ -28,8 +28,9 @@
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <!-- 暗黙的Intent これがないと共有シートに表示されない -->
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain"/>
-                <data android:mimeType="image/*"/>
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*" />
             </intent-filter>
 
         </activity>
@@ -58,6 +59,9 @@
             android:exported="false" />
         <activity
             android:name="com.example.feature.museum.remember.RememberActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.feature.museum.animtextchatgpt.AnimTextChatGPTActivity"
             android:exported="false" />
     </application>
 

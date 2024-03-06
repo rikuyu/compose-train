@@ -28,6 +28,7 @@ import com.example.addLogIn
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
+import com.example.feature.museum.animtextchatgpt.AnimTextChatGPTActivity
 import com.example.feature.museum.autoscroll.AutoScrollActivity
 import com.example.feature.museum.bankcard.BankCardActivity
 import com.example.feature.museum.canvas.CanvasActivity
@@ -110,6 +111,7 @@ class MainActivity : ComponentActivity() {
                                 openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
                                 openShakeIcon = { startActivity(ShakeIconActivity.createIntent(this@MainActivity)) },
                                 openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
+                                openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }

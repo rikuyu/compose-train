@@ -21,6 +21,7 @@ fun MuseumScreen(
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
     openRemember: () -> Unit,
+    openAnimTextChatGPT: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -34,6 +35,7 @@ fun MuseumScreen(
         museumItem("BankCard", openBankCard)
         museumItem("Shake Icon", openShakeIcon)
         museumItem("Remember", openRemember)
+        museumItem("AnimTextChatGPT", openAnimTextChatGPT)
     }
 }
 
