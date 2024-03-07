@@ -19,14 +19,14 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun AnimTextChatGPTScreen(
-    text: String = "Grab a coffee, Find a comfy spot, Write some code",
+    text: String = "Hello! My name is GPT-3. I am a language model AI. How can I help you today?",
 ) {
     var animText by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         text.indices.forEach { index ->
-            animText = text.substring(0, index)
-            delay(100)
+            animText = text.substring(0, index + 1) + if (index + 1 == text.length) "" else "●"
+            delay(50)
         }
     }
 
@@ -38,7 +38,7 @@ fun AnimTextChatGPTScreen(
         Text(
             text = animText,
             color = Color.Black,
-            fontSize = 20.sp,
+            fontSize = 16.sp,
         )
     }
 }

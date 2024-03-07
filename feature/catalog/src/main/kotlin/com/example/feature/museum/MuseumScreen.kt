@@ -35,7 +35,7 @@ fun MuseumScreen(
         museumItem("BankCard", openBankCard)
         museumItem("Shake Icon", openShakeIcon)
         museumItem("Remember", openRemember)
-        museumItem("AnimTextChatGPT", openAnimTextChatGPT)
+        museumItem("AnimText like ChatGPT", openAnimTextChatGPT)
     }
 }
 
