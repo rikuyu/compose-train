@@ -38,6 +38,7 @@ import com.example.feature.museum.remember.RememberActivity
 import com.example.feature.museum.score.ScoreBoardActivity
 import com.example.feature.museum.shakeicon.ShakeIconActivity
 import com.example.feature.museum.share.ShareActivity
+import com.example.feature.museum.snapshotFlow.SnapshotFlowActivity
 import com.example.feature.museum.spotlight.SpotLightActivity
 import com.example.feature.museum.threadscard.ThreadsCardActivity
 import com.example.todo.TodoViewModel
@@ -111,6 +112,7 @@ class MainActivity : ComponentActivity() {
                                 openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
                                 openShakeIcon = { startActivity(ShakeIconActivity.createIntent(this@MainActivity)) },
                                 openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
+                                openSnapshotFlow = { startActivity(SnapshotFlowActivity.createIntent(this@MainActivity)) },
                                 openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
                             )
                         }
