@@ -36,6 +36,7 @@ import com.example.feature.museum.circularprogressbar.CircularProgressBarActivit
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.remember.RememberActivity
 import com.example.feature.museum.score.ScoreBoardActivity
+import com.example.feature.museum.scrollspacer.ScrollSpacerActivity
 import com.example.feature.museum.shakeicon.ShakeIconActivity
 import com.example.feature.museum.share.ShareActivity
 import com.example.feature.museum.snapshotFlow.SnapshotFlowActivity
@@ -114,6 +115,7 @@ class MainActivity : ComponentActivity() {
                                 openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
                                 openSnapshotFlow = { startActivity(SnapshotFlowActivity.createIntent(this@MainActivity)) },
                                 openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
+                                openScrollSpacerActivity = { startActivity(ScrollSpacerActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }
