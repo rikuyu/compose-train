@@ -8,7 +8,7 @@ activity = "1.8.2"
 navigation = "2.7.7"
 room = "2.6.1"
 coroutine = "1.7.3"
-compose-compiler = "1.5.3"
+compose-compiler = "1.5.10"
 
 kotlin = "1.9.10"
 android-gradle-plugin = "7.4.2"
@@ -32,7 +32,7 @@ coroutine-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-p
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
 
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
-compose-bom = "androidx.compose:compose-bom:2024.02.01"
+compose-bom = "androidx.compose:compose-bom:2024.02.02"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
