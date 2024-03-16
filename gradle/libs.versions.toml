@@ -48,7 +48,7 @@ accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pa
 
 google-services = { module = "com.google.gms:google-services", version = "4.4.1" }
 
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.3" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.4" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 
@@ -82,8 +82,8 @@ ktlint = { module = "com.pinterest:ktlint", version = "0.51.0-FINAL" }
 # test
 junit = "junit:junit:4.13.2"
 mockk = "io.mockk:mockk:1.12.5"
-truth = "com.google.truth:truth:1.4.0"
-turbine = "app.cash.turbine:turbine:1.0.0"
+truth = "com.google.truth:truth:1.4.2"
+turbine = "app.cash.turbine:turbine:1.1.0"
 androidx-test-junit = "androidx.test.ext:junit:1.1.5"
 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
