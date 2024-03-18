@@ -2,7 +2,7 @@ name: assign
 
 on:
   pull_request:
-    types: opened
+    types: [ opened ]
 
 permissions:
   pull-requests: write
@@ -16,4 +16,5 @@ jobs:
       - name: Set GitHub assignees
         env:
           GH_TOKEN: ${{ github.token }}
+        if: github.event.pull_request.user.login == 'renovate[bot]'
         run: gh pr edit ${{ github.event.number }} --add-assignee ${{ github.actor }} --repo ${{ github.repository }}
