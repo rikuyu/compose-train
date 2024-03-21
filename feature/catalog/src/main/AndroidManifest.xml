@@ -55,7 +55,7 @@
             android:name="com.example.feature.museum.bankcard.BankCardActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.shakeicon.ShakeIconActivity"
+            android:name="com.example.feature.museum.animicons.AnimIconsActivity"
             android:exported="false" />
         <activity
             android:name="com.example.feature.museum.remember.RememberActivity"

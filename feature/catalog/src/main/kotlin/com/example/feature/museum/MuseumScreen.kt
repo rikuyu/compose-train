@@ -35,7 +35,7 @@ fun MuseumScreen(
         museumItem("Auto Scroll", openAutoScroll)
         museumItem("Circular Progress Bar", openCircularProgressBar)
         museumItem("BankCard", openBankCard)
-        museumItem("Shake Icon", openShakeIcon)
+        museumItem("Animation Icons", openShakeIcon)
         museumItem("Remember", openRemember)
         museumItem("SnapshotFlow", openSnapshotFlow)
         museumItem("AnimText like ChatGPT", openAnimTextChatGPT)

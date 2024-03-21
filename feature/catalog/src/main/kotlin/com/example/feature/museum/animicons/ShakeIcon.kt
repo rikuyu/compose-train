@@ -1,9 +1,10 @@
-package com.example.feature.museum.shakeicon
+package com.example.feature.museum.animicons
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -32,9 +33,7 @@ internal fun ShakeIcon() {
         shakeAngle.animateTo(targetValue = 0f, animationSpec = tween(50))
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    Box(modifier = Modifier.padding(16.dp)) {
         Icon(
             imageVector = Icons.Filled.Lock,
             contentDescription = null,
