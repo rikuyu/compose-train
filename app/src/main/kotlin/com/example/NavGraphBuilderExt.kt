@@ -124,7 +124,6 @@ fun NavGraphBuilder.addMuseum(
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
     openRemember: () -> Unit,
-    openSnapshotFlow: () -> Unit,
     openAnimTextChatGPT: () -> Unit,
     openScrollSpacerActivity: () -> Unit,
 ) {
@@ -141,7 +140,6 @@ fun NavGraphBuilder.addMuseum(
             openBankCard = openBankCard,
             openShakeIcon = openShakeIcon,
             openRemember = openRemember,
-            openSnapshotFlow = openSnapshotFlow,
             openAnimTextChatGPT = openAnimTextChatGPT,
             openScrollSpacerActivity = openScrollSpacerActivity,
         )

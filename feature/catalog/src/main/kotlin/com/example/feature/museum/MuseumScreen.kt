@@ -21,7 +21,6 @@ fun MuseumScreen(
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
     openRemember: () -> Unit,
-    openSnapshotFlow: () -> Unit,
     openAnimTextChatGPT: () -> Unit,
     openScrollSpacerActivity: () -> Unit,
 ) {
@@ -37,7 +36,6 @@ fun MuseumScreen(
         museumItem("BankCard", openBankCard)
         museumItem("Animation Icons", openShakeIcon)
         museumItem("Remember", openRemember)
-        museumItem("SnapshotFlow", openSnapshotFlow)
         museumItem("AnimText like ChatGPT", openAnimTextChatGPT)
         museumItem("Scroll Spacer", openScrollSpacerActivity)
     }

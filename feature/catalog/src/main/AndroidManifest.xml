@@ -64,9 +64,6 @@
             android:name="com.example.feature.museum.animtextchatgpt.AnimTextChatGPTActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.snapshotFlow.SnapshotFlowActivity"
-            android:exported="false" />
-        <activity
             android:name="com.example.feature.museum.scrollspacer.ScrollSpacerActivity"
             android:exported="false" />
     </application>

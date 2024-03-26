@@ -20,14 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.addAddTodo
-import com.example.addMuseum
 import com.example.addDetail
 import com.example.addFavorite
 import com.example.addGrid
 import com.example.addLogIn
+import com.example.addMuseum
 import com.example.addSignUp
 import com.example.addTodo
 import com.example.addUpdateTodo
+import com.example.feature.museum.animicons.AnimIconsActivity
 import com.example.feature.museum.animtextchatgpt.AnimTextChatGPTActivity
 import com.example.feature.museum.autoscroll.AutoScrollActivity
 import com.example.feature.museum.bankcard.BankCardActivity
@@ -37,9 +38,7 @@ import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.remember.RememberActivity
 import com.example.feature.museum.score.ScoreBoardActivity
 import com.example.feature.museum.scrollspacer.ScrollSpacerActivity
-import com.example.feature.museum.animicons.AnimIconsActivity
 import com.example.feature.museum.share.ShareActivity
-import com.example.feature.museum.snapshotFlow.SnapshotFlowActivity
 import com.example.feature.museum.spotlight.SpotLightActivity
 import com.example.feature.museum.threadscard.ThreadsCardActivity
 import com.example.todo.TodoViewModel
@@ -113,7 +112,6 @@ class MainActivity : ComponentActivity() {
                                 openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
                                 openShakeIcon = { startActivity(AnimIconsActivity.createIntent(this@MainActivity)) },
                                 openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
-                                openSnapshotFlow = { startActivity(SnapshotFlowActivity.createIntent(this@MainActivity)) },
                                 openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
                                 openScrollSpacerActivity = { startActivity(ScrollSpacerActivity.createIntent(this@MainActivity)) },
                             )
