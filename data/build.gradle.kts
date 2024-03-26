@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
 
-    implementation(project(path = ":model"))
+    implementation(projects.model)
 
     implementation(libs.coroutine.android)
     implementation(libs.coroutine.play.services)

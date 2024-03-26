@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
 
-    implementation(project(path = ":shared"))
+    implementation(projects.shared)
 
     implementation(libs.coroutine.android)
     implementation(libs.coroutine.play.services)

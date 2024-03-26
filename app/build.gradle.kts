@@ -11,13 +11,13 @@ plugins {
 
 dependencies {
 
-    implementation(project(path = ":model"))
-    implementation(project(path = ":data"))
-    implementation(project(path = ":testing-utils"))
-    implementation(project(path = ":feature:catalog"))
-    implementation(project(path = ":feature:rickandmorty"))
-    implementation(project(path = ":feature:todo"))
-    implementation(project(path = ":shared"))
+    implementation(projects.model)
+    implementation(projects.data)
+    implementation(projects.testingUtils)
+    implementation(projects.feature.catalog)
+    implementation(projects.feature.rickandmorty)
+    implementation(projects.feature.todo)
+    implementation(projects.shared)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)

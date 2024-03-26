@@ -8,9 +8,9 @@ plugins {
 
 dependencies {
 
-    implementation(project(path = ":shared"))
-    implementation(project(path = ":model"))
-    implementation(project(path = ":data"))
+    implementation(projects.shared)
+    implementation(projects.model)
+    implementation(projects.data)
 
     implementation(libs.coroutine.android)
     implementation(libs.coroutine.play.services)
