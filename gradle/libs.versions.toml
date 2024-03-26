@@ -32,7 +32,7 @@ coroutine-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-p
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
 
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
-compose-bom = "androidx.compose:compose-bom:2024.02.01"
+compose-bom = "androidx.compose:compose-bom:2024.02.02"
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -48,7 +48,7 @@ accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pa
 
 google-services = { module = "com.google.gms:google-services", version = "4.4.1" }
 
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.4" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.8.0" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
 
