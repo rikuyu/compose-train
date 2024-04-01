@@ -30,10 +30,10 @@ import com.google.firebase.auth.FirebaseUser
 
 private val String?.isTop
     get() = this == Routes.Grid.route ||
-        this == Routes.Todo.route ||
-        this == Routes.Museum.route ||
-        this == Routes.LogIn.route ||
-        this == Routes.SignUp.route
+            this == Routes.Todo.route ||
+            this == Routes.Museum.route ||
+            this == Routes.LogIn.route ||
+            this == Routes.SignUp.route
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavController, currentUser: FirebaseUser?) {
@@ -49,13 +49,13 @@ fun CustomBottomNavigationBar(navController: NavController, currentUser: Firebas
     ) {
         Row(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
+                .background(MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            BottomNavigationItem.values().forEachIndexed { _, item ->
+            BottomNavigationItem.entries.forEachIndexed { _, item ->
                 CustomBottomNavigationItem(
                     bottomNavigationItem = item,
                     isSelected = currentDestination?.hierarchy?.any {
@@ -79,14 +79,14 @@ fun CustomBottomNavigationItem(
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
-    val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f) else Color.Transparent
-    val contentColor =
-        if (isSelected) {
-            MaterialTheme.colorScheme.onPrimary
-        } else {
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-        }
+    val contentColor = MaterialTheme.colorScheme.onPrimary.copy(
+        alpha = if (isSelected) 1.0f else 0.4f,
+    )
+    val backgroundColor = if (isSelected) {
+        MaterialTheme.colorScheme.secondary
+    } else {
+        MaterialTheme.colorScheme.primary
+    }
 
     Box(
         modifier = Modifier

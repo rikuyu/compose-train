@@ -23,11 +23,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,12 +42,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.model.Character
 import com.example.rickandmorty.CharactersUiState
 import com.example.rickandmorty.RickMortyViewModel
-import showSnackBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun GridScreen(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     onClickItem: (Character) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RickMortyViewModel = hiltViewModel(),
@@ -59,7 +58,7 @@ fun GridScreen(
 
     if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            showSnackBar(scaffoldState, "Error", "retry", viewModel::getCharacters)
+            snackBarHostState.showSnackbar("Error")
         }
     }
 

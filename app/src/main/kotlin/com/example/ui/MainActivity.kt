@@ -1,5 +1,6 @@
 package com.example.ui
 
+import EdgeToEdge
 import Routes
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,13 +11,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.addAddTodo
@@ -46,7 +47,6 @@ import com.example.todo.TodoViewModel
 import com.example.ui.utils.compose.CustomBottomNavigationBar
 import com.example.ui.utils.compose.TrainFloatingActionButton
 import com.example.ui.utils.compose.TrainTopBar
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import theme.M3TrainAppTheme
 
@@ -62,40 +62,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             M3TrainAppTheme {
                 val navController = rememberNavController()
-                val scaffoldState = rememberScaffoldState()
+                val snackBarHostState = remember { SnackbarHostState() }
                 val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-                val systemUiController = rememberSystemUiController()
                 val useDarkIcons = !isSystemInDarkTheme()
 
-                systemUiController.apply {
-                    setStatusBarColor(
-                        color = if (useDarkIcons) Color.White else Color.Black,
-                        darkIcons = useDarkIcons,
-                    )
-                    setNavigationBarColor(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                        darkIcons = useDarkIcons,
-                    )
-                }
+                EdgeToEdge(useDarkIcons)
 
                 Scaffold(
                     topBar = { TrainTopBar(navController, scrollBehavior) },
-                    scaffoldState = scaffoldState,
                     bottomBar = { CustomBottomNavigationBar(navController, currentUser) },
                     floatingActionButton = { TrainFloatingActionButton(navController) },
+                    modifier = Modifier.safeDrawingPadding(),
                 ) { innerPadding ->
-                    Surface(
-                        modifier = Modifier.padding(innerPadding),
-                        color = MaterialTheme.colorScheme.background,
-                    ) {
+                    Surface(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
                             navController = navController,
                             startDestination = Routes.Grid.route,
                         ) {
-                            addGrid(scaffoldState, navController)
-                            addFavorite(scaffoldState, navController)
-                            addDetail(scaffoldState)
+                            addGrid(snackBarHostState, navController)
+                            addFavorite(snackBarHostState, navController)
+                            addDetail(snackBarHostState)
                             addLogIn(navController)
                             addSignUp(navController)
                             addTodo(navController, currentUser)

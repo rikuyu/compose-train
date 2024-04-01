@@ -8,23 +8,6 @@ fun Context.showToast(message: String) {
         .show()
 }
 
-suspend fun showSnackBar(
-    scaffoldState: ScaffoldState,
-    message: String,
-    actionLabel: String? = null,
-    action: (() -> Unit)? = null,
-) {
-    when (
-        scaffoldState.snackbarHostState.showSnackbar(
-            message = message,
-            actionLabel = actionLabel,
-        )
-    ) {
-        SnackbarResult.ActionPerformed -> action?.invoke()
-        SnackbarResult.Dismissed -> {}
-    }
-}
-
 suspend fun showSnackBarWithArg(
     scaffoldState: ScaffoldState,
     message: String,

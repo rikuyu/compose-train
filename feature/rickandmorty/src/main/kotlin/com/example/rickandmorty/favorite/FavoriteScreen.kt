@@ -18,12 +18,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,22 +40,23 @@ import androidx.navigation.NavHostController
 import com.example.feature.rickandmorty.R
 import com.example.model.Character
 import com.example.rickandmorty.RickMortyViewModel
-import showSnackBar
+import showToast
 
 @Composable
 fun FavoriteScreen(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.favoriteCharacters.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) { viewModel.getFavoriteCharacters() }
 
     if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            showSnackBar(scaffoldState, "error")
+            context.showToast("Error")
         }
     }
 

@@ -15,12 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,12 +36,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.model.CharacterDetail
 import com.example.rickandmorty.RickMortyViewModel
-import showSnackBarWithArg
 
 @Composable
 fun DetailScreen(
     characterId: Int,
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     viewModel: RickMortyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.characterDetail.collectAsStateWithLifecycle()
@@ -52,13 +51,7 @@ fun DetailScreen(
         FullScreenLoadingIndicator()
     } else if (uiState.error != null) {
         LaunchedEffect(Unit) {
-            showSnackBarWithArg(
-                scaffoldState,
-                requireNotNull(uiState.error).message ?: "error",
-                "retry",
-                characterId,
-                viewModel::getDetail,
-            )
+            snackBarHostState.showSnackbar("Error")
         }
     } else {
         val data = requireNotNull(uiState.detail)

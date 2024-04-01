@@ -2,7 +2,7 @@ package com.example
 
 import Routes
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,12 +23,12 @@ import com.example.todo.UpdateTodoScreen
 import com.google.firebase.auth.FirebaseUser
 
 fun NavGraphBuilder.addGrid(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
 ) {
     composable(route = Routes.Grid.route) {
         GridScreen(
-            scaffoldState = scaffoldState,
+            snackBarHostState = snackBarHostState,
             onClickItem = {
                 navController.navigate(
                     Routes.DetailCharacter.createRoute(it.id),
@@ -39,18 +39,20 @@ fun NavGraphBuilder.addGrid(
 }
 
 fun NavGraphBuilder.addFavorite(
-    scaffoldState: ScaffoldState,
+    snackBarHostState: SnackbarHostState,
     navController: NavHostController,
 ) {
     composable(route = Routes.Favorite.route) {
         FavoriteScreen(
-            scaffoldState = scaffoldState,
+            snackBarHostState = snackBarHostState,
             navController = navController,
         )
     }
 }
 
-fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
+fun NavGraphBuilder.addDetail(
+    snackBarHostState: SnackbarHostState,
+) {
     composable(
         route = "${Routes.DetailCharacter.route}/{id}",
         arguments = listOf(
@@ -62,7 +64,7 @@ fun NavGraphBuilder.addDetail(scaffoldState: ScaffoldState) {
     ) { backStackEntry ->
         DetailScreen(
             backStackEntry.arguments?.getInt("id") ?: 0,
-            scaffoldState,
+            snackBarHostState,
         )
     }
 }

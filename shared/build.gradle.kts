@@ -21,5 +21,7 @@ dependencies {
 
     implementation(libs.coil.compose)
 
+    implementation(libs.bundles.activity)
+
     implementation(libs.bundles.accompanist)
 }
