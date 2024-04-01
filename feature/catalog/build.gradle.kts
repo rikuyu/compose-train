@@ -13,6 +13,8 @@ dependencies {
     implementation(libs.coroutine.android)
     implementation(libs.coroutine.play.services)
 
+    implementation(libs.activity.ktx)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 

@@ -125,7 +125,8 @@ fun NavGraphBuilder.addMuseum(
     openShakeIcon: () -> Unit,
     openRemember: () -> Unit,
     openAnimTextChatGPT: () -> Unit,
-    openScrollSpacerActivity: () -> Unit,
+    openScrollSpacer: () -> Unit,
+    openPictureInPicture: () -> Unit,
 ) {
     composable(route = Routes.Museum.route) {
         MuseumScreen(
@@ -141,7 +142,8 @@ fun NavGraphBuilder.addMuseum(
             openShakeIcon = openShakeIcon,
             openRemember = openRemember,
             openAnimTextChatGPT = openAnimTextChatGPT,
-            openScrollSpacerActivity = openScrollSpacerActivity,
+            openScrollSpacer = openScrollSpacer,
+            openPictureInPicture = openPictureInPicture,
         )
     }
 }

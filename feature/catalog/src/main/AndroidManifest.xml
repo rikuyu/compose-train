@@ -4,22 +4,22 @@
 
     <application>
         <activity
-            android:name="com.example.feature.museum.draggablebox.DraggableBoxActivity"
+            android:name=".draggablebox.DraggableBoxActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.score.ScoreBoardActivity"
+            android:name=".score.ScoreBoardActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.threadscard.ThreadsCardActivity"
+            android:name=".threadscard.ThreadsCardActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.canvas.CanvasActivity"
+            android:name=".canvas.CanvasActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.spotlight.SpotLightActivity"
+            android:name=".spotlight.SpotLightActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.share.ShareActivity"
+            android:name=".share.ShareActivity"
             android:exported="false">
 
             <intent-filter>
@@ -46,26 +46,30 @@
         </provider>
 
         <activity
-            android:name="com.example.feature.museum.autoscroll.AutoScrollActivity"
+            android:name=".autoscroll.AutoScrollActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.circularprogressbar.CircularProgressBarActivity"
+            android:name=".circularprogressbar.CircularProgressBarActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.bankcard.BankCardActivity"
+            android:name=".bankcard.BankCardActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.animicons.AnimIconsActivity"
+            android:name=".animicons.AnimIconsActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.remember.RememberActivity"
+            android:name=".remember.RememberActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.animtextchatgpt.AnimTextChatGPTActivity"
+            android:name=".animtextchatgpt.AnimTextChatGPTActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.feature.museum.scrollspacer.ScrollSpacerActivity"
+            android:name=".scrollspacer.ScrollSpacerActivity"
             android:exported="false" />
+        <activity
+            android:name=".pip.PictureInPictureActivity"
+            android:exported="false"
+            android:supportsPictureInPicture="true" />
     </application>
 
 </manifest>

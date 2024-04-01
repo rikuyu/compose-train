@@ -22,7 +22,8 @@ fun MuseumScreen(
     openShakeIcon: () -> Unit,
     openRemember: () -> Unit,
     openAnimTextChatGPT: () -> Unit,
-    openScrollSpacerActivity: () -> Unit,
+    openScrollSpacer: () -> Unit,
+    openPictureInPicture: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -37,7 +38,8 @@ fun MuseumScreen(
         museumItem("Animation Icons", openShakeIcon)
         museumItem("Remember", openRemember)
         museumItem("AnimText like ChatGPT", openAnimTextChatGPT)
-        museumItem("Scroll Spacer", openScrollSpacerActivity)
+        museumItem("Scroll Spacer", openScrollSpacer)
+        museumItem("Picture In Picture", openPictureInPicture)
     }
 }
 
