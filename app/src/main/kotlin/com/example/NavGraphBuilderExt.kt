@@ -12,6 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.feature.museum.MuseumScreen
+import com.example.feature.museum.coroutinetimer.CoroutineTimerActivity
 import com.example.rickandmorty.detail.DetailScreen
 import com.example.rickandmorty.favorite.FavoriteScreen
 import com.example.rickandmorty.grid.GridScreen
@@ -129,6 +130,7 @@ fun NavGraphBuilder.addMuseum(
     openAnimTextChatGPT: () -> Unit,
     openScrollSpacer: () -> Unit,
     openPictureInPicture: () -> Unit,
+    openCoroutineTimer: () -> Unit,
 ) {
     composable(route = Routes.Museum.route) {
         MuseumScreen(
@@ -146,6 +148,7 @@ fun NavGraphBuilder.addMuseum(
             openAnimTextChatGPT = openAnimTextChatGPT,
             openScrollSpacer = openScrollSpacer,
             openPictureInPicture = openPictureInPicture,
+            openCoroutineTimer = openCoroutineTimer,
         )
     }
 }

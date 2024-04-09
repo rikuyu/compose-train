@@ -24,6 +24,7 @@ fun MuseumScreen(
     openAnimTextChatGPT: () -> Unit,
     openScrollSpacer: () -> Unit,
     openPictureInPicture: () -> Unit,
+    openCoroutineTimer: () -> Unit,
 ) {
     MuseumContent {
         museumItem("ScoreBoard", openScoreBoard)
@@ -40,6 +41,7 @@ fun MuseumScreen(
         museumItem("AnimText like ChatGPT", openAnimTextChatGPT)
         museumItem("Scroll Spacer", openScrollSpacer)
         museumItem("Picture In Picture", openPictureInPicture)
+        museumItem("Coroutine Timer", openCoroutineTimer)
     }
 }
 

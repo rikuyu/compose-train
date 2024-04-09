@@ -35,6 +35,7 @@ import com.example.feature.museum.autoscroll.AutoScrollActivity
 import com.example.feature.museum.bankcard.BankCardActivity
 import com.example.feature.museum.canvas.CanvasActivity
 import com.example.feature.museum.circularprogressbar.CircularProgressBarActivity
+import com.example.feature.museum.coroutinetimer.CoroutineTimerActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.pip.PictureInPictureActivity
 import com.example.feature.museum.remember.RememberActivity
@@ -103,6 +104,7 @@ class MainActivity : ComponentActivity() {
                                 openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
                                 openScrollSpacer = { startActivity(ScrollSpacerActivity.createIntent(this@MainActivity)) },
                                 openPictureInPicture = { startActivity(PictureInPictureActivity.createIntent(this@MainActivity)) },
+                                openCoroutineTimer = { startActivity(CoroutineTimerActivity.createIntent(this@MainActivity)) },
                             )
                         }
                     }
