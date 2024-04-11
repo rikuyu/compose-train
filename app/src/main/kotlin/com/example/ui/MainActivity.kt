@@ -38,6 +38,7 @@ import com.example.feature.museum.circularprogressbar.CircularProgressBarActivit
 import com.example.feature.museum.coroutinetimer.CoroutineTimerActivity
 import com.example.feature.museum.draggablebox.DraggableBoxActivity
 import com.example.feature.museum.pip.PictureInPictureActivity
+import com.example.feature.museum.remember.DataClassActivity
 import com.example.feature.museum.remember.RememberActivity
 import com.example.feature.museum.score.ScoreBoardActivity
 import com.example.feature.museum.scrollspacer.ScrollSpacerActivity
@@ -100,7 +101,8 @@ class MainActivity : ComponentActivity() {
                                 openCircularProgressBar = { startActivity(CircularProgressBarActivity.createIntent(this@MainActivity)) },
                                 openBankCard = { startActivity(BankCardActivity.createIntent(this@MainActivity)) },
                                 openShakeIcon = { startActivity(AnimIconsActivity.createIntent(this@MainActivity)) },
-                                openRemember = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
+                                openRemember1 = { startActivity(RememberActivity.createIntent(this@MainActivity)) },
+                                openRemember2 = { startActivity(DataClassActivity.createIntent(this@MainActivity)) },
                                 openAnimTextChatGPT = { startActivity(AnimTextChatGPTActivity.createIntent(this@MainActivity)) },
                                 openScrollSpacer = { startActivity(ScrollSpacerActivity.createIntent(this@MainActivity)) },
                                 openPictureInPicture = { startActivity(PictureInPictureActivity.createIntent(this@MainActivity)) },

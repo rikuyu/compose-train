@@ -20,28 +20,34 @@ fun MuseumScreen(
     openCircularProgressBar: () -> Unit,
     openBankCard: () -> Unit,
     openShakeIcon: () -> Unit,
-    openRemember: () -> Unit,
+    openRemember1: () -> Unit,
+    openRemember2: () -> Unit,
     openAnimTextChatGPT: () -> Unit,
     openScrollSpacer: () -> Unit,
     openPictureInPicture: () -> Unit,
     openCoroutineTimer: () -> Unit,
 ) {
     MuseumContent {
-        museumItem("ScoreBoard", openScoreBoard)
-        museumItem("Draggable Box", openDraggableBox)
-        museumItem("Threads Card", openThreadsCard)
-        museumItem("Canvas", openCanvas)
-        museumItem("Spot Light", openSpotLight)
-        museumItem("Share", openShare)
-        museumItem("Auto Scroll", openAutoScroll)
-        museumItem("Circular Progress Bar", openCircularProgressBar)
-        museumItem("BankCard", openBankCard)
-        museumItem("Animation Icons", openShakeIcon)
-        museumItem("Remember", openRemember)
-        museumItem("AnimText like ChatGPT", openAnimTextChatGPT)
-        museumItem("Scroll Spacer", openScrollSpacer)
-        museumItem("Picture In Picture", openPictureInPicture)
-        museumItem("Coroutine Timer", openCoroutineTimer)
+        museumItem(label = "ScoreBoard", onClick = openScoreBoard)
+        museumItem(label = "Draggable Box", onClick = openDraggableBox)
+        museumItem(label = "Threads Card", onClick = openThreadsCard)
+        museumItem(label = "Canvas", onClick = openCanvas)
+        museumItem(label = "Spot Light", onClick = openSpotLight)
+        museumItem(label = "Share", onClick = openShare)
+        museumItem(label = "Auto Scroll", onClick = openAutoScroll)
+        museumItem(label = "Circular Progress Bar", onClick = openCircularProgressBar)
+        museumItem(label = "BankCard", onClick = openBankCard)
+        museumItem(label = "Animation Icons", onClick = openShakeIcon)
+        museumItem(
+            label1 = "Remember Random",
+            onClick1 = openRemember1,
+            label2 = "Remember Data Class",
+            onClick2 = openRemember2,
+        )
+        museumItem(label = "AnimText like ChatGPT", onClick = openAnimTextChatGPT)
+        museumItem(label = "Scroll Spacer", onClick = openScrollSpacer)
+        museumItem(label = "Picture In Picture", onClick = openPictureInPicture)
+        museumItem(label = "Coroutine Timer", onClick = openCoroutineTimer)
     }
 }
 
