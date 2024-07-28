@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.ktlint.setting)
     alias(libs.plugins.ksp)
 
-    id("dev.shreyaspatil.compose-compiler-report-generator") version "1.1.0"
+    id("dev.shreyaspatil.compose-compiler-report-generator") version "1.4.0"
 }
 
 dependencies {
