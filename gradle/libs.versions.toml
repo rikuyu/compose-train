@@ -72,9 +72,9 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 hilt-compiler = { module = "androidx.hilt:hilt-compiler", version = "1.1.0" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.1.0" }
 
-hilt-android = { module = "com.google.dagger:hilt-android", version = "2.50" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.50" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.50" }
+hilt-android = { module = "com.google.dagger:hilt-android", version = "2.52" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version = "2.52" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version = "2.52" }
 
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
