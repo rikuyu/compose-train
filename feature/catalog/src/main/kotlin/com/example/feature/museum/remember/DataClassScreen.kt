@@ -28,11 +28,11 @@ internal fun DataClassScreen(
     }
 
     LaunchedEffect(state) {
-        Log.d("DataClassScreen", "flag: ${state.flag}: key に data class そのもの")
+        Log.d("DataClassScreen", "flag: ${state.flag}, ${state.hashCode()}: key に data class そのもの")
     }
 
     LaunchedEffect(state.flag) {
-        Log.d("DataClassScreen", "flag: ${state.flag}: key に flag")
+        Log.d("DataClassScreen", "flag: ${state.flag}, ${state.hashCode()}: key に flag")
     }
 
     Column(
