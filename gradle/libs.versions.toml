@@ -129,4 +129,4 @@ activity = ["activity-ktx", "activity-compose"]
 app-base-setting = { id = "app-base-setting", version = "unspecified" }
 library-common-setting = { id = "library-common-setting", version = "unspecified" }
 ktlint-setting = { id = "ktlint-setting", version = "unspecified" }
-ksp = { id = "com.google.devtools.ksp", version = "1.9.20-1.0.14" }
+ksp = { id = "com.google.devtools.ksp", version = "1.9.25-1.0.20" }
